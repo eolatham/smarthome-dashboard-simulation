@@ -1,8 +1,0 @@
-README.md
-pyproject.toml
-setup.py
-src/CS499_Senior_Capstone_Project.egg-info/PKG-INFO
-src/CS499_Senior_Capstone_Project.egg-info/SOURCES.txt
-src/CS499_Senior_Capstone_Project.egg-info/dependency_links.txt
-src/CS499_Senior_Capstone_Project.egg-info/requires.txt
-src/CS499_Senior_Capstone_Project.egg-info/top_level.txt
