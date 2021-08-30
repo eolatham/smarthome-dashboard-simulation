@@ -1,9 +1,16 @@
 init:
 	pdm install
 	npm install
+	docker compose build
 
-start:  # Runs Flask server on localhost:5000 and React app on localhost:3000
+# Postgres runs on localhost:5432
+# Flask    runs on localhost:5000
+# React    runs on localhost:3000
+start:
+	screen -S local-postgres-db -X stuff ^C; \
 	screen -S react-dev-server -X stuff ^C; \
+	screen -dmS local-postgres-db docker-compose up; \
 	screen -dmS react-dev-server npm run start; \
 	pdm run start; \
+	screen -S local-postgres-db -X stuff ^C; \
 	screen -S react-dev-server -X stuff ^C;
