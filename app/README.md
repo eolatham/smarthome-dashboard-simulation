@@ -1,12 +1,21 @@
-# CS499 Senior Capstone Project
+# Smart Home Dashboard Simulator
 
-## Smart Home Dashboard Simulator
+## Team 3
 
-### Getting Started
+- Steven Capleton
+- Landon Dyken
+- Karen Horton
+- Eric Latham
+- Brittany Latham
+- Laura Thompson
+
+### Setting Things Up
 
 #### `make init`
 
 Run `make init` to set up the development environment.
+
+### Running The App
 
 #### `make start`
 
