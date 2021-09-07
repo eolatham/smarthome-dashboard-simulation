@@ -13,9 +13,9 @@
 
 Our team will use the following mediums to communicate:
 
-- Zoom for team meetings
+- Microsoft Teams for team meetings
 - Telegram for group text conversations
-- Clubhouse for task documentation and progress tracking
+- Shortcut (PKA Clubhouse) for task documentation and progress tracking
 - Descriptive commit messages on GitLab
 
 ### Norm #2
@@ -28,7 +28,7 @@ The way our team will resolve differences within the team is through votes, poll
 
 ### Norm #4
 
-When an individual in the team is upset with someone else in the team they should initially work on handling the issue among themselves. If the issue is not resolved and is brought to the entire team, our team will meet on Zoom to have a face-to-face conversation about it.
+When an individual in the team is upset with someone else in the team they should initially work on handling the issue among themselves. If the issue is not resolved and is brought to the entire team, our team will meet on Microsoft Teams to have a face-to-face conversation about it.
 
 ### Norm #5
 
@@ -59,11 +59,11 @@ In our team, each team member will practice the following habits with respect to
 
 One way our team will show recognition or appreciation is whenever a team member pushes a change to the project repository and notifies the team on Telegram, the team will congratulate and/or thank them for their contribution.
 
-Another way our team will show recognition of a team member's work is by reviewing merge requests for stories linked on Clubhouse and leaving constructive comments afterwards.
+Another way our team will show recognition of a team member's work is by reviewing merge requests for stories linked on Shortcut and leaving constructive comments afterwards.
 
 ### Norm #11
 
-If a member is not carrying their load within the team, our team will meet on Zoom to discuss reasons why the team member is struggling, assist them as a team, and possibly adjust team assignments.
+If a member is not carrying their load within the team, our team will meet on Microsoft Teams to discuss reasons why the team member is struggling, assist them as a team, and possibly adjust team assignments.
 
 ### Norm #12
 
@@ -94,7 +94,7 @@ If a member turns in poor quality of work, our team will do the following:
 
 ### Norm #15
 
-If the Team Leader is not functioning effectively, our team will discuss the concern together on Zoom and find a solution within **24 hours**. We will ask the Team Leader if they are having difficulty performing the assigned duties. If the answer is yes, the team will pull together and help the Team Leader within reason or ask for a new Team Leader volunteer. If the answer is no, the Team Leader will be informed of exactly how they are failing and given **24 hours** to rectify the situation. If they do not rectify the situation within **24 hours**, the professor will be notified and the Team Leader will be replaced.
+If the Team Leader is not functioning effectively, our team will discuss the concern together on Microsoft Teams and find a solution within **24 hours**. We will ask the Team Leader if they are having difficulty performing the assigned duties. If the answer is yes, the team will pull together and help the Team Leader within reason or ask for a new Team Leader volunteer. If the answer is no, the Team Leader will be informed of exactly how they are failing and given **24 hours** to rectify the situation. If they do not rectify the situation within **24 hours**, the professor will be notified and the Team Leader will be replaced.
 
 ### Norm #16
 
