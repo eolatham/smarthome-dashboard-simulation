@@ -19,7 +19,7 @@ Refer to [this page](https://www.uab.edu/it/home/tech-solutions/network/vpn).
 
 ### Make Your GitLab Email Public
 
-This will be helpful later on when we set up [Clubhouse](#clubhouse)
+This will be helpful later on when we set up [Shortcut](#shortcut)
 
 - Go to your user settings in the top right corner of the screen
 - Under "Public email", select your UAB email address
@@ -79,16 +79,16 @@ _Upload your committed changes_
   - `DavidAnson.vscode-markdownlint`
   - `yzane.markdown-pdf`
 
-### Clubhouse
+### Shortcut
 
-Clubhouse is a great product for tracking agile software development projects like ours
+Shortcut (PKA Clubhouse) is a great product for tracking agile software development projects like ours
 
 - Go [here](https://app.clubhouse.io/invite-link/612e6097-4c0e-4a0b-a830-f2ddba5d4b26) and sign up (you can sign up with your Google account)
 - Explore the "Epics" and "Stories" already written in the team workspace
-- We will use Clubhouse to assign, document, track, and collaborate on tasks throughout the project lifecycle
+- We will use Shortcut to assign, document, track, and collaborate on tasks throughout the project lifecycle
 
 ### Additional Resources
 
-#### [LucidChart](https://app.lucidchart.com/)
+#### [LucidChart](https://lucid.app/folder/invitations/accept/inv_54ef0729-0f14-4b97-8435-e4e01f496e0c)
 
 We will use this for making diagrams and prototypes
