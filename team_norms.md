@@ -20,7 +20,7 @@ Our team will use the following mediums to communicate:
 
 ### Norm #2
 
-In addition to attending weekly lab meetings, our team will have weekly team meetings via Telegram at [meeting time] on [day of week].
+In addition to attending weekly lab meetings, our team will have weekly team meetings via Microsoft Teams at 2-3pm on Mondays.
 
 ### Norm #3
 
