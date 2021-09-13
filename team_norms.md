@@ -9,18 +9,24 @@
 - Brittany Latham
 - Laura Thompson
 
-### Norm #1
+### Norm #0
 
 Our team will use the following mediums to communicate:
 
-- Microsoft Teams for team meetings
+- Microsoft Teams for team meetings and pair programming
 - Telegram for group text conversations
 - Shortcut (PKA Clubhouse) for task documentation and progress tracking
 - Descriptive commit messages on GitLab
 
+### Norm #1
+
+Our team will partner up on tasks and do pair programming as much as possible.
+
 ### Norm #2
 
 In addition to attending weekly lab meetings, our team will have weekly team meetings via Microsoft Teams at 2-3pm on Mondays.
+
+Weekly meetings will be a chance to review team progress, demo important changes, and discuss future tasks.
 
 ### Norm #3
 
@@ -59,7 +65,7 @@ In our team, each team member will practice the following habits with respect to
 
 One way our team will show recognition or appreciation is whenever a team member pushes a change to the project repository and notifies the team on Telegram, the team will congratulate and/or thank them for their contribution.
 
-Another way our team will show recognition of a team member's work is by reviewing merge requests for stories linked on Shortcut and leaving constructive comments afterwards.
+Another way our team will show recognition of a team member's work is by reviewing merge requests for stories linked on Shortcut and leaving constructive comments afterward.
 
 ### Norm #11
 
@@ -71,7 +77,7 @@ In our team, major submission drafts will be shared with the entire team **48 ho
 
 ### Norm #13
 
-If a member misses an agreed upon internal team deadline, our team will do the following:
+If a member misses an agreed-upon internal team deadline, our team will do the following:
 
 - If it's the first offense:
   - Record the details of the offense
@@ -110,8 +116,9 @@ Eric Latham
 
 ### Responsibilities
 
-1. Officially delegate all assignments based on team input, member abilities, request and quantity of work required
+1. Officially delegate all assignments based on team input, and member abilities
 2. Understand the assignment and seek guidance from the professor if needed
 3. Set and manage the schedule
 4. Communicate with the professor about team issues
 5. Communicate with the team regularly for status checks
+6. Review and merge all merge requests
