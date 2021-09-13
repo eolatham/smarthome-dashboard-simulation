@@ -4,6 +4,7 @@ init:
 	docker compose build
 
 # Postgres runs on localhost:5432
+# Redis    runs on localhost:6379
 # Flask    runs on localhost:5000
 # React    runs on localhost:3000
 start:
