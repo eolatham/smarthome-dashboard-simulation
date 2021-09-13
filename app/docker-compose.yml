@@ -1,8 +1,12 @@
 version: "3"
 services:
   database:
-    image: "postgres"
+    image: postgres
     env_file:
       - db.env
     volumes:
       - ./db.sql:/docker-entrypoint-initdb.d/db.sql # Docker runs this to build the database schema on startup
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
