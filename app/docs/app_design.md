@@ -1,4 +1,4 @@
-# Design
+# App Design
 
 ## Team 3
 
