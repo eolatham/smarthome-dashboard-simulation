@@ -83,7 +83,7 @@ _Upload your committed changes_
 
 Shortcut (PKA Clubhouse) is a great product for tracking agile software development projects like ours
 
-- Go [here](https://app.clubhouse.io/invite-link/612e6097-4c0e-4a0b-a830-f2ddba5d4b26) and sign up (you can sign up with your Google account)
+- Go [here](https://app.shortcut.com/invite-link/612e6097-4c0e-4a0b-a830-f2ddba5d4b26) and sign up (you can sign up with your Google account)
 - Explore the "Epics" and "Stories" already written in the team workspace
 - We will use Shortcut to assign, document, track, and collaborate on tasks throughout the project lifecycle
 
