@@ -9,51 +9,96 @@
 - Brittany Latham
 - Laura Thompson
 
+## Overview
+
+We will build an event-based smart home dashboard simulator application that operates according to the following process:
+
+- The database stores generated weather and family **events** that describe when and how the smart home state changed over a 2-month period.
+- The app runs on a **custom clock** to simulate fast-moving time, and the speed of simulated app time is adjustable by the user.
+- The backend executes two **scheduled tasks** on intervals (according to app time):
+  1. The backend **queries** the current month's events from the database into an event queue at the beginning of **each month** in the simulation.
+  2. The backend **publishes** all unpublished past events waiting on the event queue to be processed and displayed on the frontend at the beginning of **each second** in the simulation.
+
+### Key Details
+
+- Each event's `time` value is the number of seconds after the start of the simulated 2-month time period at which the event occurred.
+- When an event is "processed", its changes are applied to the application's smart home object.
+
+## In Depth
+
 ### Historical Data Generation
 
-We need to generate weather and family event data for a 2-month time period and store it in a database.
+We will generate weather and family event data for a 2-month time period and store it in a database.
 
 - The data should be event-based; we should only store entries in the database for events that cause the smart home state to change.
-- Each events should include a timestamp and specify how and why the smart home state changed.
+- Each event should include a timestamp and specify how and why the smart home state changed.
 
 ### Application Runtime Model
 
 #### Application Clock
 
-TODO
+The application clock represents the time in the application's 2-month simulation of smart home events.
 
-needs to be flexible; speed up application time by a user-adjustable factor
+Application time is real time multiplied by a user-adjustable speedup factor, so it is flexible and allows the user to run the smart home simulation at different speeds.
 
-#### Database Query Schedule
+##### Minimum application clock speed:
 
-The application should query the database for all of the events of the current month at the beginning of each month according to the application clock.
+```txt
+1  real second  =  1  app second
+```
 
-This will minimize the number of queries made and subsequently reduce network latency costs.
+##### Maximum application clock speed:
 
-#### Event Queue
+```txt
+1   real minute   =  1          app month
+60  real seconds  =  2,592,000  app seconds
+1   real second   =  43,200     app seconds
+```
 
-The application should use a custom queue data structure to store the events retrieved from a monthly event query.
+#### Scheduled Tasks
 
-The event queue should store all of the events provided to it while only allowing past events to be popped. This will allow the application to poll the event queue at a regular time interval to get only the events that have "ocurred" since the last poll.
+The application should run scheduled tasks using a background scheduler on a daemon thread.
+
+##### Event Queue
+
+The application should use a custom queue data structure to store smart home events.
+
+The event queue should store all of the events provided to it while only allowing past events to be retrieved. This will allow the application to poll the event queue at a regular time interval to get only the events that have "occurred" since the last poll.
 
 Specifically, the event queue should:
 
-- be instantiatable with a set of event objects queried from the database
-- hide future events and prevent them from being popped
-- allow popping the next past event individually
-- allow popping all past events at once
+- be instantiable with a list of event objects queried from the database
+- use the application clock to determine if an event is a past or future event
+- hide future events
+- allow retrieving all unprocessed past events (to be processed)
+- allow retrieving all processed and unprocessed past events (to be [analyzed](#data-analysis))
 
-Note that event queue should use the application clock to determine if an event is a past or future event.
+##### Monthly Event Querying
 
-#### Event Queue Polling
+The application should query all of the events for the current month from the database into the event queue at the beginning of each month of application time.
 
-Every real second, the application should pop all past events from the event queue and process them.
+This will minimize the number of queries and subsequently reduce network latency costs.
+
+##### Secondly Event Publishing
+
+Based on [this guide](https://www.velotio.com/engineering-blog/how-to-implement-server-sent-events-using-python-flask-and-react), the application should use an SSE (server-sent-events) model to publish events to be processed and displayed to the user at the beginning of each second of application time.
+
+Basically, the backend will retrieve all unprocessed past events from the event queue and then do the following with each one:
+
+- process it (apply its changes to the smart home object)
+- send it as an SSE to the frontend
+
+Benefits of SSE:
+
+- The SSE model is a more efficient alternative to the request model; the request model would require the frontend to constantly send requests (thousands in our case) to the backend for updates, while the SSE model allows the frontend to simply subscribe to a message channel that the backend publishes events to.
+- SSEs are less expensive and time-consuming than HTTP requests, so the SSE model allows the app to consume events faster and with more granularity to time.
+- With the SSE model, the frontend will only need to send explicit requests to the backend for user actions.
 
 ### Live User Interaction
 
 The user should be able to:
 
-- set the themostat
+- set the thermostat
 - turn lights on and off
 - open and close windows and doors
 
@@ -82,3 +127,10 @@ The following specific data should be displayed:
 - the projected total utility cost (water + electricity)
 
 Costs should be displayed in dollars.
+
+## Questions
+
+- What happens when the simulation ends? Can we loop without re-querying?
+- What does the smart home state include?
+- How should weather events be represented?
+- How should family events be represented?
