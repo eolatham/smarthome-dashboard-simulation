@@ -2,16 +2,30 @@
 from logging import Logger
 
 # LOCAL
-from public.event.Event import SortedEventList
 from public.clock.AppClock import AppClock
+from public.event.Event import SortedEventList
 
 
 class EventQueue:
+    """
+    A custom queue data structure for storing and retrieving smart home events.
+
+    The event queue stores all events provided to it while only allowing past events to be retrieved.
+    This allows the application to poll the event queue at a regular time interval to get
+    only the events that have "occurred" since the last poll.
+
+    Specifically, the event queue:
+    - is instantiable with a list of event objects queried from the database
+    - uses the application clock to determine if an event is a past or future event
+    - hides future events
+    - allows retrieving all unprocessed past events
+    - allows retrieving all processed past events
+    """
+
     logger: Logger
     clock: AppClock
     events: SortedEventList
-    numEvents: int
-    pointer: int  # Index of `events` where all preceding elements have been processed
+    next: int  # Index of next unprocessed event
 
     def __init__(
         self, logger: Logger, clock: AppClock, events: SortedEventList
@@ -19,8 +33,14 @@ class EventQueue:
         self.logger = logger
         self.clock = clock
         self.events = events
-        self.numEvents = len(events)
-        self.pointer = 0
+        self.next = 0
+
+    def getOldEvents(self) -> SortedEventList:
+        """
+        Returns all past events (according to app time)
+        in the queue that have already been processed.
+        """
+        return self.events[: self.next]
 
     def getNewEvents(self) -> SortedEventList:
         """
@@ -29,18 +49,11 @@ class EventQueue:
         """
         currentAppTime = self.clock.time()
         self.logger.info(
-            "Getting unprocessed events older than the current application time of %s...",
+            "Getting unprocessed events older than the current app time of %s...",
             currentAppTime,
         )
-        start = end = self.pointer
-        while end < self.numEvents and self.events[end]["time"] < currentAppTime:
+        start = end = self.next
+        while end < len(self.events) and self.events[end]["time"] < currentAppTime:
             end += 1
-        self.pointer = end
+        self.next = end
         return self.events[start:end]
-
-    def getOldEvents(self) -> SortedEventList:
-        """
-        Returns all past events (according to app time)
-        in the queue that have already been processed.
-        """
-        return self.events[: self.pointer]
