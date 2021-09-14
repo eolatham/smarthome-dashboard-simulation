@@ -17,7 +17,7 @@ We will build an event-based smart home dashboard simulator application that ope
 - The app runs on a **custom clock** to simulate fast-moving time, and the speed of simulated app time is adjustable by the user.
 - The backend executes two **scheduled tasks** on intervals (according to app time):
   1. The backend **queries** the current month's events from the database into an event queue at the beginning of **each month** in the simulation.
-  2. The backend **publishes** all unpublished past events waiting on the event queue to be processed and displayed on the frontend at the beginning of **each second** in the simulation.
+  2. The backend **publishes** all unpublished past events waiting on the event queue to be processed and displayed on the frontend at the beginning of **each minute** in the simulation.
 
 ### Key Details
 
@@ -79,9 +79,9 @@ The application should query all of the events for the current month from the da
 
 This will minimize the number of queries and subsequently reduce network latency costs.
 
-##### Secondly Event Publishing
+##### Minutely Event Publishing
 
-Based on [this guide](https://www.velotio.com/engineering-blog/how-to-implement-server-sent-events-using-python-flask-and-react), the application should use an SSE (server-sent-events) model to publish events to be processed and displayed to the user at the beginning of each second of application time.
+Based on [this guide](https://www.velotio.com/engineering-blog/how-to-implement-server-sent-events-using-python-flask-and-react), the application should use an SSE (server-sent-events) model to publish events to be processed and displayed to the user at the beginning of each minute of application time.
 
 Basically, the backend will retrieve all unprocessed past events from the event queue and then do the following with each one:
 

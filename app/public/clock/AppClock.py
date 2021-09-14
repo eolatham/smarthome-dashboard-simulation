@@ -11,6 +11,7 @@ class AppClock:
         self.speedupFactor = speedupFactor
 
     def setSpeedupFactor(self, speedupFactor: float) -> None:
+        self.startTime = self.time()
         self.speedupFactor = speedupFactor
 
     def time(self) -> float:
