@@ -13,7 +13,8 @@ from public.event.EventQueue import EventQueue
 
 class EventProcessor:
     """
-    The event processor uses a background scheduler to continuously poll and process occuring events from an event queue.
+    The event processor uses a background scheduler to continuously
+    poll and process occuring events from an event queue.
 
     At every half minute of app time, the event processor retrieves all unprocessed
     past events from the event queue and does the following with each one:
@@ -36,9 +37,6 @@ class EventProcessor:
         appClock: AppClock,
         eventQueue: EventQueue,
     ) -> None:
-        """
-        `jobInterval` is in real seconds.
-        """
         self.logger = logger
         self.app = app
         self.appClock = appClock

@@ -35,23 +35,20 @@ def index():
 def setAppClockSpeedupFactor():
     speedupFactor = request.json.get("speedupFactor")
     if speedupFactor is None:
-        LOGGER.warning("The value of `speedupFactor` should not be None!")
-        return "BAD REQUEST", 400
+        return "The value of `speedupFactor` should not be None!", 400
     if speedupFactor < MIN_SPEEDUP_FACTOR:
-        LOGGER.warning(
-            "The value of `speedupFactor` should not be less than %d!",
-            MIN_SPEEDUP_FACTOR,
+        return (
+            f"The value of `speedupFactor` should not be less than {MIN_SPEEDUP_FACTOR}!",
+            400,
         )
-        return "BAD REQUEST", 400
     if speedupFactor > MAX_SPEEDUP_FACTOR:
-        LOGGER.warning(
-            "The value of `speedupFactor` should not be greater than %d!",
-            MAX_SPEEDUP_FACTOR,
+        return (
+            f"The value of `speedupFactor` should not be greater than {MAX_SPEEDUP_FACTOR}!",
+            400,
         )
-        return "BAD REQUEST", 400
     APP_CLOCK.setSpeedupFactor(speedupFactor)
     EVENT_PROCESSOR.updateJobInterval()
-    return "SUCCESS", 200
+    return "Success!", 200
 
 
 ######################################### APP ##########################################

@@ -5,9 +5,8 @@ from typing import TypedDict, List
 class Event(TypedDict):
     """
     An object representing an event that affects smart home state at a certain point in app time.
-
-    `id` is the unique identifier of the event (a serial assigned by Postgres)
-    `time` is the number of seconds after the start app time at which the event occurred.
+    - `id` is the unique identifier of the event (a serial assigned by Postgres)
+    - `time` is the number of seconds after the start of app time at which the event occurred.
     """
 
     id: int

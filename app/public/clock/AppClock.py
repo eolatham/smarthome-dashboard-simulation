@@ -6,8 +6,8 @@ class AppClock:
     """
     The app clock represents time in the app's simulation of smart home events.
 
-    App time is real time multiplied by an adjustable speedup factor, so it is
-    flexible and allows running the smart home simulation at different speeds.
+    It allows running the smart home simulation at different speeds and
+    changing speeds at runtime without losing the current place in time.
     """
 
     appTimeZero: float
