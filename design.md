@@ -71,7 +71,7 @@ Specifically, the event queue should:
 - use the application clock to determine if an event is a past or future event
 - hide future events
 - allow retrieving all unprocessed past events (to be processed)
-- allow retrieving all processed and unprocessed past events (to be [analyzed](#data-analysis))
+- allow retrieving all processed past events (to be [analyzed](#data-analysis))
 
 ##### Monthly Event Querying
 

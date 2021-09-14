@@ -37,3 +37,10 @@ class EventQueue:
             end += 1
         self.pointer = end
         return self.events[start:end]
+
+    def getOldEvents(self) -> SortedEventList:
+        """
+        Returns all past events (according to app time)
+        in the queue that have already been processed.
+        """
+        return self.events[: self.pointer]

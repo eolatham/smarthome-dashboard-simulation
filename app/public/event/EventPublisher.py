@@ -49,6 +49,9 @@ class EventPublisher:
                 sse.publish(event)
 
     def setPublishIntervalSeconds(self, publishIntervalSeconds: float) -> None:
+        """
+        `publishIntervalSeconds` is in real time.
+        """
         self.publishIntervalSeconds = publishIntervalSeconds
         self.scheduler.modify_job(self.publishJobID, seconds=publishIntervalSeconds)
 
