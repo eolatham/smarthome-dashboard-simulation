@@ -130,7 +130,12 @@ Costs should be displayed in dollars.
 
 ## Questions
 
-- What happens when the simulation ends? Can we loop without re-querying?
+- How can we make the app simulation run on a loop (when it ends, it starts over)?
 - What does the smart home state include?
 - How should weather events be represented?
 - How should family events be represented?
+
+## TODO
+
+- Update this document to reflect the fact that we now query for all events at app startup, which removes the monthly event query
+- Proof-read everything
