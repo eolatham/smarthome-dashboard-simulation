@@ -38,6 +38,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "flask-cors"
+version = "3.0.10"
+summary = "A Flask extension adding a decorator for CORS support"
+dependencies = [
+    "Flask>=0.9",
+    "Six",
+]
+
+[[package]]
 name = "flask-sse"
 version = "1.0.0"
 summary = "Server-Sent Events for Flask"
@@ -107,7 +116,7 @@ summary = "The comprehensive WSGI web application library."
 
 [metadata]
 lock_version = "3.1"
-content_hash = "sha256:cfff024f9e67f8434ac627ba95581e27050948f98d738e0b94a96a22251cc8c0"
+content_hash = "sha256:17c628ab18111bebcdf2592f04ebf0d5b71c156b91b2cd7a4f550bf582364f79"
 
 [metadata.files]
 "apscheduler 3.7.0" = [
@@ -125,6 +134,10 @@ content_hash = "sha256:cfff024f9e67f8434ac627ba95581e27050948f98d738e0b94a96a222
 "flask 2.0.1" = [
     {file = "Flask-2.0.1-py3-none-any.whl", hash = "sha256:a6209ca15eb63fc9385f38e452704113d679511d9574d09b2cf9183ae7d20dc9"},
     {file = "Flask-2.0.1.tar.gz", hash = "sha256:1c4c257b1892aec1398784c63791cbaa43062f1f7aeb555c4da961b20ee68f55"},
+]
+"flask-cors 3.0.10" = [
+    {file = "Flask_Cors-3.0.10-py2.py3-none-any.whl", hash = "sha256:74efc975af1194fc7891ff5cd85b0f7478be4f7f59fe158102e91abb72bb4438"},
+    {file = "Flask-Cors-3.0.10.tar.gz", hash = "sha256:b60839393f3b84a0f3746f6cdca56c1ad7426aa738b70d6c61375857823181de"},
 ]
 "flask-sse 1.0.0" = [
     {file = "Flask_SSE-1.0.0-py2.py3-none-any.whl", hash = "sha256:f86d7ecff0607333755c444130c395e7a133fb7ae6cf76fbd29b1da36d34776b"},

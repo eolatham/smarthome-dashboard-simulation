@@ -79,7 +79,7 @@ class EventProcessor:
                 # TODO: apply event changes to the smart home state
 
                 self.logger.info("Sending event as an SSE to the frontend")
-                sse.publish(event)
+                sse.publish(event, type="event")
 
     def start(self) -> None:
         self.scheduler.start()

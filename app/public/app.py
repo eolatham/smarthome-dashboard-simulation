@@ -5,7 +5,8 @@ import os
 import logging
 
 # PDM
-from flask import Flask, Blueprint, request
+from flask import Flask, request
+from flask_cors import CORS
 from flask_sse import sse
 
 # LOCAL
@@ -21,17 +22,30 @@ logging.basicConfig(
 )
 LOGGER = logging.getLogger(__name__)
 
+######################################### APP ##########################################
+
+APP = Flask(__name__)
+CORS(APP)
+APP.config["REDIS_URL"] = REDIS_URL
+APP.register_blueprint(sse, url_prefix="/events")
+
+if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
+    # Flask runs this script with two processes to refresh code changes,
+    # but we only want these instructions to run on the main process.
+    APP_CLOCK = AppClock(MIN_SPEEDUP_FACTOR)
+    EVENT_QUEUE = EventQueue(LOGGER, APP_CLOCK, queryAllEvents())
+    EVENT_PROCESSOR = EventProcessor(LOGGER, APP, APP_CLOCK, EVENT_QUEUE)
+    EVENT_PROCESSOR.start()
+
 ######################################## ROUTES ########################################
 
-BLUEPRINT = Blueprint("routes", __name__)
 
-
-@BLUEPRINT.route("/")
+@APP.route("/")
 def index():
     return "Hello, world!"
 
 
-@BLUEPRINT.route("/speedupFactor", methods=["PUT"])
+@APP.route("/speedupFactor", methods=["PUT"])
 def setAppClockSpeedupFactor():
     speedupFactor = request.json.get("speedupFactor")
     if speedupFactor is None:
@@ -51,20 +65,7 @@ def setAppClockSpeedupFactor():
     return "Success!", 200
 
 
-######################################### APP ##########################################
-
-APP = Flask(__name__)
-APP.config["REDIS_URL"] = REDIS_URL
-APP.register_blueprint(sse, url_prefix="/events")
-APP.register_blueprint(BLUEPRINT)
-
-if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
-    # Flask runs this script with two processes to refresh code changes,
-    # but we only want these instructions to run on the main process.
-    APP_CLOCK = AppClock(MIN_SPEEDUP_FACTOR)
-    EVENT_QUEUE = EventQueue(LOGGER, APP_CLOCK, queryAllEvents())
-    EVENT_PROCESSOR = EventProcessor(LOGGER, APP, APP_CLOCK, EVENT_QUEUE)
-    EVENT_PROCESSOR.start()
+######################################### MAIN #########################################
 
 if __name__ == "__main__":
     APP.run(host="localhost", port=5000, debug=True)
