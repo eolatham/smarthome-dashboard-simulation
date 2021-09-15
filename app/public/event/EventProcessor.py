@@ -14,9 +14,9 @@ from public.event.EventQueue import EventQueue
 class EventProcessor:
     """
     The event processor uses a background scheduler to continuously
-    poll and process occuring events from an event queue.
+    poll and process occurring events from an event queue.
 
-    At every half minute of app time, the event processor retrieves all unprocessed
+    At every half-minute of app time, the event processor retrieves all unprocessed
     past events from the event queue and does the following with each one:
     - applies its changes to the smart home state
     - sends it as an SSE to the frontend to be displayed
@@ -27,7 +27,7 @@ class EventProcessor:
     appClock: AppClock
     eventQueue: EventQueue
     scheduler: BackgroundScheduler
-    jobInterval: float  # One half minute of app time represented in real seconds
+    jobInterval: float  # One half-minute of app time represented in real seconds
     jobID: int
 
     def __init__(
@@ -51,7 +51,7 @@ class EventProcessor:
 
     def initJobInterval(self) -> None:
         """
-        Sets `self.jobInterval` to the value of one half minute
+        Sets `self.jobInterval` to the value of one half-minute
         of app time represented in real seconds.
         """
         self.jobInterval = 30 / self.appClock.getSpeedupFactor()
@@ -59,7 +59,7 @@ class EventProcessor:
     def updateJobInterval(self) -> None:
         """
         Updates the job interval based on the current speed of the app clock
-        to keep processing events at every half minute of app time.
+        to keep processing events at every half-minute of app time.
         """
         self.initJobInterval()
         self.scheduler.modify_job(self.jobID, seconds=self.jobInterval)

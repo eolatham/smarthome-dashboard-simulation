@@ -16,7 +16,7 @@ Our smart home dashboard simulator is an event-based application that operates a
 - The database stores generated weather and family **events** that describe when and how the smart home state changed over a 2-month time period.
 - The app runs on a **custom clock** to simulate fast-moving time, and the speed of app time is adjustable by the user.
 - The backend **queries** all events from the database into an event queue when the app starts.
-- The backend **processes** all unprocessed past events waiting on the event queue at **each half minute** in the simulation (according to app time). Processing an event involves:
+- The backend **processes** all unprocessed past events waiting on the event queue at **each half-minute** in the simulation (according to app time). Processing an event involves:
   - applying its changes to the smart home state
   - sending it to the frontend to be displayed to the user
 
@@ -73,9 +73,9 @@ When the app starts, it queries all events from the database into the event queu
 
 #### Event Processor
 
-The event processor uses a background scheduler to continuously poll and process occuring events from an event queue.
+The event processor uses a background scheduler to continuously poll and process occurring events from an event queue.
 
-At every half minute of app time, the event processor retrieves all unprocessed past events from the event queue and does the following with each one:
+At every half-minute of app time, the event processor retrieves all unprocessed past events from the event queue and does the following with each one:
 
 - applies its changes to the smart home state
 - sends it as a server-sent event (SSE) to the frontend to be displayed
