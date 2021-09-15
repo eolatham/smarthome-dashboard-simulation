@@ -11,12 +11,12 @@ class EventQueue:
     The event queue is a custom queue data structure for storing and retrieving smart home events.
 
     It stores all events provided to it while only allowing past events to be retrieved, which
-    allows the application to poll the event queue at regular time intervals to get
+    allows the app to poll the event queue at regular time intervals to get
     only the events that have "occurred" since the last poll.
 
     Specifically, the event queue:
     - is instantiable with a list of event objects queried from the database
-    - uses the application clock to determine if an event is a past or future event
+    - uses the app clock to determine if an event is a past or future event
     - hides future events
     - allows retrieving all unprocessed past events (`getNewEvents()`)
     - allows retrieving all processed past events (`getOldEvents()`)
@@ -33,6 +33,13 @@ class EventQueue:
         self.logger = logger
         self.clock = clock
         self.events = events
+        self.next = 0
+
+    def reset(self) -> None:
+        """
+        Resets the event queue to continue processing from the
+        beginning of the provided list of events.
+        """
         self.next = 0
 
     def getOldEvents(self) -> SortedEventList:

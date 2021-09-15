@@ -1,28 +1,13 @@
-import "./App.css";
+import AppClock from "./AppClock";
+import EventStream from "./EventStream";
 
-const EVENT_SOURCE = new EventSource("http://localhost:5000/events");
-EVENT_SOURCE.addEventListener(
-  "event",
-  function (event) {
-    var data = JSON.parse(event.data);
-    console.log("Received event with data:", data);
-  },
-  false
-);
-EVENT_SOURCE.addEventListener(
-  "error",
-  function (event) {
-    console.log("Error: " + event);
-    alert("Failed to connect to event stream. Is Redis running?");
-  },
-  false
-);
-
-// TODO: load events into App state and display them
+// TODO: add button to restart the simulation
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">Smart Home Dashboard Simulator</header>
+    <div>
+      <h1>Smart Home Dashboard Simulator</h1>
+      <AppClock interval={10000} />
+      <EventStream />
     </div>
   );
 }

@@ -6,21 +6,32 @@ class AppClock:
     """
     The app clock represents time in the app's simulation of smart home events.
 
-    It allows running the smart home simulation at different speeds and
-    changing speeds at runtime without losing the current place in time.
+    The app clock allows running the smart home simulation at different speeds
+    and changing speeds at runtime without losing the current place in time.
     """
 
+    running: bool
+    startTime: float
+    speedupFactor: float
     appTimeZero: float
     realTimeZero: float
-    speedupFactor: float
 
-    def __init__(self, speedupFactor: float) -> None:
+    def __init__(self, startTime: float, speedupFactor: float) -> None:
         """
-        `speedupFactor` is how many times faster app time moves compared to real time.
+        - `startTime` is in app seconds.
+        - `speedupFactor` is how many times faster app time moves compared to real time.
         """
-        self.appTimeZero = 0
-        self.realTimeZero = time()
+        self.running = False
+        self.startTime = startTime
         self.speedupFactor = speedupFactor
+
+    def start(self) -> None:
+        """
+        Starts or restarts the app clock at the provided start time.
+        """
+        self.running = True
+        self.appTimeZero = self.startTime
+        self.realTimeZero = time()
 
     def getSpeedupFactor(self) -> float:
         return self.speedupFactor
@@ -31,4 +42,6 @@ class AppClock:
         self.speedupFactor = speedupFactor
 
     def time(self) -> float:
-        return self.appTimeZero + (time() - self.realTimeZero) * self.speedupFactor
+        realTimePassed = time() - self.realTimeZero
+        appTimePassed = realTimePassed * self.speedupFactor
+        return self.appTimeZero + appTimePassed

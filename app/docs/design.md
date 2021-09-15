@@ -59,12 +59,12 @@ It allows running the smart home simulation at different speeds and changing spe
 
 The event queue is a custom queue data structure for storing and retrieving smart home events.
 
-It stores all events provided to it while only allowing past events to be retrieved, which allows the application to poll the event queue at regular time intervals to get only the events that have "occurred" since the last poll.
+It stores all events provided to it while only allowing past events to be retrieved, which allows the app to poll the event queue at regular time intervals to get only the events that have "occurred" since the last poll.
 
 Specifically, the event queue:
 
 - is instantiable with a list of event objects queried from the database
-- uses the application clock to determine if an event is a past or future event
+- uses the app clock to determine if an event is a past or future event
 - hides future events
 - allows retrieving all unprocessed past events (to be processed)
 - allows retrieving all processed past events (to be [analyzed](#data-analysis))
@@ -88,9 +88,16 @@ The app facilitates SSE functionality based on [this guide](https://www.velotio.
 - SSEs are less expensive and time-consuming than HTTP requests, so the SSE model allows the app to consume events faster and with more granularity to time.
 - With the SSE model, the frontend will only need to send explicit requests to the backend for user actions.
 
+#### Restarting The Simulation
+
+To restart its simulation, the app does the following:
+
+- resets the event queue pointer
+- starts/restarts the app clock
+- starts the event processor (if it is not already running)
+
 ## Questions
 
-- How can we make the app simulation run on a loop (when it ends, it starts over)?
 - What does the smart home state include?
 - How should weather events be represented?
 - How should family events be represented?

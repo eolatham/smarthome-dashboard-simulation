@@ -24,7 +24,7 @@ class EventProcessor:
 
     logger: Logger
     app: Flask
-    appClock: AppClock
+    clock: AppClock
     eventQueue: EventQueue
     scheduler: BackgroundScheduler
     jobInterval: float  # One half-minute of app time represented in real seconds
@@ -34,27 +34,21 @@ class EventProcessor:
         self,
         logger: Logger,
         app: Flask,
-        appClock: AppClock,
+        clock: AppClock,
         eventQueue: EventQueue,
     ) -> None:
         self.logger = logger
         self.app = app
-        self.appClock = appClock
+        self.clock = clock
         self.eventQueue = eventQueue
         self.scheduler = BackgroundScheduler()
-        self.initJobInterval()
-        self.jobID = self.scheduler.add_job(
-            self.__processNewEvents,
-            trigger="interval",
-            seconds=self.jobInterval,
-        ).id
 
     def initJobInterval(self) -> None:
         """
         Sets `self.jobInterval` to the value of one half-minute
         of app time represented in real seconds.
         """
-        self.jobInterval = 30 / self.appClock.getSpeedupFactor()
+        self.jobInterval = 30 / self.clock.getSpeedupFactor()
 
     def updateJobInterval(self) -> None:
         """
@@ -82,7 +76,16 @@ class EventProcessor:
                 sse.publish(event, type="event")
 
     def start(self) -> None:
-        self.scheduler.start()
-
-    def stop(self) -> None:
-        self.scheduler.shutdown()
+        """
+        Starts the app clock and event processor if they are not already running.
+        """
+        if not self.clock.running:
+            self.clock.start()
+        if not self.scheduler.running:
+            self.initJobInterval()
+            self.jobID = self.scheduler.add_job(
+                self.__processNewEvents,
+                trigger="interval",
+                seconds=self.jobInterval,
+            ).id
+            self.scheduler.start()

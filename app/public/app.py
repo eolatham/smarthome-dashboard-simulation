@@ -5,7 +5,7 @@ import os
 import logging
 
 # PDM
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_sse import sse
 
@@ -32,24 +32,55 @@ APP.register_blueprint(sse, url_prefix="/events")
 if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
     # Flask runs this script with two processes to refresh code changes,
     # but we only want these instructions to run on the main process.
-    APP_CLOCK = AppClock(MIN_SPEEDUP_FACTOR)
+    APP_CLOCK = AppClock(MIN_APP_TIME, MIN_SPEEDUP_FACTOR)
     EVENT_QUEUE = EventQueue(LOGGER, APP_CLOCK, queryAllEvents())
     EVENT_PROCESSOR = EventProcessor(LOGGER, APP, APP_CLOCK, EVENT_QUEUE)
-    EVENT_PROCESSOR.start()
 
 ######################################## ROUTES ########################################
 
+SUCCESS = "Success", 200
 
-@APP.route("/")
-def index():
-    return "Hello, world!"
+# TODO: add route to get constants
 
 
-@APP.route("/speedupFactor", methods=["PUT"])
+@APP.route("/start")
+def startSimulation():
+    """
+    Starts/restarts the smart home dashboard simulation by:
+    - resetting the event queue pointer
+    - starting/restarting the app clock
+    - starting the event processor (if it is not already running)
+    """
+    EVENT_QUEUE.reset()
+    APP_CLOCK.start()
+    EVENT_PROCESSOR.start()
+    return SUCCESS
+
+
+@APP.route("/clock", methods=["GET"])
+def getAppClockInfo():
+    """
+    Gets the following information from the app clock:
+    ```
+    {
+        "time": "<the current app time in seconds>",
+        "speed": "<the current speedup factor of the app clock>"
+    }
+    ```
+    """
+    if not APP_CLOCK.running:
+        return "The app clock is not running; please wait for it to start.", 425
+    return jsonify({"time": APP_CLOCK.time(), "speed": APP_CLOCK.getSpeedupFactor()})
+
+
+@APP.route("/speed", methods=["PUT"])
 def setAppClockSpeedupFactor():
+    """
+    Sets the speedup factor of the app clock using `request.json["speedupFactor"]`.
+    """
     speedupFactor = request.json.get("speedupFactor")
-    if speedupFactor is None:
-        return "The value of `speedupFactor` should not be None!", 400
+    if not isinstance(speedupFactor, (int, float)):
+        return "The value of `speedupFactor` should be a number!", 400
     if speedupFactor < MIN_SPEEDUP_FACTOR:
         return (
             f"The value of `speedupFactor` should not be less than {MIN_SPEEDUP_FACTOR}!",
@@ -62,7 +93,7 @@ def setAppClockSpeedupFactor():
         )
     APP_CLOCK.setSpeedupFactor(speedupFactor)
     EVENT_PROCESSOR.updateJobInterval()
-    return "Success!", 200
+    return SUCCESS
 
 
 ######################################### MAIN #########################################
