@@ -37,35 +37,35 @@ This will be helpful later on when we set up [Shortcut](#shortcut)
 - `cd` into the cloned project 1 repository
   - Enter `cd project`
 
-### Development Tools
-
-We will use Python, React, and Markdown extensively for this project
-
-Please complete the following instructions on a unix-based system
-
-#### Git
+### Using Git
 
 The following are commands you will enter into your terminal while inside the `project` directory
 
-##### `git pull`
+#### `git pull`
 
 _Download changes from other users_
 
-##### `git add <new or edited file in repo>`
+#### `git add <new or edited file in repo>`
 
 _Add your own local changes to be committed to the repo_
 
 - Example: `git add report.md`
 
-##### `git commit -m "<commit message explaining what you added/changed>"`
+#### `git commit -m "<commit message explaining what you added/changed>"`
 
 _Declare your changes before uploading them_
 
 - Example: `git commit -m "Write the project report"`
 
-##### `git push`
+#### `git push`
 
 _Upload your committed changes_
+
+### Development Tools
+
+We will use Python, React, and Markdown extensively for this project
+
+Please complete the following instructions on a unix-based system
 
 #### Python
 
@@ -114,7 +114,7 @@ Visual Studio Code `settings.json` should include the following:
 }
 ```
 
-#### Shortcut
+### Shortcut
 
 Shortcut (PKA Clubhouse) is a great product for tracking agile software development projects like ours
 
