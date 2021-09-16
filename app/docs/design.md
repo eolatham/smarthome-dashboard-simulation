@@ -29,7 +29,52 @@ We will generate weather and family event data for a 2-month time period and sto
 - The data should be event-based; we should only store entries in the database for events that cause the smart home state to change.
 - Each event should include a timestamp and specify how and why the smart home state changed.
 
+### Smart Home State
+
+TODO
+
 ### Events
+
+Events are things that affect smart home state at certain points in app time.
+
+Events are stored in a database table with the following structure:
+
+```sql
+CREATE TABLE event
+(
+    id serial,
+    time int,
+    stateKey text,
+    newValue json,
+    message text
+);
+```
+
+- `id` is the unique identifier of the event (a serial assigned by Postgres)
+- `time` is the number of seconds after the start of app time at which the event occurred
+- `stateKey` is the key to the value in the smart home state that the event changed
+- `newValue` is the new value for `stateKey` in the smart home state after the event
+- `message` is a human-readable description of the event to be displayed to the user
+
+Once queried from the database, the app represents events with objects of the following structure:
+
+```json
+{
+  "id": 0,
+  "time": 0,
+  "stateKey": "<key>",
+  "newValue": "<value>",
+  "message": "<message>"
+}
+```
+
+TODO: is this data model good enough? are there events that change multiple states?
+
+#### Weather Event Examples
+
+TODO
+
+#### Family Event Examples
 
 TODO
 
@@ -71,7 +116,7 @@ Specifically, the event queue:
 - uses the app clock to determine if an event is a past or future event
 - hides future events
 - allows retrieving all unprocessed past events (to be processed)
-- allows retrieving all processed past events (to be [analyzed](#data-analysis))
+- allows retrieving all processed past events (to be analyzed)
 
 When the app starts, it queries all events from the database into the event queue, which minimizes the number of queries and subsequently reduces network latency costs.
 
@@ -85,7 +130,7 @@ The app facilitates SSE functionality based on [this guide](https://www.velotio.
 
 #### Time Publisher
 
-Using the same technology as the [event publisher](#event-publisher), the time publisher sends the current app time as a SSE to the frontend to be displayed every real second.
+Using the same technology as the event publisher, the time publisher sends the current app time as a SSE to the frontend to be displayed every real second.
 
 **Benefits of SSE:**
 
@@ -101,9 +146,3 @@ To restart its simulation, the app does the following:
 - starts/restarts the app clock
 - starts the time publisher (if it is not already running)
 - starts the event publisher (if it is not already running)
-
-## Questions
-
-- What does the smart home state include?
-- How should weather events be represented?
-- How should family events be represented?

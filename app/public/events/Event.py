@@ -1,17 +1,21 @@
 # STL
-from typing import TypedDict, List
+from random import randint
+from typing import TypedDict, List, Any
+
+# LOCAL
+from public.constants import *
 
 
 class Event(TypedDict):
     """
-    An object representing an event that affects smart home state at a certain point in app time.
-    - `id` is the unique identifier of the event (a serial assigned by Postgres)
-    - `time` is the number of seconds after the start of app time at which the event occurred.
+    See `design.md`.
     """
 
     id: int
-    time: float
-    # TODO: add to this
+    time: int
+    stateKey: str
+    newValue: Any
+    message: str
 
 
 SortedEventList = List[Event]  # List of events sorted in order of increasing time
@@ -24,4 +28,16 @@ def queryAllEvents() -> SortedEventList:
     """
     # TODO: implement this
     query = "SELECT * FROM event ORDER BY time ASC;"
-    return [{"id": 0, "time": 35}, {"id": 1, "time": 65}, {"id": 2, "time": 95}]
+    return sorted(
+        [
+            {
+                "id": i,
+                "time": randint(MIN_APP_TIME, MAX_APP_TIME),
+                "stateKey": "",
+                "newValue": "",
+                "message": "",
+            }
+            for i in range(50000)
+        ],
+        key=lambda e: e["time"],
+    )
