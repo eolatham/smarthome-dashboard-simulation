@@ -2,24 +2,13 @@
 from logging import Logger
 
 # LOCAL
-from public.clock.AppClock import AppClock
-from public.event.Event import SortedEventList
+from public.time.AppClock import AppClock
+from public.events.Event import SortedEventList
 
 
 class EventQueue:
     """
-    The event queue is a custom queue data structure for storing and retrieving smart home events.
-
-    It stores all events provided to it while only allowing past events to be retrieved, which
-    allows the app to poll the event queue at regular time intervals to get
-    only the events that have "occurred" since the last poll.
-
-    Specifically, the event queue:
-    - is instantiable with a list of event objects queried from the database
-    - uses the app clock to determine if an event is a past or future event
-    - hides future events
-    - allows retrieving all unprocessed past events (`getNewEvents()`)
-    - allows retrieving all processed past events (`getOldEvents()`)
+    See `design.md`.
     """
 
     logger: Logger

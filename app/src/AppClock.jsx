@@ -1,41 +1,36 @@
-import React, { useState, useEffect } from "react";
-import { GET_CLOCK_INFO_URL } from "./constants";
+import React from "react";
+import { processEventSourceError } from "./helpers";
+import { SSE_URL } from "./constants";
 
-async function fetchAppClockInfo() {
-  const response = await fetch(GET_CLOCK_INFO_URL);
-  return await response.json();
-}
+// TODO: add functionality to change app clock speed
+class AppClock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { time: null, speed: null };
+    this.processEvent = this.processEvent.bind(this);
+  }
 
-function AppClock({ interval }) {
-  const [time, setTime] = useState(null);
-  const [speed, setSpeed] = useState(null);
+  componentDidMount() {
+    this.eventSource = new EventSource(SSE_URL);
+    this.eventSource.addEventListener("time", this.processEvent, false);
+    this.eventSource.addEventListener("error", processEventSourceError, false);
+  }
 
-  // Set initial state on mount
-  useEffect(() => {
-    fetchAppClockInfo().then((info) => {
-      setTime(info.time);
-      setSpeed(info.speed);
-    });
-  }, []);
+  processEvent(event) {
+    var data = JSON.parse(event.data);
+    console.log("Received time event with data:", data);
+    this.setState({ time: data.time, speed: data.speed });
+  }
 
-  // Refresh state on interval
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      fetchAppClockInfo().then((info) => {
-        setTime(info.time);
-        setSpeed(info.speed);
-      });
-    }, interval);
-    return () => clearTimeout(timeout);
-  }, [interval, time, speed]);
-
-  return (
-    <>
-      <h2>App Clock</h2>
-      <h3>Time: {Math.round(time)} seconds</h3>
-      <h3>Speed: {Math.round(speed)} x the speed of real time</h3>
-    </>
-  );
+  render() {
+    return (
+      <>
+        <h2>App Clock</h2>
+        <h3>Time: {Math.round(this.state.time)} seconds</h3>
+        <h3>Speed: {Math.round(this.state.speed)} x the speed of real time</h3>
+      </>
+    );
+  }
 }
 
 export default AppClock;

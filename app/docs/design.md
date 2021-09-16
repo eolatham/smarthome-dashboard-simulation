@@ -16,9 +16,9 @@ Our smart home dashboard simulator is an event-based application that operates a
 - The database stores generated weather and family **events** that describe when and how the smart home state changed over a 2-month time period.
 - The app runs on a **custom clock** to simulate fast-moving time, and the speed of app time is adjustable by the user.
 - The backend **queries** all events from the database into an event queue when the app starts.
-- The backend **processes** all unprocessed past events waiting on the event queue at **each half-minute** in the simulation (according to app time). Processing an event involves:
-  - applying its changes to the smart home state
-  - sending it to the frontend to be displayed to the user
+- The backend **publishes** the current app time **every real second** so that the frontend can display it.
+- The backend **publishes** all unprocessed past events waiting on the event queue **every app half-minute** so that the frontend can process them.
+- The frontend manages and displays all smart home state and provides an interface for the user to interact with the dashboard.
 
 ## In Depth
 
@@ -75,16 +75,17 @@ Specifically, the event queue:
 
 When the app starts, it queries all events from the database into the event queue, which minimizes the number of queries and subsequently reduces network latency costs.
 
-#### Event Processor
+#### Event Publisher
 
-The event processor uses a background scheduler to continuously poll and process occurring events from an event queue.
+The event publisher uses a background scheduler to continuously poll and publish occurring events from the event queue.
 
-At every half-minute of app time, the event processor retrieves all unprocessed past events from the event queue and does the following with each one:
-
-- applies its changes to the smart home state
-- sends it as a server-sent event (SSE) to the frontend to be displayed
+At every half-minute of app time, the event publisher retrieves all unprocessed past events from the event queue and sends each one as a server-sent event (SSE) to the frontend to be processed.
 
 The app facilitates SSE functionality based on [this guide](https://www.velotio.com/engineering-blog/how-to-implement-server-sent-events-using-python-flask-and-react).
+
+#### Time Publisher
+
+Using the same technology as the [event publisher](#event-publisher), the time publisher sends the current app time as a SSE to the frontend to be displayed every real second.
 
 **Benefits of SSE:**
 
@@ -98,7 +99,8 @@ To restart its simulation, the app does the following:
 
 - resets the event queue pointer
 - starts/restarts the app clock
-- starts the event processor (if it is not already running)
+- starts the time publisher (if it is not already running)
+- starts the event publisher (if it is not already running)
 
 ## Questions
 
