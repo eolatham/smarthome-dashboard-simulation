@@ -11,6 +11,8 @@
 
 ### Setting Things Up
 
+**Please read [the other README](../README.md) before attempting this!**
+
 #### `make init`
 
 Run `make init` to set up the development environment.

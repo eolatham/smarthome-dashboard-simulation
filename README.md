@@ -25,16 +25,6 @@ This will be helpful later on when we set up [Shortcut](#shortcut)
 - Under "Public email", select your UAB email address
 - Scroll down and click "Update profile settings"
 
-### Set Up GitLab SSH Key
-
-- Go [here](https://gitlab.cs.uab.edu/profile/keys) to add a new SSH key pairing between your GitLab account and your personal computer
-  - This will allow you use GitLab repositories on your computer without entering your GitLab password all the time
-- For instructions on creating the SSH key pair on your computer, look [here](https://gitlab.com/help/ssh/README#generating-a-new-ssh-key-pair)
-  - Open a terminal
-  - Enter `ssh-keygen -t rsa -b 4096` in the terminal and press enter through the prompts
-  - Enter `cat ~/.ssh/id_rsa.pub` to print out the PUBLIC key
-  - Copy and paste the PUBLIC key into the "Add an SSH key" text box, give it a title, and click "Add key"
-
 ### Clone Project Repository
 
 - In the terminal, create a CS499 folder wherever you want the project files to be stored
@@ -47,39 +37,84 @@ This will be helpful later on when we set up [Shortcut](#shortcut)
 - `cd` into the cloned project 1 repository
   - Enter `cd project`
 
-### Using Git
+### Development Tools
+
+We will use Python, React, and Markdown extensively for this project
+
+Please complete the following instructions on a unix-based system
+
+#### Git
 
 The following are commands you will enter into your terminal while inside the `project` directory
 
-#### `git pull`
+##### `git pull`
 
 _Download changes from other users_
 
-#### `git add <new or edited file in repo>`
+##### `git add <new or edited file in repo>`
 
 _Add your own local changes to be committed to the repo_
 
 - Example: `git add report.md`
 
-#### `git commit -m "<commit message explaining what you added/changed>"`
+##### `git commit -m "<commit message explaining what you added/changed>"`
 
 _Declare your changes before uploading them_
 
 - Example: `git commit -m "Write the project report"`
 
-#### `git push`
+##### `git push`
 
 _Upload your committed changes_
 
-### Using Visual Studio Code and Markdown
+#### Python
 
-- To install Visual Studio Code, look [here](https://code.visualstudio.com/Download)
-- For info on using Markdown in Visual Studio Code, look [here](https://code.visualstudio.com/docs/languages/markdown)
-- Install the following plug-ins in Visual Studio Code:
-  - `DavidAnson.vscode-markdownlint`
-  - `yzane.markdown-pdf`
+To install Python 3.9, look [here](https://www.python.org/downloads/)
 
-### Shortcut
+#### Visual Studio Code
+
+To install Visual Studio Code, look [here](https://code.visualstudio.com/Download)
+
+##### Python Support
+
+Install the following plug-ins in Visual Studio Code:
+
+- `ms-python.python`
+- `ms-python.vscode-pylance`
+
+##### React Support
+
+Install the following plug-ins in Visual Studio Code:
+
+- `dbaeumer.vscode-eslint`
+- `esbenp.prettier-vscode`
+
+##### Markdown Support
+
+Install the following plug-ins in Visual Studio Code:
+
+- `DavidAnson.vscode-markdownlint`
+- `yzane.markdown-pdf`
+
+For info on using Markdown in Visual Studio Code, look [here](https://code.visualstudio.com/docs/languages/markdown)
+
+#### PDM
+
+To install PDM, look [here](https://pdm.fming.dev/#installation)
+
+To enable Visual Studio Code to detect local dependencies installed with PDM, look [here](https://pdm.fming.dev/#installation)
+
+Visual Studio Code `settings.json` should include the following:
+
+```json
+{
+  ...
+  "python.autoComplete.extraPaths": ["__pypackages__/3.9/lib"],
+  "python.analysis.extraPaths": ["__pypackages__/3.9/lib"]
+}
+```
+
+#### Shortcut
 
 Shortcut (PKA Clubhouse) is a great product for tracking agile software development projects like ours
 
