@@ -37,9 +37,13 @@ TODO
 
 #### Application Clock
 
-The app clock represents time in the app's simulation of smart home events.
+The app clock represents time with flexible speed in a bounded timeframe, and it is used to keep time in the app's simulation of smart home events.
 
-It allows running the smart home simulation at different speeds and changing speeds at runtime without losing the current place in time.
+The app clock allows:
+
+- running the smart home simulation at different speeds
+- changing speeds at runtime without losing the current place in time
+- restarting app time from the minimum app time at any point
 
 **Minimum application clock speed:**
 

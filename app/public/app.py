@@ -32,7 +32,7 @@ APP.register_blueprint(sse, url_prefix="/events")
 if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
     # Flask runs this script with two processes to refresh code changes,
     # but we only want these instructions to run on the main process.
-    APP_CLOCK = AppClock(MIN_APP_TIME, MIN_SPEEDUP_FACTOR)
+    APP_CLOCK = AppClock(MIN_APP_TIME, MAX_APP_TIME, DEFAULT_SPEEDUP_FACTOR)
     EVENT_QUEUE = EventQueue(LOGGER, APP_CLOCK, queryAllEvents())
     EVENT_PROCESSOR = EventProcessor(LOGGER, APP, APP_CLOCK, EVENT_QUEUE)
 
