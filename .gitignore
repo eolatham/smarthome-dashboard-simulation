@@ -4,3 +4,4 @@ __pycache__/
 .vscode/
 CS499_Senior_Capstone_Project.egg-info/
 .pdm.toml
+react-app-env.d.ts

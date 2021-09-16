@@ -1,5 +1,5 @@
-import AppClock from "./AppClock";
-import SmartHome from "./SmartHome";
+import AppClock from "./components/AppClock";
+import SmartHome from "./components/SmartHome";
 
 // TODO: add button to restart the simulation
 function App() {
@@ -7,7 +7,7 @@ function App() {
     <div>
       <h1>Smart Home Dashboard Simulator</h1>
       <h4>(refresh page to restart simulation)</h4>
-      <AppClock interval={10000} />
+      <AppClock />
       <SmartHome />
     </div>
   );

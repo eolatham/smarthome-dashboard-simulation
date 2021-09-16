@@ -1,19 +1,26 @@
 import React from "react";
-import { processEventSourceError } from "./helpers";
-import { SSE_URL } from "./constants";
+import { processEventSourceError } from "../common/helpers";
+import { SSE_URL } from "../common/constants";
 
 // TODO: add functionality to change app clock speed
-class AppClock extends React.Component {
-  constructor(props) {
+type AppClockProps = {};
+type AppClockState = { time: number; speed: number };
+class AppClock extends React.Component<AppClockProps, AppClockState> {
+  eventSource: EventSource;
+  constructor(props: AppClockProps) {
     super(props);
-    this.state = { time: null, speed: null };
+    this.state = { time: 0, speed: 0 };
+    this.eventSource = new EventSource(SSE_URL);
     this.processEvent = this.processEvent.bind(this);
   }
 
   componentDidMount() {
-    this.eventSource = new EventSource(SSE_URL);
     this.eventSource.addEventListener("time", this.processEvent, false);
     this.eventSource.addEventListener("error", processEventSourceError, false);
+  }
+
+  componentWillUnmount() {
+    this.eventSource.close();
   }
 
   processEvent(event) {
@@ -27,7 +34,7 @@ class AppClock extends React.Component {
       <>
         <h2>App Clock</h2>
         <h3>Time: {Math.round(this.state.time)} seconds</h3>
-        <h3>Speed: {Math.round(this.state.speed)} x the speed of real time</h3>
+        <h3>Speed: {Math.round(this.state.speed)} x real time</h3>
       </>
     );
   }
