@@ -1,4 +1,4 @@
-# Team Meeting 01 - 09/13/2021
+# Team Meeting 01 - 9/13/2021
 
 ## Technologies Used
 
@@ -10,7 +10,7 @@
 ### Gitlab
 
 - Gitlab is integrated with clubhouse
-- Follow the setup included in [Readme.md](https://gitlab.cs.uab.edu/499/project/blob/main/README.md)
+- Follow the setup included in [README.md](../README.md)
 
 #### Gitlab Project
 
@@ -27,7 +27,7 @@
 
 ## Team Norms
 
-- Agreed upon by the entire team, viewable [team_norms.md](https://gitlab.cs.uab.edu/499/project/blob/main/team_norms.md)
+- Agreed upon by the entire team, viewable [team_norms.md](../team_norms.md)
 - Team Leader: Eric Latham
 - Formal Code review options (Integrated into norms):
   1. Pair Programming as needed
