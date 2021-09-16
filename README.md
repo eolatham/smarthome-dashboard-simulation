@@ -121,9 +121,3 @@ Shortcut (PKA Clubhouse) is a great product for tracking agile software developm
 - Go [here](https://app.shortcut.com/invite-link/612e6097-4c0e-4a0b-a830-f2ddba5d4b26) and sign up (you can sign up with your Google account)
 - Explore the "Epics" and "Stories" already written in the team workspace
 - We will use Shortcut to assign, document, track, and collaborate on tasks throughout the project lifecycle
-
-### Additional Resources
-
-#### [LucidChart](https://lucid.app/folder/invitations/accept/inv_54ef0729-0f14-4b97-8435-e4e01f496e0c)
-
-We will use this for making diagrams and prototypes

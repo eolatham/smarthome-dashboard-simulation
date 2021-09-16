@@ -18,7 +18,11 @@ Our smart home dashboard simulator is an event-based application that operates a
 - The backend **queries** all events from the database into an event queue when the app starts.
 - The backend **publishes** the current app time **every real second** so that the frontend can display it.
 - The backend **publishes** all unprocessed past events waiting on the event queue **every app half-minute** so that the frontend can process them.
-- The frontend manages and displays all smart home state and provides an interface for the user to interact with the dashboard.
+- The frontend **manages and displays** all smart home state and **provides an interface** for the user to interact with the dashboard.
+
+### Runtime Model
+
+![diagram](img/runtime_model.png)
 
 ## In Depth
 
@@ -26,7 +30,7 @@ Our smart home dashboard simulator is an event-based application that operates a
 
 We will generate weather and family event data for a 2-month time period and store it in a database.
 
-- The data should be event-based; we should only store entries in the database for events that cause the smart home state to change.
+- The data should be event-based; we should only store entries in the database for events that cause the smart home state to change. This design is space-efficient and also lends itself well to event-driven/reactive programming.
 - Each event should include a timestamp and specify how and why the smart home state changed.
 
 ### Smart Home State
@@ -78,7 +82,7 @@ TODO
 
 TODO
 
-### Application Runtime Model
+### Backend Components
 
 #### Application Clock
 
@@ -90,13 +94,13 @@ The app clock allows:
 - changing speeds at runtime without losing the current place in time
 - restarting app time from the minimum app time at any point
 
-**Minimum application clock speed:**
+**Minimum app clock speed:**
 
 ```txt
 1  real second  =  1  app second
 ```
 
-**Maximum application clock speed:**
+**Maximum app clock speed:**
 
 ```txt
 1   real minute   =  1          app month
@@ -117,6 +121,7 @@ Specifically, the event queue:
 - hides future events
 - allows retrieving all unprocessed past events (to be processed)
 - allows retrieving all processed past events (to be analyzed)
+- allows resetting its pointer to `0` (when restarting the simulation)
 
 When the app starts, it queries all events from the database into the event queue, which minimizes the number of queries and subsequently reduces network latency costs.
 
@@ -138,11 +143,6 @@ Using the same technology as the event publisher, the time publisher sends the c
 - SSEs are less expensive and time-consuming than HTTP requests, so the SSE model allows the app to consume events faster and with more granularity to time.
 - With the SSE model, the frontend will only need to send explicit requests to the backend for user actions.
 
-#### Restarting The Simulation
+### Frontend Components
 
-To restart its simulation, the app does the following:
-
-- resets the event queue pointer
-- starts/restarts the app clock
-- starts the time publisher (if it is not already running)
-- starts the event publisher (if it is not already running)
+TODO

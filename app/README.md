@@ -22,3 +22,7 @@ Run `make init` to set up the development environment.
 #### `make start`
 
 Run `make start` to start the application.
+
+### Documentation
+
+Documentation about the app is stored under the [docs](docs) directory.
