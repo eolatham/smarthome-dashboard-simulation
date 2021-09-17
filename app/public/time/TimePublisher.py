@@ -53,7 +53,7 @@ class TimePublisher:
 
     def publish(self) -> None:
         """
-        Publishes the current time and speedup factor of the app clock as an SSE:
+        Publishes the current time and speedup factor of the app clock as a SSE:
         ```
         {
             "time": "<the current app time in seconds>",
