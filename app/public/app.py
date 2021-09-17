@@ -5,18 +5,19 @@ import os
 import logging
 
 # PDM
+from flask_sse import sse
+from flask_cors import CORS
 from flask import Flask, request, jsonify
 from apscheduler.schedulers.background import BackgroundScheduler
-from flask_cors import CORS
-from flask_sse import sse
 
 # LOCAL
+from public.constants import *
 from public.time.AppClock import AppClock
 from public.time.TimePublisher import TimePublisher
 from public.events.Event import queryAllEvents
 from public.events.EventQueue import EventQueue
 from public.events.EventPublisher import EventPublisher
-from public.constants import *
+from public.measurements.MeasurementsPublisher import MeasurementsPublisher
 
 logging.basicConfig(
     level=logging.INFO,
@@ -38,7 +39,11 @@ if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
     EVENT_QUEUE = EventQueue(LOGGER, APP_CLOCK, queryAllEvents())
     BACKGROUND_SCHEDULER = BackgroundScheduler()
     TIME_PUBLISHER = TimePublisher(
-        LOGGER, APP, APP_CLOCK, BACKGROUND_SCHEDULER, PUBLISH_TIME_INTERVAL
+        LOGGER,
+        APP,
+        APP_CLOCK,
+        BACKGROUND_SCHEDULER,
+        *PUBLISH_TIME_INTERVAL,
     )
     EVENT_PUBLISHER = EventPublisher(
         LOGGER,
@@ -46,8 +51,16 @@ if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
         APP_CLOCK,
         EVENT_QUEUE,
         BACKGROUND_SCHEDULER,
-        PUBLISH_EVENTS_INTERVAL,
+        *PUBLISH_EVENTS_INTERVAL,
     )
+    # TODO: uncomment this
+    # MEASUREMENTS_PUBLISHER = MeasurementsPublisher(
+    #     LOGGER,
+    #     APP,
+    #     APP_CLOCK,
+    #     BACKGROUND_SCHEDULER,
+    #     *PUBLISH_MEASUREMENTS_INTERVAL,
+    # )
 
 ######################################## ROUTES ########################################
 
@@ -62,11 +75,14 @@ def startSimulation():
     - starting/restarting the app clock
     - starting the time publisher (if it is not already running)
     - starting the event publisher (if it is not already running)
+    - starting the measurements publisher (if it is not already running)
     """
     EVENT_QUEUE.reset()
     APP_CLOCK.start()
     TIME_PUBLISHER.start()
     EVENT_PUBLISHER.start()
+    # TODO: uncomment this
+    # MEASUREMENTS_PUBLISHER.start()
     return SUCCESS
 
 
@@ -95,6 +111,9 @@ def appClockSpeedupFactor():
     APP_CLOCK.setSpeedupFactor(speedupFactor)
     EVENT_PUBLISHER.refreshJobInterval()
     return SUCCESS
+
+
+# TODO: add a route for accepting a user-generated event from the frontend
 
 
 ######################################### MAIN #########################################

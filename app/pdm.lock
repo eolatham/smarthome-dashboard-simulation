@@ -101,6 +101,12 @@ requires_python = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*"
 summary = "Python 2 and 3 compatibility utilities"
 
 [[package]]
+name = "typeguard"
+version = "2.12.1"
+requires_python = ">=3.5.3"
+summary = "Run-time type checker for Python"
+
+[[package]]
 name = "tzlocal"
 version = "2.1"
 summary = "tzinfo object for the local timezone"
@@ -116,7 +122,7 @@ summary = "The comprehensive WSGI web application library."
 
 [metadata]
 lock_version = "3.1"
-content_hash = "sha256:17c628ab18111bebcdf2592f04ebf0d5b71c156b91b2cd7a4f550bf582364f79"
+content_hash = "sha256:165cb25f1937f402fc2dc0e3bf7f5bfbd6a5e4e1209fb5137268ff5ac0578910"
 
 [metadata.files]
 "apscheduler 3.7.0" = [
@@ -222,6 +228,10 @@ content_hash = "sha256:17c628ab18111bebcdf2592f04ebf0d5b71c156b91b2cd7a4f550bf58
 "six 1.16.0" = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
     {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
+]
+"typeguard 2.12.1" = [
+    {file = "typeguard-2.12.1-py3-none-any.whl", hash = "sha256:cc15ef2704c9909ef9c80e19c62fb8468c01f75aad12f651922acf4dbe822e02"},
+    {file = "typeguard-2.12.1.tar.gz", hash = "sha256:c2af8b9bdd7657f4bd27b45336e7930171aead796711bc4cfc99b4731bb9d051"},
 ]
 "tzlocal 2.1" = [
     {file = "tzlocal-2.1-py2.py3-none-any.whl", hash = "sha256:e2cb6c6b5b604af38597403e9852872d7f534962ae2954c7f35efcb1ccacf4a4"},

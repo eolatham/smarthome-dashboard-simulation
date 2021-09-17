@@ -10,6 +10,7 @@ dependencies = [
     "apscheduler~=3.7",
     "flask-sse~=1.0",
     "flask-cors~=3.0",
+    "typeguard~=2.12",
 ]
 requires-python = ">=3.9"
 dynamic = ["classifiers"]

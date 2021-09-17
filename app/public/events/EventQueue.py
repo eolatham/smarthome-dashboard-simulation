@@ -1,6 +1,9 @@
 # STL
 from logging import Logger
 
+# PDM
+from typeguard import typechecked
+
 # LOCAL
 from public.time.AppClock import AppClock
 from public.events.Event import SortedEventList
@@ -16,6 +19,7 @@ class EventQueue:
     events: SortedEventList
     next: int  # Index of the next unprocessed event
 
+    @typechecked
     def __init__(
         self, logger: Logger, clock: AppClock, events: SortedEventList
     ) -> None:

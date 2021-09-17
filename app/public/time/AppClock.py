@@ -1,6 +1,9 @@
 # STL
 from time import time
 
+# PDM
+from typeguard import typechecked
+
 
 class AppClock:
     """
@@ -14,6 +17,7 @@ class AppClock:
     appTimeZero: float
     realTimeZero: float
 
+    @typechecked
     def __init__(self, minTime: float, maxTime: float, speedupFactor: float) -> None:
         """
         - `minTime` and `maxTime` are in app seconds.

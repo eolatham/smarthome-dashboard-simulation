@@ -4,27 +4,23 @@ from logging import Logger
 # PDM
 from flask import Flask
 from flask_sse import sse
+from typeguard import typechecked
 from apscheduler.schedulers.background import BackgroundScheduler
 
 # LOCAL
 from public.time.AppClock import AppClock
 from public.events.EventQueue import EventQueue
+from public.sse.SSEPublisher import SSEPublisher, JobIntervalType
 
 
-class EventPublisher:
+class EventPublisher(SSEPublisher):
     """
     See `design.md`.
     """
 
-    logger: Logger
-    app: Flask
-    clock: AppClock
     eventQueue: EventQueue
-    scheduler: BackgroundScheduler
-    jobIntervalAppTime: float
-    jobIntervalRealTime: float
-    jobID: int
 
+    @typechecked
     def __init__(
         self,
         logger: Logger,
@@ -32,38 +28,13 @@ class EventPublisher:
         clock: AppClock,
         eventQueue: EventQueue,
         scheduler: BackgroundScheduler,
-        jobIntervalAppTime: float,
+        jobIntervalSeconds: float,
+        jobIntervalType: JobIntervalType,
     ) -> None:
-        """
-        `jobIntervalAppTime` is in app seconds.
-        """
-        self.logger = logger
-        self.app = app
-        self.clock = clock
         self.eventQueue = eventQueue
-        self.scheduler = scheduler
-        self.jobIntervalAppTime = jobIntervalAppTime
-        self.jobIntervalRealTime = jobIntervalAppTime / self.clock.getSpeedupFactor()
-        self.jobID = self.scheduler.add_job(
-            self.publish,
-            trigger="interval",
-            seconds=self.jobIntervalRealTime,
-        ).id
-
-    def setJobInterval(self, jobIntervalAppTime: float) -> None:
-        """
-        `jobInterval` is in app seconds.
-        """
-        self.jobIntervalAppTime = jobIntervalAppTime
-        self.jobIntervalRealTime = jobIntervalAppTime / self.clock.getSpeedupFactor()
-        self.scheduler.modify_job(self.jobID, seconds=self.jobIntervalRealTime)
-
-    def refreshJobInterval(self) -> None:
-        """
-        Updates the job interval based on the current speed of the app clock
-        to keep publishing events at the provided interval of app time.
-        """
-        self.setJobInterval(self.jobIntervalAppTime)
+        super().__init__(
+            logger, app, clock, scheduler, jobIntervalSeconds, jobIntervalType
+        )
 
     def publish(self) -> None:
         """
@@ -73,10 +44,3 @@ class EventPublisher:
             for event in self.eventQueue.getNewEvents():
                 self.logger.info("Sending SSE with smart home event data: %s...", event)
                 sse.publish(event, type="event")
-
-    def start(self) -> None:
-        """
-        Starts the background scheduler if it is not already running.
-        """
-        if not self.scheduler.running:
-            self.scheduler.start()

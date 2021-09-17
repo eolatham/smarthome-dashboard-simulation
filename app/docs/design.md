@@ -9,18 +9,19 @@
 - Brittany Latham
 - Laura Thompson
 
+## Questions
+
+- How should we store user-generated events on the backend to be analyzed? We have to analyze pre-generated and user-generated events together to calculate derived measurements.
+
 ## High-Level Runtime Model
 
 Our smart home dashboard simulator is an event-based application that operates according to the following runtime model:
 
 ![diagram](img/runtime_model.png)
 
-TODO:
-
-- backend needs to store user-generated events too (for calculating derived measurements)
-- backend needs to publish derived measurements too (SSE)
-
 ## Smart Home State
+
+TODO
 
 ## Derived Measurements
 
@@ -28,13 +29,23 @@ Derived measurements are measurements derived from smart home state over time.
 
 ### Indoor Temperature
 
+TODO
+
 ### HVAC Status
+
+TODO
 
 ### Utility Usage
 
+TODO
+
 #### Previous Month
 
+TODO
+
 #### Current Month
+
+TODO
 
 ## Events
 
@@ -57,6 +68,8 @@ Pre-generated events are the backbone of the smart home simulation. They:
 - define the base smart home state over a 2-month time period
 
 ### User-Generated Events
+
+TODO
 
 ## Database Design
 
@@ -144,4 +157,8 @@ Using the same technology as the event publisher and the measurements publisher,
 
 ### `AppClock`
 
+TODO
+
 ### `SmartHome`
+
+TODO
