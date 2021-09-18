@@ -1,5 +1,5 @@
 # PDM
-from flask_sse import sse
+from typing import List
 
 # LOCAL
 from public.sse.SSEPublisher import SSEPublisher
@@ -10,9 +10,12 @@ class TimePublisher(SSEPublisher):
     See `design.md`.
     """
 
-    def publish(self) -> None:
+    eventTypeString = "time"
+
+    def getObjectsToPublish(self) -> List:
         """
-        Publishes the current time and speedup factor of the app clock as a SSE:
+        Returns a singleton list containing an object with
+        the current time and speedup factor of the app clock:
         ```
         {
             "time": "<the current app time in seconds>",
@@ -20,7 +23,4 @@ class TimePublisher(SSEPublisher):
         }
         ```
         """
-        with self.app.app_context():
-            data = {"time": self.clock.time(), "speed": self.clock.getSpeedupFactor()}
-            self.logger.info("Sending SSE with current app time data: %s", data)
-            sse.publish(data, type="time")
+        return [{"time": self.clock.time(), "speed": self.clock.getSpeedupFactor()}]

@@ -90,7 +90,25 @@ This design is space-efficient and also lends itself well to event-driven/reacti
 
 ## Backend Design
 
-### `AppClock`
+### Important Concepts
+
+#### Server-Sent Events
+
+Server-sent events (SSE) provide an efficient and scalable alternative to traditional request models.
+
+SSE can be leveraged to effectively "stream" events from the server to the client in many different contexts, which goes along with other reactive programming techniques.
+
+The app facilitates SSE functionality based on [this guide](https://www.velotio.com/engineering-blog/how-to-implement-server-sent-events-using-python-flask-and-react).
+
+##### Benefits
+
+- The SSE model is a more efficient alternative to the request model; the request model would require the frontend to constantly send requests (thousands in our case) to the backend for updates, while the SSE model allows the frontend to simply subscribe to a message channel that the backend publishes events to.
+- SSEs are less expensive and time-consuming than HTTP requests, so the SSE model allows the app to consume events faster and with more granularity to time.
+- With the SSE model, the frontend will only need to send explicit requests to the backend for user actions.
+
+### Classes
+
+#### `AppClock`
 
 The app clock represents time with flexible speed in a bounded (2-month) timeframe, and it is used to keep time in the app's simulation of smart home events.
 
@@ -100,13 +118,13 @@ The app clock allows:
 - changing speeds at runtime without losing the current place in time
 - restarting app time from the minimum app time at any point
 
-#### Minimum Speed
+##### Minimum Speed
 
 ```txt
 1  real second  =  1  app second
 ```
 
-#### Maximum Speed
+##### Maximum Speed
 
 ```txt
 1   real minute   =  1          app month
@@ -114,7 +132,7 @@ The app clock allows:
 1   real second   =  43,200     app seconds
 ```
 
-### `EventQueue`
+#### `EventQueue`
 
 The event queue is a custom queue data structure for storing and retrieving **pre-generated events**.
 
@@ -131,34 +149,38 @@ Specifically, the event queue:
 
 When the app starts, it queries all events from the database into the event queue, which minimizes the number of queries and subsequently reduces network latency costs.
 
-### `EventPublisher`
+#### `SSEPublisher`
 
-The event publisher uses a background scheduler to continuously poll and publish occurring **pre-generated events** from the event queue.
+`SSEPublisher` is an abstract base class providing common functionality for the Flask-Redis SSE publishers used in the app.
 
-At every half-minute of app time, the event publisher retrieves all unprocessed past events from the event queue and sends each one as a server-sent event (SSE) to the frontend to be processed.
+It supports running a background job (in a background scheduler using a deamon thread) on an interval of real time or app time to publish objects as SSEs from a SSE-compatible Flask app.
 
-The app facilitates SSE functionality based on [this guide](https://www.velotio.com/engineering-blog/how-to-implement-server-sent-events-using-python-flask-and-react).
+Implementing classes just need to set the `eventTypeString` attribute and implement the `getObjectsToPublish` method.
 
-#### SSE Benefits
+#### `TimePublisher`
 
-- The SSE model is a more efficient alternative to the request model; the request model would require the frontend to constantly send requests (thousands in our case) to the backend for updates, while the SSE model allows the frontend to simply subscribe to a message channel that the backend publishes events to.
-- SSEs are less expensive and time-consuming than HTTP requests, so the SSE model allows the app to consume events faster and with more granularity to time.
-- With the SSE model, the frontend will only need to send explicit requests to the backend for user actions.
+Inheriting from [SSEPublisher](#ssepublisher), the time publisher sends the **current app time** as a SSE to the frontend to be displayed every real second.
 
-### `MeasurementsPublisher`
+#### `EventPublisher`
 
-Using the same technology as the event publisher, the measurements publisher calculates and sends **derived measurements** as a SSE to the frontend to be displayed every real second.
+Inheriting from [SSEPublisher](#ssepublisher), the event publisher sends all **unprocessed past events** from the event queue as SSEs to the frontend to be processed at every half-minute of app time.
 
-### `Time Publisher`
+#### `MeasurementsPublisher`
 
-Using the same technology as the event publisher and the measurements publisher, the time publisher sends the **current app time** as a SSE to the frontend to be displayed every real second.
+Inheriting from [SSEPublisher](#ssepublisher), the measurements publisher calculates and sends **derived measurements** as a SSE to the frontend to be displayed every real second.
 
 ## Frontend Design
 
-### `AppClock`
+### Important Concepts
 
 TODO
 
-### `SmartHome`
+### Components
+
+#### `AppClock`
+
+TODO
+
+#### `SmartHome`
 
 TODO

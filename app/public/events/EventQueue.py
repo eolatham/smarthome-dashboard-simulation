@@ -23,6 +23,11 @@ class EventQueue:
     def __init__(
         self, logger: Logger, clock: AppClock, events: SortedEventList
     ) -> None:
+        """
+        - `logger`: `Logger` object to be used for internal logging
+        - `clock`: `AppClock` to be used for keeping track of app time
+        - `events`: list of event objects in order of increasing time to be managed by the queue
+        """
         self.logger = logger
         self.clock = clock
         self.events = events

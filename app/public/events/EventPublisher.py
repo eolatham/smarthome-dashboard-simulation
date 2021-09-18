@@ -3,14 +3,14 @@ from logging import Logger
 
 # PDM
 from flask import Flask
-from flask_sse import sse
 from typeguard import typechecked
 from apscheduler.schedulers.background import BackgroundScheduler
 
 # LOCAL
 from public.time.AppClock import AppClock
+from public.events.Event import SortedEventList
 from public.events.EventQueue import EventQueue
-from public.sse.SSEPublisher import SSEPublisher, JobIntervalType
+from public.sse.SSEPublisher import SSEPublisher, TimeType
 
 
 class EventPublisher(SSEPublisher):
@@ -18,6 +18,7 @@ class EventPublisher(SSEPublisher):
     See `design.md`.
     """
 
+    eventTypeString: str = "event"
     eventQueue: EventQueue
 
     @typechecked
@@ -29,18 +30,15 @@ class EventPublisher(SSEPublisher):
         eventQueue: EventQueue,
         scheduler: BackgroundScheduler,
         jobIntervalSeconds: float,
-        jobIntervalType: JobIntervalType,
+        jobIntervalType: TimeType,
     ) -> None:
         self.eventQueue = eventQueue
         super().__init__(
             logger, app, clock, scheduler, jobIntervalSeconds, jobIntervalType
         )
 
-    def publish(self) -> None:
+    def getObjectsToPublish(self) -> SortedEventList:
         """
-        Publishes all unprocessed past events from the event queue as SSEs.
+        Returns all unprocessed past events from the event queue.
         """
-        with self.app.app_context():
-            for event in self.eventQueue.getNewEvents():
-                self.logger.info("Sending SSE with smart home event data: %s...", event)
-                sse.publish(event, type="event")
+        return self.eventQueue.getNewEvents()
