@@ -11,7 +11,16 @@
 
 ## Questions
 
+### Backend
+
+- How can we efficiently calculate derived measurements?
 - How should we store user-generated events on the backend to be analyzed? We have to analyze pre-generated and user-generated events together to calculate derived measurements.
+
+### Frontend
+
+- What React libraries and other tools should we use to make the user interface?
+- What are all the attributes of smart home state?
+- What other components should be added?
 
 ## High-Level Runtime Model
 
