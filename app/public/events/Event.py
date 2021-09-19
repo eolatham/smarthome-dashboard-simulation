@@ -21,13 +21,13 @@ class Event(TypedDict):
 SortedEventList = List[Event]  # List of events sorted in order of increasing time
 
 
-def queryAllEvents() -> SortedEventList:
+# TODO: implement this
+def queryAllPreGeneratedEvents() -> SortedEventList:
     """
-    Returns a list of all events from the database
-    sorted in order of increasing time.
+    Returns a list of all pre-generated events from the
+    database sorted in order of increasing time.
     """
-    # TODO: implement this
-    query = "SELECT * FROM event ORDER BY time ASC;"
+    query = "SELECT * FROM PreGeneratedEvent ORDER BY time ASC;"
     return sorted(
         [
             {

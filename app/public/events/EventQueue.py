@@ -6,7 +6,7 @@ from typeguard import typechecked
 
 # LOCAL
 from public.time.AppClock import AppClock
-from public.events.Event import SortedEventList
+from public.events.Event import Event, SortedEventList
 
 
 class EventQueue:
@@ -39,6 +39,37 @@ class EventQueue:
         beginning of the provided list of events.
         """
         self.next = 0
+
+    def clear(self) -> None:
+        """
+        Clears all events from and resets the event queue.
+        """
+        self.events = []
+        self.reset()
+
+    def append(self, event: Event) -> None:
+        """
+        Appends the given event to the end of the event queue if
+        the event happens after the queue's current last event.
+        Otherwise, raises an exception.
+        """
+        if len(self.events) == 0:
+            self.events.append(event)
+
+        lastEvent = self.events[-1]
+        if event["time"] > lastEvent["time"]:
+            self.events.append(event)
+
+        raise ValueError(
+            f"Cannot append `event` to event queue because its time "
+            "is not greater than the queue's current last event"
+        )
+
+    def getAllEvents(self) -> SortedEventList:
+        """
+        Returns all events in the queue.
+        """
+        return self.events
 
     def getOldEvents(self) -> SortedEventList:
         """
