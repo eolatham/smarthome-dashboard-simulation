@@ -22,6 +22,10 @@
 - What are all the attributes of smart home state?
 - What other components should be added?
 
+### Data Generation
+
+- How should pre-generated events be made?
+
 ## High-Level Runtime Model
 
 Our smart home dashboard simulator is an event-based application that operates according to the following runtime model:
