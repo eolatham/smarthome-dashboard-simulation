@@ -9,6 +9,14 @@
 - Brittany Latham
 - Laura Thompson
 
+### Smart Home Simulation
+
+The user should be able to:
+
+- watch pre-generated events stream through the smart home dashboard
+- restart the simulation by clicking a button or refreshing the page
+- change the speed of the simulation
+
 ### Live User Interaction
 
 The user should be able to:
@@ -21,18 +29,18 @@ Each of these user actions should:
 
 - update the smart home state
 - display a visible change in the user interface
+- be included in [data analysis](#data-analysis) calculations
 
 ### Data Analysis
 
-#### Historical Utility Usage
+#### Utility Usage
 
-TODO
+The user should be able to view utility usage data for:
 
-#### Projected Utility Usage
+- the **previous month** (based on the previous month's smart home events)
+- the **current month** (based on the current month's smart home events)
 
-The user should be able to view data for projected utility usage amounts and costs **for the current month** based on the events for the current month.
-
-The following specific data should be displayed:
+The following utility usage information should be displayed:
 
 - the projected water usage (in gallons) and the resulting cost
 - the projected electricity usage (in kilowatt-hours) and the resulting cost
