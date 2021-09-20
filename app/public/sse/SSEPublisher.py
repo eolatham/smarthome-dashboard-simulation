@@ -1,6 +1,6 @@
 # STL
 from logging import Logger
-from typing import Literal, List
+from typing import Any, Literal
 from abc import ABC, abstractmethod
 
 # PDM
@@ -21,7 +21,7 @@ class SSEPublisher(ABC):
     See `design.md`.
     """
 
-    eventTypeString: str = "CHANGE_ME"  # The "type" to publish SSEs under
+    sseType: str = "CHANGE_ME"
 
     logger: Logger
     app: Flask
@@ -42,7 +42,7 @@ class SSEPublisher(ABC):
         jobIntervalTimeType: TimeType,
     ) -> None:
         """
-        Schedules a SSE-publishing job (the `__publish` method) to run on an interval.
+        Schedules a SSE-publishing job (the `job` method) to run on an interval.
 
         - `logger`: `Logger` object to be used for internal logging
         - `app`: `Flask` app to be used as the server for SSEs
@@ -66,7 +66,7 @@ class SSEPublisher(ABC):
         if hasattr(self, "jobID"):
             self.scheduler.remove_job(self.jobID)
         self.jobID = self.scheduler.add_job(
-            self.__publish,
+            self.job,
             trigger="interval",
             seconds=self.jobIntervalSeconds / self.clock.getSpeedupFactor()
             if self.jobIntervalTimeType == APP_TIME
@@ -96,18 +96,18 @@ class SSEPublisher(ABC):
         if not self.scheduler.running:
             self.scheduler.start()
 
-    def __publish(self) -> None:
+    def publish(self, *data: Any) -> None:
         """
-        Publishes each object returned by `getObjectsToPublish` as
-        a SSE with the provided event type from the provided app.
+        Publishes each of the given data as SSEs from the
+        provided app through the provided SSE channel.
         """
         with self.app.app_context():
-            for x in self.getObjectsToPublish():
-                sse.publish(x, type=self.eventTypeString)
+            for d in data:
+                sse.publish(d, type=self.sseType)
 
     @abstractmethod
-    def getObjectsToPublish(self) -> List:
+    def job(self) -> None:
         """
-        Returns a list of objects to be published by the SSE-publishing job.
-        NOTE: implementing classes need to implement this method!
+        Uses the `publish` method to publish SSEs.
+        NOTE: implementing classes should implement this method!
         """

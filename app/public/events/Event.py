@@ -1,6 +1,6 @@
 # STL
-from random import randint
-from typing import TypedDict, List, Any
+from random import randint, choice
+from typing import Any, List, TypedDict
 
 # LOCAL
 from public.constants import *
@@ -18,24 +18,20 @@ class Event(TypedDict):
     message: str
 
 
-SortedEventList = List[Event]  # List of events sorted in order of increasing time
-
-
 # TODO: implement this
-def queryAllPreGeneratedEvents() -> SortedEventList:
+def queryEvents() -> List[Event]:
     """
-    Returns a list of all pre-generated events from the
-    database sorted in order of increasing time.
+    Returns all pre-generated events from the database.
     """
-    query = "SELECT * FROM PreGeneratedEvent ORDER BY time ASC;"
+    query = "SELECT * FROM PreGeneratedEvent"
     return sorted(
         [
             {
                 "id": i,
                 "time": randint(MIN_APP_TIME, MAX_APP_TIME),
-                "stateKey": "",
-                "newValue": "",
-                "message": "",
+                "stateKey": choice(["x", "y", "z"]),
+                "newValue": "value",
+                "message": "message",
             }
             for i in range(50000)
         ],

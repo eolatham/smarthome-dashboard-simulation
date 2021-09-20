@@ -8,8 +8,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 # LOCAL
 from public.time.AppClock import AppClock
-from public.events.Event import SortedEventList
-from public.events.EventQueue import EventQueue
+from public.events.EventStore import EventStore
 from public.sse.SSEPublisher import SSEPublisher, TimeType
 
 
@@ -18,27 +17,38 @@ class EventPublisher(SSEPublisher):
     See `design.md`.
     """
 
-    eventTypeString: str = "event"
-    eventQueue: EventQueue
+    sseType: str = "event"
+    lastPublishTime: int = 0
+    eventStore: EventStore
 
+    # Override
     @typechecked
     def __init__(
         self,
         logger: Logger,
         app: Flask,
         clock: AppClock,
-        eventQueue: EventQueue,
+        eventStore: EventStore,
         scheduler: BackgroundScheduler,
         jobIntervalSeconds: float,
         jobIntervalType: TimeType,
     ) -> None:
-        self.eventQueue = eventQueue
+        self.eventStore = eventStore
         super().__init__(
             logger, app, clock, scheduler, jobIntervalSeconds, jobIntervalType
         )
 
-    def getObjectsToPublish(self) -> SortedEventList:
+    # Override
+    def start(self) -> None:
+        self.lastPublishTime = 0
+        super().start()
+
+    # Override
+    def job(self) -> None:
         """
-        Returns all unprocessed past events from the event queue.
+        Publishes all unprocessed past pre-generated events from the event map as SSEs.
         """
-        return self.eventQueue.getNewEvents()
+        start = self.lastPublishTime
+        end = self.lastPublishTime = int(self.clock.time())
+        for event in self.eventStore.yieldPreGeneratedEvents(start, end):
+            self.publish(event)

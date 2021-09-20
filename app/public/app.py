@@ -14,11 +14,11 @@ from apscheduler.schedulers.background import BackgroundScheduler
 # LOCAL
 from public.constants import *
 from public.time.AppClock import AppClock
+from public.time.TimePublisher import TimePublisher
 from public.events.Event import Event, queryEvents
-from public.events.EventQueue import EventQueue
-from public.sse.TimePublisher import TimePublisher
-from public.sse.EventPublisher import EventPublisher
-from public.sse.DerivedStatePublisher import DerivedStatePublisher
+from public.events.EventStore import EventStore
+from public.events.EventPublisher import EventPublisher
+from public.analysis.DerivedStatePublisher import DerivedStatePublisher
 
 logging.basicConfig(
     level=logging.INFO,
@@ -37,9 +37,9 @@ if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
     # Flask runs this script with two processes to refresh code changes,
     # but we only want these instructions to run on the main process.
     APP_CLOCK = AppClock(MIN_APP_TIME, MAX_APP_TIME, DEFAULT_SPEEDUP_FACTOR)
-    PRE_GENERATED_EVENT_QUEUE = EventQueue(LOGGER, APP_CLOCK, queryEvents())
-    USER_GENERATED_EVENT_QUEUE = EventQueue(LOGGER, APP_CLOCK, [])
     BACKGROUND_SCHEDULER = BackgroundScheduler()
+    EVENT_STORE = EventStore()
+    EVENT_STORE.putPreGeneratedEvents(*queryEvents())
     TIME_PUBLISHER = TimePublisher(
         LOGGER,
         APP,
@@ -51,7 +51,7 @@ if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
         LOGGER,
         APP,
         APP_CLOCK,
-        PRE_GENERATED_EVENT_QUEUE,
+        EVENT_STORE,
         BACKGROUND_SCHEDULER,
         *PUBLISH_EVENTS_INTERVAL,
     )
@@ -59,8 +59,7 @@ if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
         LOGGER,
         APP,
         APP_CLOCK,
-        PRE_GENERATED_EVENT_QUEUE,
-        USER_GENERATED_EVENT_QUEUE,
+        EVENT_STORE,
         BACKGROUND_SCHEDULER,
         *PUBLISH_DERIVED_STATE_INTERVAL,
     )
@@ -74,14 +73,11 @@ SUCCESS = "Success", 200
 def startSimulation():
     """
     Starts/restarts the smart home dashboard simulation by:
-    - resetting the event queue pointer
-    - starting/restarting the app clock
-    - starting the time publisher (if it is not already running)
-    - starting the event publisher (if it is not already running)
-    - starting the measurements publisher (if it is not already running)
+    - clearing user-generated events from the event map
+    - starting or restarting the app clock
+    - resetting and starting the SSE publishers
     """
-    PRE_GENERATED_EVENT_QUEUE.reset()
-    USER_GENERATED_EVENT_QUEUE.clear()
+    EVENT_STORE.clearUserGeneratedEvents()
     APP_CLOCK.start()
     TIME_PUBLISHER.start()
     EVENT_PUBLISHER.start()
@@ -120,8 +116,8 @@ def appClockSpeedupFactor():
 @APP.route("/user-generated-event", methods=["POST"])
 def userGeneratedEvent():
     """
-    Appends an event to the user-generated event queue so that it will
-    be included in the calculations of derived state and utility usage.
+    Puts a user-generated event into the event map so that it will be
+    included in the calculations of derived state and utility usage.
     """
     try:
         event: Event = request.json.get("event")
@@ -130,16 +126,13 @@ def userGeneratedEvent():
         return f"The value of `event` is invalid... {e.args[0]}", 400
 
     event["time"] = int(APP_CLOCK.time())
-    USER_GENERATED_EVENT_QUEUE.append(event)
+    EVENT_STORE.putUserGeneratedEvents(event)
     return SUCCESS
 
 
 # TODO: implement this
 @APP.route("/utility-usage", methods=["GET"])
 def utilityUsage():
-    """
-    Gets utility usage statistics for the previous and current months.
-    """
     return SUCCESS
 
 

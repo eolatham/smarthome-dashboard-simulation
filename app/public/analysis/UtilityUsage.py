@@ -2,7 +2,7 @@
 from typing import TypedDict
 
 # LOCAL
-from public.events.Event import SortedEventList
+from public.events.EventStore import EventStore
 
 
 class WaterUsage(TypedDict):
@@ -27,5 +27,5 @@ class UtilityUsageResponse(TypedDict):
 
 
 # TODO: implement this
-def calculateUtilityUsage(events: SortedEventList) -> UtilityUsageResponse:
+def calculateUtilityUsage(eventStore: EventStore) -> UtilityUsageResponse:
     pass
