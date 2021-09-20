@@ -32,5 +32,5 @@ Meeting agenda:
 ## Next Meeting
 
 - Pre-generated data (Laura)
-- Backend design for state of house (Eric)
-- Frontend - Model user-triggered events (Landon, Karen, Brittany)
+- Backend design for data analysis - derived state and utility usage (Eric)
+- Frontend - model smart home and user-triggered events (Landon, Karen, Brittany)
