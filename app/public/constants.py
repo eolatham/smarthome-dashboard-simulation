@@ -7,8 +7,8 @@ MIN_APP_TIME = 0  # Seconds
 MAX_APP_TIME = 5184000  # Seconds (60 days)
 
 MIN_SPEEDUP_FACTOR = 1  # 1 real second = 1 app second
-MAX_SPEEDUP_FACTOR = 43200  # 1 real second = 43200 app seconds
-DEFAULT_SPEEDUP_FACTOR = 100  # 1 real second = 100 app seconds
+MAX_SPEEDUP_FACTOR = 3600  # 1 real second = 1 app hour
+DEFAULT_SPEEDUP_FACTOR = 60  # 1 real second = 1 app minute
 
 PUBLISH_TIME_INTERVAL = (1, REAL_TIME)  # Seconds
 PUBLISH_EVENTS_INTERVAL = (30, APP_TIME)  # Seconds

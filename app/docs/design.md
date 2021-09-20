@@ -147,9 +147,8 @@ The app clock allows:
 ##### Maximum Speed
 
 ```txt
-1   real minute   =  1          app month
-60  real seconds  =  2,592,000  app seconds
-1   real second   =  43,200     app seconds
+1   real second   =  1     app hour
+1   real second   =  3600  app seconds
 ```
 
 #### `EventStore`
@@ -227,7 +226,7 @@ Iterate over time from the last time the publish job was done to the current tim
 
 #### `DerivedStatePublisher`
 
-Inheriting from [SSEPublisher](#ssepublisher), the derived state publisher calculates and sends **derived state** as a SSE to the frontend to be displayed **every real second**.
+Inheriting from [SSEPublisher](#ssepublisher), the derived state publisher calculates and sends **derived state** as a SSE to the frontend to be displayed at **every hour of app time**.
 
 ##### [EventStore](#eventstore) Strategy
 
