@@ -35,8 +35,8 @@ class SmartHome extends React.Component<SmartHomeProps, SmartHomeState> {
     return (
       <>
         <h2>Smart Home</h2>
-        {this.state.events.map((event) => (
-          <div key={event.id}>Event: {JSON.stringify(event, null, 2)}</div>
+        {this.state.events.map((event, i) => (
+          <div key={i}>Event: {JSON.stringify(event, null, 2)}</div>
         ))}
       </>
     );

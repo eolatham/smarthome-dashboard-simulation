@@ -13,8 +13,7 @@
 
 ### Backend
 
-- How can we efficiently calculate derived measurements?
-- How should we store user-generated events on the backend to be analyzed? We have to analyze pre-generated and user-generated events together to calculate derived measurements.
+- How can we calculate derived state and utility usage?
 
 ### Frontend
 
@@ -36,29 +35,33 @@ Our smart home dashboard simulator is an event-based application that operates a
 
 TODO
 
-## Derived Measurements
+### Derived State
 
-Derived measurements are measurements derived from smart home state over time.
+Derived state is smart home state that is calculated based on the effects of smart home events over time.
 
-### Indoor Temperature
+Although the backend treats derived state differently (because it has to calculate it), the frontend treats derived state as a normal part of the overall smart home state.
 
-TODO
+#### Indoor Temperature
 
-### HVAC Status
+Indoor temperature is the temperature inside the smart home measured in Fahrenheit.
 
-TODO
+It is affected by:
 
-### Utility Usage
+- the outdoor temperature
+- the opening and closing of doors and windows
 
-TODO
+#### HVAC Status
 
-#### Previous Month
+HVAC status tells whether the smart home's HVAC system is _off_, _heating_, or _cooling_.
 
-TODO
+It is affected by:
 
-#### Current Month
+- the thermostat setting
+- the indoor temperature
 
-TODO
+## Utility Usage
+
+Utility usage is calculated based on smart home events over a period of time that consume water and/or electricity.
 
 ## Events
 
@@ -66,7 +69,6 @@ An event is an object representing a change in smart home state at a certain poi
 
 ### Event Attributes
 
-- `id` is the unique identifier of the event (a serial assigned by Postgres)
 - `time` is the number of seconds after the start of app time at which the event occurred
 - `stateKey` is the key to the value in the smart home state that the event changed
 - `newValue` is the new value for `stateKey` in the smart home state after the event
@@ -77,12 +79,17 @@ An event is an object representing a change in smart home state at a certain poi
 Pre-generated events are the backbone of the smart home simulation. They:
 
 - are generated ahead of time (before the app runs)
+- are uniquely identifiable by `time` and `stateKey`
 - are based on the provided family schedule and downloaded weather data
 - define the base smart home state over a 2-month time period
 
 ### User-Generated Events
 
-TODO
+User-generated events are events triggered by the user and created at runtime. They:
+
+- are stored with pre-generated events on the backend
+- are included in calculations of derived state and utility usage
+- take precedence over pre-generated events during calculations when there is a conflict by `time` and `stateKey`
 
 ## Database Design
 
@@ -91,11 +98,11 @@ The database is only used for storing **pre-generated events**, and it does so u
 ```sql
 CREATE TABLE PreGeneratedEvent
 (
-    id serial,
     time int,
     stateKey text,
     newValue json,
-    message text
+    message text,
+    PRIMARY KEY (time, stateKey)
 );
 ```
 
@@ -145,42 +152,86 @@ The app clock allows:
 1   real second   =  43,200     app seconds
 ```
 
-#### `EventQueue`
+#### `EventStore`
 
-The event queue is a custom queue data structure for storing and retrieving **pre-generated events**.
+The event store is an object that wraps an [EventMap](#eventmap) storing all events during the smart home simulation.
 
-It stores all events provided to it while only allowing past events to be retrieved, which allows the app to poll the event queue at regular time intervals to get only the events that have "occurred" since the last poll.
+The event store supports:
 
-Specifically, the event queue:
+- efficiently inserting pre-generated events at simulation start
+- efficiently inserting user-generated events at runtime
+- efficiently removing user-generated events at simulation restart
+- efficiently iterating over specific groups of events filtered by `time`, `stateKey`, and event type ([pre-generated](#pre-generated-events) or [user-generated](#user-generated-events))
 
-- is instantiable with a list of event objects queried from the database
-- uses the app clock to determine if an event is a past or future event
-- hides future events
-- allows retrieving all unprocessed past events (to be processed)
-- allows retrieving all processed past events (to be analyzed)
-- allows resetting its pointer to `0` (when restarting the simulation)
+#### `EventMap`
 
-When the app starts, it queries all events from the database into the event queue, which minimizes the number of queries and subsequently reduces network latency costs.
+`EventMap` is a custom map data structure designed for storing events and supporting efficient insertions and retrievals.
+
+`EventMap` indexes events by `time`, `stateKey`, and event type:
+
+```python
+{
+    0: {
+        "stateKey0": {
+            "pre-generated": <unique event>,
+            "user-generated": <unique event>
+        },
+        "stateKey1": {
+            "pre-generated": <unique event>,
+            "user-generated": <unique event>
+        },
+        ...
+    },
+    1: {
+        "stateKey2": {
+            "pre-generated": <unique event>,
+            "user-generated": <unique event>
+        },
+        "stateKey3": {
+            "pre-generated": <unique event>,
+            "user-generated": <unique event>
+        },
+        ...
+    },
+    ...
+}
+```
+
+This structure allows:
+
+- inserting events in `O(1)` time
+- retrieving events in `O(1)` time
+- removing events in `O(1)` time
+
+Retrieving and removing many events at once both require iterating over app time, which results in `O(1)` time complexity as well because app time is bounded by constants in the smart home simulation.
 
 #### `SSEPublisher`
 
 `SSEPublisher` is an abstract base class providing common functionality for the Flask-Redis SSE publishers used in the app.
 
-It supports running a background job (in a background scheduler using a deamon thread) on an interval of real time or app time to publish objects as SSEs from a SSE-compatible Flask app.
+It supports running a background job (in a background scheduler using a daemon thread) on an interval of real time or app time to publish objects as SSEs from a SSE-compatible Flask app.
 
-Implementing classes just need to set the `eventTypeString` attribute and implement the `getObjectsToPublish` method.
+Implementing classes just need to set the `sseType` attribute and implement the `job()` method.
 
 #### `TimePublisher`
 
-Inheriting from [SSEPublisher](#ssepublisher), the time publisher sends the **current app time** as a SSE to the frontend to be displayed every real second.
+Inheriting from [SSEPublisher](#ssepublisher), the time publisher sends the **current app time** as a SSE to the frontend to be displayed **every real second**.
 
 #### `EventPublisher`
 
-Inheriting from [SSEPublisher](#ssepublisher), the event publisher sends all **unprocessed past events** from the event queue as SSEs to the frontend to be processed at every half-minute of app time.
+Inheriting from [SSEPublisher](#ssepublisher), the event publisher sends all **unprocessed past events** from the event store as SSEs to the frontend to be processed at **every half-minute of app time**.
 
-#### `MeasurementsPublisher`
+##### [EventStore](#eventstore) Strategy
 
-Inheriting from [SSEPublisher](#ssepublisher), the measurements publisher calculates and sends **derived measurements** as a SSE to the frontend to be displayed every real second.
+Iterate over time from the last time the publish job was done to the current time to publish all present pre-generated events in that time period.
+
+#### `DerivedStatePublisher`
+
+Inheriting from [SSEPublisher](#ssepublisher), the derived state publisher calculates and sends **derived state** as a SSE to the frontend to be displayed **every real second**.
+
+##### [EventStore](#eventstore) Strategy
+
+Iterate over time from the last time the publish job was done to the current time to calculate derived state values from the present pre-generated and user-generated events in that time period, then publish the final derived state values.
 
 ## Frontend Design
 

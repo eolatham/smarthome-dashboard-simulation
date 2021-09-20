@@ -3,7 +3,6 @@
  */
 
 export type SmartHomeEvent = {
-  id: number;
   time: number;
   stateKey: string;
   newValue: any;

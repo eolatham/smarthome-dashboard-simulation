@@ -11,7 +11,6 @@ class Event(TypedDict):
     See `design.md`.
     """
 
-    id: int
     time: int
     stateKey: str
     newValue: Any
@@ -27,13 +26,12 @@ def queryEvents() -> List[Event]:
     return sorted(
         [
             {
-                "id": i,
                 "time": randint(MIN_APP_TIME, MAX_APP_TIME),
                 "stateKey": choice(["x", "y", "z"]),
                 "newValue": "value",
                 "message": "message",
             }
-            for i in range(50000)
+            for _ in range(50000)
         ],
         key=lambda e: e["time"],
     )
