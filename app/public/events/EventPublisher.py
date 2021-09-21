@@ -18,8 +18,8 @@ class EventPublisher(SSEPublisher):
     """
 
     sseType: str = "event"
-    lastPublishTime: int = 0
     eventStore: EventStore
+    lastPublishTime: int
 
     # Override
     @typechecked
@@ -34,6 +34,7 @@ class EventPublisher(SSEPublisher):
         jobIntervalType: TimeType,
     ) -> None:
         self.eventStore = eventStore
+        self.lastPublishTime = eventStore.minTime
         super().__init__(
             logger, app, clock, scheduler, jobIntervalSeconds, jobIntervalType
         )
