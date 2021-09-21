@@ -1,8 +1,7 @@
 # STL
-from typing import Generator, Set, Dict, Literal, Optional
+from typing import Any, Set, Dict, Generator, Literal, Optional
 
 # LOCAL
-from public.constants import *
 from public.events.Event import Event
 
 
@@ -47,6 +46,26 @@ class EventStore:
                 continue
             for stateKey in list(self.map[time]):
                 self.map[time][stateKey].pop("user-generated", None)
+
+    def getEvent(self, time: int, stateKey: str, eventType: EventType) -> Event:
+        return self.map[time][stateKey][eventType]
+
+    def getPreGeneratedEvent(self, time: int, stateKey: str) -> Event:
+        return self.getEvent(time, stateKey, "pre-generated")
+
+    def getUserGeneratedEvent(self, time: int, stateKey: str) -> Event:
+        return self.getEvent(time, stateKey, "user-generated")
+
+    def safeGetEvent(
+        self, time: int, stateKey: str, eventType: EventType
+    ) -> Optional[Event]:
+        return self.map.get(time, {}).get(stateKey, {}).get(eventType)
+
+    def safeGetPreGeneratedEvent(self, time: int, stateKey: str) -> Optional[Event]:
+        return self.safeGetEvent(time, stateKey, "pre-generated")
+
+    def safeGetUserGeneratedEvent(self, time: int, stateKey: str) -> Optional[Event]:
+        return self.safeGetEvent(time, stateKey, "user-generated")
 
     def yieldEvents(
         self,
@@ -99,3 +118,9 @@ class EventStore:
         self, startTime: int = None, endTime: int = None, stateKeys: Set[str] = None
     ) -> Generator[Event, None, None]:
         return self.yieldEvents(startTime, endTime, stateKeys, "pre-generated")
+
+    def getFirstEvent(self, stateKey: str) -> Event:
+        return next(self.yieldEvents(stateKeys={stateKey}))
+
+    def getFirstEventValue(self, stateKey: str) -> Any:
+        return self.getFirstEvent(stateKey)["newValue"]

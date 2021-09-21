@@ -17,7 +17,8 @@ class Event(TypedDict):
     message: str
 
 
-# TODO: implement this
+# TODO: improve test events to test IndoorTempPublisher
+# TODO: implement this with real events from the database
 def queryEvents() -> List[Event]:
     """
     Returns all pre-generated events from the database.
@@ -27,7 +28,7 @@ def queryEvents() -> List[Event]:
         [
             {
                 "time": randint(MIN_APP_TIME, MAX_APP_TIME),
-                "stateKey": choice(["x", "y", "z"]),
+                "stateKey": choice(["door", "window", "outdoorTemp", "thermostatTemp"]),
                 "newValue": "value",
                 "message": "message",
             }

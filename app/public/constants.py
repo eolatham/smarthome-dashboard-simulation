@@ -12,4 +12,9 @@ DEFAULT_SPEEDUP_FACTOR = 60  # 1 real second = 1 app minute
 
 PUBLISH_TIME_INTERVAL = (1, REAL_TIME)  # Seconds
 PUBLISH_EVENTS_INTERVAL = (30, APP_TIME)  # Seconds
-PUBLISH_DERIVED_STATE_INTERVAL = (3600, APP_TIME)  # Seconds (1 hour)
+PUBLISH_INDOOR_TEMP_INTERVAL = (3600, APP_TIME)  # Seconds (1 hour)
+
+OUTDOOR_TEMP_STATE_KEY = "outdoorTemp"
+THERMOSTAT_TEMP_STATE_KEY = "thermostatTemp"
+DOOR_STATE_KEYS = {"door"}  # TODO: add to this
+WINDOW_STATE_KEYS = {"window"}  # TODO: add to this

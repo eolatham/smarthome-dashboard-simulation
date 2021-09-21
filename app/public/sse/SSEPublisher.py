@@ -10,7 +10,7 @@ from typeguard import typechecked
 from apscheduler.schedulers.background import BackgroundScheduler
 
 # LOCAL
-from public.constants import *
+from public.constants import REAL_TIME, APP_TIME
 from public.time.AppClock import AppClock
 
 TimeType = Literal[REAL_TIME, APP_TIME]

@@ -18,7 +18,7 @@ from public.time.TimePublisher import TimePublisher
 from public.events.Event import Event, queryEvents
 from public.events.EventStore import EventStore
 from public.events.EventPublisher import EventPublisher
-from public.analysis.DerivedStatePublisher import DerivedStatePublisher
+from public.analysis.IndoorTempPublisher import IndoorTempPublisher
 
 logging.basicConfig(
     level=logging.INFO,
@@ -55,13 +55,17 @@ if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
         BACKGROUND_SCHEDULER,
         *PUBLISH_EVENTS_INTERVAL,
     )
-    DERIVED_STATE_PUBLISHER = DerivedStatePublisher(
+    INDOOR_TEMP_PUBLISHER = IndoorTempPublisher(
         LOGGER,
         APP,
         APP_CLOCK,
         EVENT_STORE,
+        OUTDOOR_TEMP_STATE_KEY,
+        THERMOSTAT_TEMP_STATE_KEY,
+        DOOR_STATE_KEYS,
+        WINDOW_STATE_KEYS,
         BACKGROUND_SCHEDULER,
-        *PUBLISH_DERIVED_STATE_INTERVAL,
+        *PUBLISH_INDOOR_TEMP_INTERVAL,
     )
 
 ######################################## ROUTES ########################################
@@ -81,7 +85,8 @@ def startSimulation():
     APP_CLOCK.start()
     TIME_PUBLISHER.start()
     EVENT_PUBLISHER.start()
-    DERIVED_STATE_PUBLISHER.start()
+    # TODO: uncomment this when ready
+    # INDOOR_TEMP_PUBLISHER.start()
     return SUCCESS
 
 
@@ -109,7 +114,7 @@ def appClockSpeedupFactor():
         )
     APP_CLOCK.setSpeedupFactor(speedupFactor)
     EVENT_PUBLISHER.refreshJobInterval()
-    DERIVED_STATE_PUBLISHER.refreshJobInterval()
+    INDOOR_TEMP_PUBLISHER.refreshJobInterval()
     return SUCCESS
 
 
