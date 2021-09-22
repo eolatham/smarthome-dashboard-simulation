@@ -2,12 +2,8 @@ class IndoorTempFormulas:
     """
     See `design.md`.
 
-    # TODO: move new documentation to `design.md`
-    All analysis classes operate on the following assumptions:
-    - Time values are represented in app seconds.
-    - Temperature values are represented in degrees Fahrenheit.
-    - The supplied event map is initialized with all pre-genererated events.
-    - There are pre-generated events at the minimum app time that set the initial values for all pieces of smart home state.
+    NOTE: all time values are represented in app seconds
+    NOTE: all temperature values are represented in degrees Fahrenheit
     """
 
     @staticmethod
@@ -30,16 +26,14 @@ class IndoorTempFormulas:
 
         outdoorDiff = abs(outdoorTemp - indoorTemp)
         changeDirection = 1 if outdoorTemp > indoorTemp else -1
-        baseDegChange = baseIndoorChangePerSecPerOutdoorDiff * totalTime * outdoorDiff
-        openDoorDegChange = (
+        baseChange = baseIndoorChangePerSecPerOutdoorDiff * totalTime * outdoorDiff
+        openDoorChange = (
             indoorChangePerOpenDoorSecPerOutdoorDiff * openDoorTime * outdoorDiff
         )
-        openWindowDegChange = (
+        openWindowChange = (
             indoorChangePerOpenWindowSecPerOutdoorDiff * openWindowTime * outdoorDiff
         )
-        return changeDirection * (
-            baseDegChange + openDoorDegChange + openWindowDegChange
-        )
+        return changeDirection * (baseChange + openDoorChange + openWindowChange)
 
     @staticmethod
     def isHvacRunning(indoorTemp: float, thermostatTemp: float) -> bool:

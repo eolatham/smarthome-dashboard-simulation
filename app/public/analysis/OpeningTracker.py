@@ -11,7 +11,7 @@ OpeningType = Literal["door", "window"]
 class OpeningTracker:
     """
     Class for tracking the openings of a door or window
-    during event-based calculations.
+    during an event-based calculation.
     """
 
     stateKey: str
@@ -29,7 +29,7 @@ class OpeningTracker:
 class OpeningTrackerMap:
     """
     Class for tracking the openings of many doors or windows
-    during event-based calculations.
+    during an event-based calculation.
     """
 
     map: Dict[str, OpeningTracker]

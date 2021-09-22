@@ -73,6 +73,9 @@ if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
 SUCCESS = "Success", 200
 
 
+# TODO: add route to get constants (min/max app time speeds, min/max thermostat values)
+
+
 @APP.route("/start")
 def startSimulation():
     """
@@ -85,8 +88,7 @@ def startSimulation():
     APP_CLOCK.start()
     TIME_PUBLISHER.start()
     EVENT_PUBLISHER.start()
-    # TODO: uncomment this when ready
-    # INDOOR_TEMP_PUBLISHER.start()
+    INDOOR_TEMP_PUBLISHER.start()
     return SUCCESS
 
 

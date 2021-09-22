@@ -4,6 +4,7 @@ import { processEventSourceError } from "../common/helpers";
 import { START_SIMULATION_URL, SSE_URL } from "../common/constants";
 
 // TODO: implement actual smart home state and functionality
+// TODO: add listener and display for indoor temperature
 type SmartHomeProps = {};
 type SmartHomeState = { events: SmartHomeEvent[] };
 class SmartHome extends React.Component<SmartHomeProps, SmartHomeState> {

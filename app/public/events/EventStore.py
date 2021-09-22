@@ -18,6 +18,9 @@ class EventStore:
     minTime: int
     maxTime: int
 
+    def isEmpty(self) -> bool:
+        return not bool(self.map)
+
     def putEvents(self, eventType: EventType, *events: Event) -> None:
         for event in events:
             time, stateKey = event["time"], event["stateKey"]
@@ -118,6 +121,11 @@ class EventStore:
         self, startTime: int = None, endTime: int = None, stateKeys: Set[str] = None
     ) -> Generator[Event, None, None]:
         return self.yieldEvents(startTime, endTime, stateKeys, "pre-generated")
+
+    def yieldUserGeneratedEvents(
+        self, startTime: int = None, endTime: int = None, stateKeys: Set[str] = None
+    ) -> Generator[Event, None, None]:
+        return self.yieldEvents(startTime, endTime, stateKeys, "user-generated")
 
     def getFirstEvent(self, stateKey: str) -> Event:
         return next(self.yieldEvents(stateKeys={stateKey}))

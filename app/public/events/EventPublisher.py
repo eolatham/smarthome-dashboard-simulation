@@ -33,6 +33,19 @@ class EventPublisher(SSEPublisher):
         jobIntervalSeconds: float,
         jobIntervalType: TimeType,
     ) -> None:
+        """
+        Schedules a SSE-publishing job (the `job` method) to run on an interval.
+
+        - `logger`: `Logger` object to be used for internal logging
+        - `app`: `Flask` app to be used as the server for SSEs
+        - `clock`: `AppClock` to be used for keeping track of app time
+        - `eventStore`: `EventStore` initialized with all pre-generated events for the simulation
+        - `scheduler`: `BackgroundScheduler` to run the SSE-publishing job on an interval
+        - `jobIntervalSeconds`: the SSE-publishing job interval in seconds
+        - `jobIntervalTimeType`: the type of time that the job interval uses (real time or app time)
+        """
+        if eventStore.isEmpty():
+            raise ValueError("`eventStore` should contain all pre-generated events!")
         self.eventStore = eventStore
         self.lastPublishTime = eventStore.minTime
         super().__init__(
@@ -41,7 +54,7 @@ class EventPublisher(SSEPublisher):
 
     # Override
     def start(self) -> None:
-        self.lastPublishTime = 0
+        self.lastPublishTime = self.eventStore.minTime
         super().start()
 
     # Override

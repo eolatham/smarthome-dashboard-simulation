@@ -23,18 +23,18 @@ class IndoorTempPublisher(SSEPublisher):
 
     sseType: str = "indoor-temp"
     lastPublishTime: int
-    eventStore: EventStore
-    indoorTemp: int
     lastCalculationTime: int
+    indoorTemp: int
     outdoorTemp: int
-    outdoorTempStateKey: str
     thermostatTemp: int
+    eventStore: EventStore
+    outdoorTempStateKey: str
     thermostatTempStateKey: str
     doorStateKeys: Set[str]
-    doorOpeningTrackerMap: OpeningTrackerMap
     windowStateKeys: Set[str]
-    windowOpeningTrackerMap: OpeningTrackerMap
     relevantStateKeys: Set[str]
+    doorOpeningTrackerMap: OpeningTrackerMap
+    windowOpeningTrackerMap: OpeningTrackerMap
 
     # Override
     @typechecked
@@ -52,22 +52,40 @@ class IndoorTempPublisher(SSEPublisher):
         jobIntervalSeconds: float,
         jobIntervalType: TimeType,
     ) -> None:
+        """
+        Schedules a SSE-publishing job (the `job` method) to run on an interval.
+
+        - `logger`: `Logger` object to be used for internal logging
+        - `app`: `Flask` app to be used as the server for SSEs
+        - `clock`: `AppClock` to be used for keeping track of app time
+        - `eventStore`: `EventStore` initialized with all pre-generated events for the simulation
+        - `outdoorTempStateKey`: outdoor temperature state key for filtering events
+        - `thermostatTempStateKey`: thermostat temperature state key for filtering events
+        - `doorStateKeys`: door state keys for filtering events
+        - `windowStateKeys`: window state keys for filtering events
+        - `scheduler`: `BackgroundScheduler` to run the SSE-publishing job on an interval
+        - `jobIntervalSeconds`: the SSE-publishing job interval in seconds
+        - `jobIntervalTimeType`: the type of time that the job interval uses (real time or app time)
+        """
+        if eventStore.isEmpty():
+            raise ValueError("`eventStore` should contain all pre-generated events!")
         self.eventStore = eventStore
-        self.lastPublishTime = eventStore.minTime
-        self.indoorTemp = self.thermostatTemp = eventStore.getFirstEventValue(
-            thermostatTempStateKey
-        )
+        self.lastPublishTime = self.lastCalculationTime = eventStore.minTime
         self.outdoorTempStateKey = outdoorTempStateKey
         self.thermostatTempStateKey = thermostatTempStateKey
         self.doorStateKeys = doorStateKeys
-        self.doorOpeningTrackerMap = OpeningTrackerMap(eventStore, doorStateKeys)
         self.windowStateKeys = windowStateKeys
-        self.windowOpeningTrackerMap = OpeningTrackerMap(eventStore, windowStateKeys)
         self.relevantStateKeys = (
             {outdoorTempStateKey, thermostatTempStateKey}
             | doorStateKeys
             | windowStateKeys
         )
+        self.outdoorTemp = eventStore.getFirstEventValue(outdoorTempStateKey)
+        self.indoorTemp = self.thermostatTemp = eventStore.getFirstEventValue(
+            thermostatTempStateKey
+        )
+        self.doorOpeningTrackerMap = OpeningTrackerMap(eventStore, doorStateKeys)
+        self.windowOpeningTrackerMap = OpeningTrackerMap(eventStore, windowStateKeys)
         super().__init__(
             logger, app, clock, scheduler, jobIntervalSeconds, jobIntervalType
         )
