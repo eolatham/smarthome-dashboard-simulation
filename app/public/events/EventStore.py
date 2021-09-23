@@ -7,11 +7,23 @@ from public.events.Event import Event, StateKey
 
 EventType = Literal["pre-generated", "user-generated"]
 EventMap = Dict[int, Dict[StateKey, Dict[EventType, Event]]]
+"""
+`EventMap` is a custom map data structure that indexes events by time, state key,
+and event type to support fast insertions and retrievals.
+
+Retrieving or removing many events at once requires iterating over app time, which
+results in `O(1)` time complexity because app time is bounded by constants.
+"""
 
 
 class EventStore:
     """
-    See `design.md`.
+    A class wrapping an `EventMap` used for storing events during the smart home simulation.
+
+    This class supports:
+    - fast insertions, retrievals, and removals of events
+    - efficiently iterating over specific groups of events
+      filtered by time, state key, and event type.
     """
 
     map: EventMap = {}

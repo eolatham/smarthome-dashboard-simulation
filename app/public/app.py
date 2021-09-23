@@ -118,7 +118,7 @@ def appClockSpeedupFactor():
 @APP.route("/user-generated-event", methods=["POST"])
 def userGeneratedEvent():
     """
-    Puts a user-generated event into the event map so that it will be
+    Puts a user-generated event into the event store so that it will be
     included in the calculations of derived state and utility usage.
     """
     try:

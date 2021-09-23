@@ -19,10 +19,15 @@ TimeType = Literal[REAL_TIME, APP_TIME]
 
 class SSEPublisher(ABC):
     """
-    See `design.md`.
+    An abstract base class encapsulating state and functionality for publishing
+    server-sent events (SSEs) from a SSE-compatible Flask app on an interval
+    of real time or app time via a background scheduler with a thread pool.
+
+    NOTE: implementing classes should override the `sseType` attribute
+    and implement the `job` method.
     """
 
-    sseType: str = "CHANGE_ME"
+    sseType: str = "CHANGE_ME"  # NOTE: implementing classes should override this!
 
     logger: Logger
     app: Flask

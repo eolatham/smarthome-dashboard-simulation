@@ -44,7 +44,8 @@ class AnalysisObject(TypedDict):
 
 class AnalysisPublisher(SSEPublisher):
     """
-    See `design.md`.
+    An `SSEPublisher` that calculates and publishes as a SSE indoor temp and
+    utility usage data based on events that occurred since the last calculation.
     """
 
     sseType: str = "analysis"

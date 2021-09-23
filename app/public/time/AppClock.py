@@ -7,7 +7,14 @@ from typeguard import typechecked
 
 class AppClock:
     """
-    See `design.md`.
+    A class for representing app time with flexible speed in a bounded timeframe
+    that can be used to keep time in a simulation of events.
+
+    This class supports:
+    - running time at different speeds
+    - changing speeds at runtime without losing the current place in time
+    - restarting time from the provided minimum time at any point
+    - preventing time from going beyond the provided maximum time
     """
 
     running: bool

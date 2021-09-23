@@ -14,7 +14,8 @@ from public.sse.SSEPublisher import SSEPublisher, TimeType
 
 class EventPublisher(SSEPublisher):
     """
-    See `design.md`.
+    An `SSEPublisher` that publishes unprocessed past pre-generated events
+    from the provided `EventStore` as SSEs on an interval.
     """
 
     sseType: str = "event"

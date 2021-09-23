@@ -136,6 +136,9 @@ def queryEvents() -> List[Event]:
 
 
 def testEvents() -> List[Event]:
+    """
+    Returns random events to test with (in the absence of a database).
+    """
     randomTestEvents: List[Event] = [
         {
             "time": MIN_APP_TIME,

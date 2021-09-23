@@ -12,7 +12,7 @@ class TimeInfo(TypedDict):
 
 class TimePublisher(SSEPublisher):
     """
-    See `design.md`.
+    An `SSEPublisher` that publishes a `TimeInfo` object as a SSE on an interval.
     """
 
     sseType = "time"
