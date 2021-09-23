@@ -9,126 +9,214 @@
 - Brittany Latham
 - Laura Thompson
 
-## Questions
-
-### Backend
-
-- How can we calculate derived state and utility usage?
-
-### Frontend
-
-- What React libraries and other tools should we use to make the user interface?
-- What are all the attributes of smart home state?
-- What other components should be added?
-
-### Data Generation
-
-- How should pre-generated events be made?
-
 ## High-Level Runtime Model
 
 Our smart home dashboard simulator is an event-based application that operates according to the following runtime model:
 
 ![diagram](img/runtime_model.png)
 
+The entire design of the app is meant to be fast, space-efficient, and simple.
+
 ## Smart Home State
 
-TODO
+The smart home has state under the following `keys`.
+
+### Integer State
+
+Integer state represents basic temperature measurements in degrees Fahrenheit.
+
+- `outdoorTemp`
+- `thermostatTemp`
+
+### Boolean State
+
+Boolean state represents things that can be open/closed or on/off, including doors, windows, and appliances.
+
+True = open/on
+False = closed/off
+
+#### Bed Rooms
+
+##### Bed Room #1
+
+- `bedRoom1OverheadLight`
+- `bedRoom1Lamp1`
+- `bedRoom1Lamp2`
+- `bedRoom1Window1`
+- `bedRoom1Window2`
+- `bedRoom1Tv`
+
+##### Bed Room #2
+
+- `bedRoom2OverheadLight`
+- `bedRoom2Lamp1`
+- `bedRoom2Lamp2`
+- `bedRoom2Window1`
+- `bedRoom2Window2`
+
+##### Bed Room #3
+
+- `bedRoom3OverheadLight`
+- `bedRoom3Lamp1`
+- `bedRoom3Lamp2`
+- `bedRoom3Window1`
+- `bedRoom3Window2`
+
+#### Bath Rooms
+
+##### Bath Room #1
+
+- `bathRoom1OverheadLight`
+- `bathRoom1ExhaustFan`
+- `bathRoom1Window`
+- `bathRoom1Faucet`
+
+##### Bath Room #2
+
+- `bathRoom2OverheadLight`
+- `bathRoom2ExhaustFan`
+- `bathRoom2Window`
+- `bathRoom2Faucet`
+
+#### Living Room
+
+- `livingRoomOverheadLight`
+- `livingRoomLamp1`
+- `livingRoomLamp2`
+- `livingRoomTv`
+- `livingRoomWindow1`
+- `livingRoomWindow2`
+- `livingRoomWindow3`
+
+#### Kitchen
+
+- `kitchenOverheadLight`
+- `kitchenStove`
+- `kitchenOven`
+- `kitchenMicrowave`
+- `kitchenRefrigerator`
+- `kitchenDishWasher`
+- `kitchenWindow1`
+- `kitchenWindow2`
+
+#### Garage
+
+- `garageHouseDoor`
+- `garageCarDoor1`
+- `garageCarDoor2`
+
+#### Other
+
+- `frontDoor`
+- `backDoor`
+- `clothesWasher`
+- `clothesDryer`
 
 ### Derived State
 
-Derived state is smart home state that is calculated based on the effects of smart home events over time.
+Derived state is dependent on other state and is not included in [events](#events) because it has to be [calculated](#derived-state-utility-usage-publisher).
 
-Although the backend treats derived state differently (because it has to calculate it), the frontend treats derived state as a normal part of the overall smart home state.
-
-#### Indoor Temperature
-
-Indoor temperature is the temperature inside the smart home measured in Fahrenheit.
-
-It is affected by:
-
-- the outdoor temperature
-- the opening and closing of doors and windows
-
-#### HVAC Status
-
-HVAC status tells whether the smart home's HVAC system is _off_, _heating_, or _cooling_.
-
-It is affected by:
-
-- the thermostat setting
-- the indoor temperature
-
-## Utility Usage
-
-Utility usage is calculated based on smart home events over a period of time that consume water and/or electricity.
+- `indoorTemp`: float representing the indoor temperature of the smart home in degrees Fahrenheit
 
 ## Events
 
-An event is an object representing a change in smart home state at a certain point in time.
+Events change specific pieces of smart home state at specific times.
 
-### Event Attributes
+### Attributes
 
-- `time` is the number of seconds after the start of app time at which the event occurred
-- `stateKey` is the key to the value in the smart home state that the event changed
-- `newValue` is the new value for `stateKey` in the smart home state after the event
+- `time` is the number of seconds after the start of the simulation at which the event occurred
+- `state_type` is the type of state that the event changes, which determines how the event is processed
+- `state_key` is the key to the value in smart home state that the event changed
+- `new_value` is the new value for `state_key` in smart home state after the event
 - `message` is a human-readable description of the event to be displayed to the user
 
 ### Pre-Generated Events
 
 Pre-generated events are the backbone of the smart home simulation. They:
 
-- are generated ahead of time (before the app runs)
-- are uniquely identifiable by `time` and `stateKey`
-- are based on the provided family schedule and downloaded weather data
 - define the base smart home state over a 2-month time period
+- are generated and stored in a database before the app runs
+- are based on the provided family schedule and downloaded weather data
+- initialize values for all smart home state (other than [derived state](#derived-state)) at `time=0`
+- do not change the values of `thermostatTemp` or `kitchenRefrigerator` after initialization
+- are uniquely identifiable by `time` and `state_key`
+
+#### Database Model
+
+The database stores pre-generated events in a schema with two (almost identical) sibling tables: one for [integer state events](#integer-state-events) and one for [boolean state events](#boolean-state-events).
+
+![diagram](img/database_model.png)
 
 ### User-Generated Events
 
 User-generated events are events triggered by the user and created at runtime. They:
 
-- are stored with pre-generated events on the backend
-- are included in calculations of derived state and utility usage
-- take precedence over pre-generated events during calculations when there is a conflict by `time` and `stateKey`
+- are never stored in a database
+- are kept in memory at runtime
+- are included in [calculations of derived state and utility usage](#derived-state-utility-usage-publisher)
+- take precedence over pre-generated events during calculations when there is a conflict by `time` and `state_key`
 
-## Database Design
+### Integer State Events
 
-The database is only used for storing **pre-generated events**, and it does so using a table with the following structure:
+These are events that change [integer state](#integer-state).
+
+#### Pre-Generated Events Database Table
 
 ```sql
-CREATE TABLE PreGeneratedEvent
-(
-    time int,
-    stateKey text,
-    newValue json,
-    message text,
-    PRIMARY KEY (time, stateKey)
+CREATE TABLE IF NOT EXISTS pre_generated_events.integer_event (
+    time        integer NOT NULL,
+    state_type  integer_state_type NOT NULL,
+    state_key   integer_state_key NOT NULL,
+    new_value   integer NOT NULL,
+    message     text NOT NULL,
+    PRIMARY KEY (time, state_key)
 );
 ```
 
-This design is space-efficient and also lends itself well to event-driven/reactive programming.
+`integer_state_type` is a singleton enumeration containing `"temp"`.
+
+`integer_state_key` is an enumeration containing all [integer state](#integer-state) keys.
+
+### Boolean State Events
+
+These are events that change [boolean state](#boolean-state) to open/close something or turn something on/off.
+
+#### Pre-Generated Events Database Table
+
+```sql
+CREATE TABLE IF NOT EXISTS pre_generated_events.boolean_event (
+    time        integer NOT NULL,
+    state_type  boolean_state_type NOT NULL,
+    state_key   boolean_state_key NOT NULL,
+    new_value   boolean NOT NULL,
+    message     text NOT NULL,
+    PRIMARY KEY (time, state_key)
+);
+```
+
+`boolean_state_type` is an enumeration containing:
+
+- `"door"`
+- `"window"`
+- `"light"`
+- `"bedRoomTv"`
+- `"livingRoomTv"`
+- `"stove"`
+- `"oven"`
+- `"microwave"`
+- `"refrigerator"`
+- `"dishWasher"`
+- `"shower"`
+- `"bath"`
+- `"bathExhaustFan"`
+- `"clothesWasher"`
+- `"clothesDryer"`
+
+`boolean_state_key` is an enumeration containing all [boolean state](#boolean-state) keys.
 
 ## Backend Design
 
-### Important Concepts
-
-#### Server-Sent Events
-
-Server-sent events (SSE) provide an efficient and scalable alternative to traditional request models.
-
-SSE can be leveraged to effectively "stream" events from the server to the client in many different contexts, which goes along with other reactive programming techniques.
-
-The app facilitates SSE functionality based on [this guide](https://www.velotio.com/engineering-blog/how-to-implement-server-sent-events-using-python-flask-and-react).
-
-##### Benefits
-
-- The SSE model is a more efficient alternative to the request model; the request model would require the frontend to constantly send requests (thousands in our case) to the backend for updates, while the SSE model allows the frontend to simply subscribe to a message channel that the backend publishes events to.
-- SSEs are less expensive and time-consuming than HTTP requests, so the SSE model allows the app to consume events faster and with more granularity to time.
-- With the SSE model, the frontend will only need to send explicit requests to the backend for user actions.
-
-### Classes
-
-#### `AppClock`
+### App Clock
 
 The app clock represents time with flexible speed in a bounded (2-month) timeframe, and it is used to keep time in the app's simulation of smart home events.
 
@@ -138,55 +226,57 @@ The app clock allows:
 - changing speeds at runtime without losing the current place in time
 - restarting app time from the minimum app time at any point
 
-##### Minimum Speed
+See [AppClock.py](../public/time/AppClock.py).
+
+#### Minimum Speed
 
 ```txt
 1  real second  =  1  app second
 ```
 
-##### Maximum Speed
+#### Maximum Speed
 
 ```txt
 1   real second   =  1     app hour
 1   real second   =  3600  app seconds
 ```
 
-#### `EventStore`
+### Event Store
 
-The event store is an object that wraps an [EventMap](#eventmap) storing all events during the smart home simulation.
+The event store is an object that wraps an [EventMap](#event-map) storing all events during the smart home simulation.
 
 The event store supports:
 
 - efficiently inserting pre-generated events at simulation start
 - efficiently inserting user-generated events at runtime
 - efficiently removing user-generated events at simulation restart
-- efficiently iterating over specific groups of events filtered by `time`, `stateKey`, and event type ([pre-generated](#pre-generated-events) or [user-generated](#user-generated-events))
+- efficiently iterating over specific groups of events filtered by time, state key, and event type (pre-generated or user-generated)
 
-#### `EventMap`
+See [EventStore.py](../public/events/EventStore.py).
 
-`EventMap` is a custom map data structure designed for storing events and supporting efficient insertions and retrievals.
+#### Event Map
 
-`EventMap` indexes events by `time`, `stateKey`, and event type:
+`EventMap` is a custom map data structure that indexes events by time, state key, and event type (pre-generated or user-generated) to support fast insertions and retrievals:
 
 ```python
 {
     0: {
-        "stateKey0": {
+        "state_key0": {
             "pre-generated": <unique event>,
             "user-generated": <unique event>
         },
-        "stateKey1": {
+        "state_key1": {
             "pre-generated": <unique event>,
             "user-generated": <unique event>
         },
         ...
     },
     1: {
-        "stateKey2": {
+        "state_key2": {
             "pre-generated": <unique event>,
             "user-generated": <unique event>
         },
-        "stateKey3": {
+        "state_key3": {
             "pre-generated": <unique event>,
             "user-generated": <unique event>
         },
@@ -196,54 +286,44 @@ The event store supports:
 }
 ```
 
-This structure allows:
+Retrieving or removing many events at once requires iterating over app time, which results in `O(1)` time complexity because app time is bounded by constants.
 
-- inserting events in `O(1)` time
-- retrieving events in `O(1)` time
-- removing events in `O(1)` time
+See [EventStore.py](../public/events/EventStore.py).
 
-Retrieving and removing many events at once both require iterating over app time, which results in `O(1)` time complexity as well because app time is bounded by constants in the smart home simulation.
+### Server-Sent Event Publishers
 
-#### `SSEPublisher`
+Server-sent events (SSE) provide an efficient and scalable alternative to traditional request models.
 
-`SSEPublisher` is an abstract base class providing common functionality for the Flask-Redis SSE publishers used in the app.
+SSE can be leveraged to effectively "stream" events from the server to the client in many different contexts, which goes along with other reactive programming techniques.
 
-It supports running a background job (in a background scheduler using a daemon thread) on an interval of real time or app time to publish objects as SSEs from a SSE-compatible Flask app.
+The app publishes different types of SSE from a [SSE-compatible Flask app](https://www.velotio.com/engineering-blog/how-to-implement-server-sent-events-using-python-flask-and-react) on intervals of real time and app time via a background scheduler with a thread pool.
 
-Implementing classes just need to set the `sseType` attribute and implement the `job()` method.
+See [SSEPublisher.py](../public/sse/SSEPublisher.py).
 
-#### `TimePublisher`
+#### App Time Publisher
 
-Inheriting from [SSEPublisher](#ssepublisher), the time publisher sends the **current app time** as a SSE to the frontend to be displayed **every real second**.
+The app time publisher sends the current time and speed of the [app clock](#app-clock) as a SSE to the frontend to be displayed **every real second**.
 
-#### `EventPublisher`
+See [TimePublisher.py](../public/time/TimePublisher.py).
 
-Inheriting from [SSEPublisher](#ssepublisher), the event publisher sends all **unprocessed past events** from the event store as SSEs to the frontend to be processed at **every half-minute of app time**.
+#### Pre-Generated Events Publisher
 
-##### [EventStore](#eventstore) Strategy
+The pre-generated events publisher sends all unprocessed past events from [the event store](#event-store) as SSEs to the frontend to be processed at **every 30 seconds of app time**.
 
-Iterate over time from the last time the publish job was done to the current time to publish all present pre-generated events in that time period.
+See [EventPublisher.py](../public/events/EventPublisher.py).
 
-#### `DerivedStatePublisher`
+#### Derived State & Utility Usage Publisher
 
-Inheriting from [SSEPublisher](#ssepublisher), the derived state publisher calculates and sends **derived state** as a SSE to the frontend to be displayed at **every hour of app time**.
+The [derived state](#derived-state) and utility usage publisher calculates and sends as a SSE the current indoor temperature and the total utility usage since the last calculation based on events that occurred since the last calculation at **every 30 minutes of app time**.
 
-##### [EventStore](#eventstore) Strategy
+##### Measurement Units
 
-Iterate over time from the last time the publish job was done to the current time to calculate derived state values from the present pre-generated and user-generated events in that time period, then publish the final derived state values.
+- All time values are represented in app seconds.
+- All temperature values are represented in degrees Fahrenheit.
+- All electricity values are represented in watts.
+- All water values are represented in gallons.
+- All money values are represented in dollars.
+
+See [the pseudocode](./pseudocode.md) and [the actual code](../public/analysis).
 
 ## Frontend Design
-
-### Important Concepts
-
-TODO
-
-### Components
-
-#### `AppClock`
-
-TODO
-
-#### `SmartHome`
-
-TODO

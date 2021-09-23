@@ -5,7 +5,7 @@ from typing import Tuple
 class Formulas:
     """
     NOTE: all time values are represented in app seconds.
-    NOTE: all temperature values are represented in Fahrenheit.
+    NOTE: all temperature values are represented in degrees Fahrenheit.
     NOTE: all electricity values are represented in watts.
     NOTE: all water values are represented in gallons.
     NOTE: all money values are represented in dollars.
