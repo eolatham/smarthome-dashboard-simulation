@@ -110,10 +110,10 @@ class AnalysisPublisher(SSEPublisher):
         changed either the outdoor temp or the thermostat temp.
         """
         # Save the new outdoor temp or thermostat temp
-        if event["stateKey"] == "outdoorTemp":
-            self.outdoorTemp = event["newValue"]
-        elif event["stateKey"] == "thermostatTemp":
-            self.thermostatTemp = event["newValue"]
+        if event["state_key"] == "outdoorTemp":
+            self.outdoorTemp = event["new_value"]
+        elif event["state_key"] == "thermostatTemp":
+            self.thermostatTemp = event["new_value"]
         else:
             raise ValueError(
                 f'`event` should be a "{"outdoorTemp"}"'

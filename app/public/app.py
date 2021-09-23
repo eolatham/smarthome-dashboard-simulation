@@ -15,7 +15,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from public.constants import *
 from public.time.AppClock import AppClock
 from public.time.TimePublisher import TimePublisher
-from public.events.Event import Event, queryEvents
+from public.events.Event import Event, testEvents
 from public.events.EventStore import EventStore
 from public.events.EventPublisher import EventPublisher
 from public.analysis.AnalysisPublisher import AnalysisPublisher
@@ -39,7 +39,9 @@ if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
     APP_CLOCK = AppClock(MIN_APP_TIME, MAX_APP_TIME, DEFAULT_SPEEDUP_FACTOR)
     BACKGROUND_SCHEDULER = BackgroundScheduler()
     EVENT_STORE = EventStore()
-    EVENT_STORE.putPreGeneratedEvents(*queryEvents())
+    EVENT_STORE.putPreGeneratedEvents(
+        *testEvents()  # TODO: use queryEvents() when we have real events
+    )
     TIME_PUBLISHER = TimePublisher(
         LOGGER,
         APP,

@@ -5,7 +5,10 @@ services:
     env_file:
       - db.env
     volumes:
-      - ./db.sql:/docker-entrypoint-initdb.d/db.sql # Docker runs this to build the database schema on startup
+      - ./db.sql:/docker-entrypoint-initdb.d/db.sql # Build the database schema on startup
+      # TODO: add script to create and insert pre-generated events
+    ports:
+      - 5432:5432
   redis:
     image: redis
     ports:

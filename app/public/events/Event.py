@@ -2,8 +2,12 @@
 from random import randint
 from typing import List, TypedDict, Literal, Union
 
+# PDM
+import psycopg2
+
 # LOCAL
 from public.constants import (
+    POSTGRES_URL,
     MIN_APP_TIME,
     MAX_APP_TIME,
     MIN_THERMOSTAT_TEMP,
@@ -88,9 +92,9 @@ class IntegerEvent(TypedDict):
     """
 
     time: int
-    stateType: IntegerStateType
-    stateKey: IntegerStateKey
-    newValue: int
+    state_type: IntegerStateType
+    state_key: IntegerStateKey
+    new_value: int
     message: str
 
 
@@ -100,9 +104,9 @@ class BooleanEvent(TypedDict):
     """
 
     time: int
-    stateType: BooleanStateType
-    stateKey: BooleanStateKey
-    newValue: bool
+    state_type: BooleanStateType
+    state_key: BooleanStateKey
+    new_value: bool
     message: str
 
 
@@ -110,47 +114,55 @@ Event = Union[IntegerEvent, BooleanEvent]
 
 
 def isIntegerEvent(event: Event) -> bool:
-    return isinstance(event["newValue"], int)
+    return isinstance(event["new_value"], int)
 
 
 def isBooleanEvent(event: Event) -> bool:
-    return isinstance(event["newValue"], bool)
+    return isinstance(event["new_value"], bool)
 
 
-# TODO: implement this with real events from the database
 def queryEvents() -> List[Event]:
     """
     Returns all pre-generated events from the database.
     """
-    query = "SELECT * FROM PreGeneratedEvent"
+    events: List[Event] = []
+    with psycopg2.connect(dsn=POSTGRES_URL) as con:
+        with con.cursor() as cur:
+            cur.execute("SELECT * FROM pre_generated_events.integer_event")
+            events.extend([IntegerEvent(**e) for e in cur.fetchall()])
+            cur.execute("SELECT * FROM pre_generated_events.boolean_event")
+            events.extend([BooleanEvent(**e) for e in cur.fetchall()])
+    return events
 
+
+def testEvents() -> List[Event]:
     randomTestEvents: List[Event] = [
         {
             "time": MIN_APP_TIME,
-            "stateType": "door",
-            "stateKey": "frontDoor",
-            "newValue": False,
+            "state_type": "door",
+            "state_key": "frontDoor",
+            "new_value": False,
             "message": "initial value",
         },
         {
             "time": MIN_APP_TIME,
-            "stateType": "window",
-            "stateKey": "kitchenWindow1",
-            "newValue": False,
+            "state_type": "window",
+            "state_key": "kitchenWindow1",
+            "new_value": False,
             "message": "initial value",
         },
         {
             "time": MIN_APP_TIME,
-            "stateType": "temp",
-            "stateKey": "outdoorTemp",
-            "newValue": 80,
+            "state_type": "temp",
+            "state_key": "outdoorTemp",
+            "new_value": 80,
             "message": "initial value",
         },
         {
             "time": MIN_APP_TIME,
-            "stateType": "temp",
-            "stateKey": "thermostatTemp",
-            "newValue": 70,
+            "state_type": "temp",
+            "state_key": "thermostatTemp",
+            "new_value": 70,
             "message": "initial value",
         },
     ]
@@ -158,9 +170,9 @@ def queryEvents() -> List[Event]:
         randomTestEvents.append(
             {
                 "time": randint(MIN_APP_TIME + 1, MAX_APP_TIME),
-                "stateType": "door",
-                "stateKey": "frontDoor",
-                "newValue": i % 2 == 0,
+                "state_type": "door",
+                "state_key": "frontDoor",
+                "new_value": i % 2 == 0,
                 "message": "opened" if i % 2 == 0 else "closed",
             }
         )
@@ -168,9 +180,9 @@ def queryEvents() -> List[Event]:
         randomTestEvents.append(
             {
                 "time": randint(MIN_APP_TIME + 1, MAX_APP_TIME),
-                "stateType": "window",
-                "stateKey": "kitchenWindow1",
-                "newValue": i % 2 == 0,
+                "state_type": "window",
+                "state_key": "kitchenWindow1",
+                "new_value": i % 2 == 0,
                 "message": "opened" if i % 2 == 0 else "closed",
             }
         )
@@ -178,9 +190,9 @@ def queryEvents() -> List[Event]:
         randomTestEvents.append(
             {
                 "time": randint(MIN_APP_TIME + 1, MAX_APP_TIME),
-                "stateType": "temp",
-                "stateKey": "outdoorTemp",
-                "newValue": randint(30, 100),
+                "state_type": "temp",
+                "state_key": "outdoorTemp",
+                "new_value": randint(30, 100),
                 "message": "changed",
             }
         )
@@ -188,9 +200,9 @@ def queryEvents() -> List[Event]:
         randomTestEvents.append(
             {
                 "time": randint(MIN_APP_TIME + 1, MAX_APP_TIME),
-                "stateType": "temp",
-                "stateKey": "thermostatTemp",
-                "newValue": randint(MIN_THERMOSTAT_TEMP, MAX_THERMOSTAT_TEMP),
+                "state_type": "temp",
+                "state_key": "thermostatTemp",
+                "new_value": randint(MIN_THERMOSTAT_TEMP, MAX_THERMOSTAT_TEMP),
                 "message": "changed",
             }
         )

@@ -23,7 +23,7 @@ class EventStore:
 
     def putEvents(self, eventType: EventType, *events: Event) -> None:
         for event in events:
-            time, stateKey = event["time"], event["stateKey"]
+            time, stateKey = event["time"], event["state_key"]
 
             if time < getattr(self, "minTime", float("inf")):
                 self.minTime = time
@@ -141,4 +141,4 @@ class EventStore:
         return next(self.yieldEvents(stateKeys={stateKey}))
 
     def getFirstEventValue(self, stateKey: StateKey) -> Any:
-        return self.getFirstEvent(stateKey)["newValue"]
+        return self.getFirstEvent(stateKey)["new_value"]

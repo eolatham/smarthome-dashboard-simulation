@@ -1,3 +1,4 @@
+POSTGRES_URL = "postgresql://username:password@localhost:5432/smart_home_simulation"
 REDIS_URL = "redis://localhost"
 
 REAL_TIME = "REAL_TIME"

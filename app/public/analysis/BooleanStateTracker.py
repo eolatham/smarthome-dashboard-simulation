@@ -41,9 +41,9 @@ class BooleanStateTracker:
 
     @typechecked
     def __init__(self, firstEvent: BooleanEvent) -> None:
-        self.type = firstEvent["stateType"]
-        self.key = firstEvent["stateKey"]
-        self.value = firstEvent["newValue"]
+        self.type = firstEvent["state_type"]
+        self.key = firstEvent["state_key"]
+        self.value = firstEvent["new_value"]
         self.lastTimeTrue = firstEvent["time"]
         self.totalTimeTrue = 0
         self.electricityUsageRate = ELECTRICITY_USAGE_RATE_MAP.get(
@@ -55,15 +55,15 @@ class BooleanStateTracker:
 
     @typechecked
     def processEvent(self, event: BooleanEvent) -> None:
-        if not event["stateKey"] == self.key:
+        if not event["state_key"] == self.key:
             raise ValueError(f'`event` should be a "{self.key}" event!')
 
-        if self.value and not event["newValue"]:  # Closed or turned off
+        if self.value and not event["new_value"]:  # Closed or turned off
             self.totalTimeTrue += event["time"] - self.lastTimeTrue
-            self.value = event["newValue"]
-        elif not self.value and event["newValue"]:  # Opened or turned on
+            self.value = event["new_value"]
+        elif not self.value and event["new_value"]:  # Opened or turned on
             self.lastTimeTrue = event["time"]
-            self.value = event["newValue"]
+            self.value = event["new_value"]
 
     def resetTotalTimeTrue(self) -> None:
         self.totalTimeTrue = 0
@@ -104,7 +104,7 @@ class BooleanStateTrackerMap:
 
     @typechecked
     def processEvent(self, event: BooleanEvent) -> None:
-        stateType, stateKey = event["stateType"], event["stateKey"]
+        stateType, stateKey = event["state_type"], event["state_key"]
         if stateType not in self.map:
             self.map[stateType] = {}
         if stateKey not in self.map[stateType]:
