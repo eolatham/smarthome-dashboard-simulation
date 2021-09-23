@@ -58,9 +58,9 @@ class SSEPublisher(ABC):
         self.scheduler = scheduler
         self.jobIntervalSeconds = jobIntervalSeconds
         self.jobIntervalTimeType = jobIntervalTimeType
-        self.__createJob()
+        self.createJob()
 
-    def __createJob(self) -> None:
+    def createJob(self) -> None:
         """
         Creates or replaces the SSE-publishing job.
         """
@@ -81,7 +81,7 @@ class SSEPublisher(ABC):
         to the provided job interval type).
         """
         self.jobIntervalSeconds = jobIntervalSeconds
-        self.__createJob()
+        self.createJob()
 
     def refreshJobInterval(self) -> None:
         """
@@ -98,7 +98,7 @@ class SSEPublisher(ABC):
         """
         if not self.scheduler.running:
             self.scheduler.start()
-        self.__createJob()
+        self.createJob()
 
     def publish(self, *data: Any) -> None:
         """
