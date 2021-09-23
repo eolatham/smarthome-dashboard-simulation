@@ -60,7 +60,7 @@ class EventPublisher(SSEPublisher):
     # Override
     def job(self) -> None:
         """
-        Publishes all unprocessed past pre-generated events from the event map as SSEs.
+        Publishes all unprocessed past pre-generated events from the event store as SSEs.
         """
         start = self.lastPublishTime
         end = self.lastPublishTime = int(self.clock.time())

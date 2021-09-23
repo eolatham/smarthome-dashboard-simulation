@@ -2,11 +2,11 @@
 from typing import Any, Set, Dict, Generator, Literal, Optional
 
 # LOCAL
-from public.events.Event import Event
+from public.events.Event import Event, StateKey
 
 
 EventType = Literal["pre-generated", "user-generated"]
-EventMap = Dict[int, Dict[str, Dict[EventType, Event]]]
+EventMap = Dict[int, Dict[StateKey, Dict[EventType, Event]]]
 
 
 class EventStore:
@@ -50,31 +50,35 @@ class EventStore:
             for stateKey in list(self.map[time]):
                 self.map[time][stateKey].pop("user-generated", None)
 
-    def getEvent(self, time: int, stateKey: str, eventType: EventType) -> Event:
+    def getEvent(self, time: int, stateKey: StateKey, eventType: EventType) -> Event:
         return self.map[time][stateKey][eventType]
 
-    def getPreGeneratedEvent(self, time: int, stateKey: str) -> Event:
+    def getPreGeneratedEvent(self, time: int, stateKey: StateKey) -> Event:
         return self.getEvent(time, stateKey, "pre-generated")
 
-    def getUserGeneratedEvent(self, time: int, stateKey: str) -> Event:
+    def getUserGeneratedEvent(self, time: int, stateKey: StateKey) -> Event:
         return self.getEvent(time, stateKey, "user-generated")
 
     def safeGetEvent(
-        self, time: int, stateKey: str, eventType: EventType
+        self, time: int, stateKey: StateKey, eventType: EventType
     ) -> Optional[Event]:
         return self.map.get(time, {}).get(stateKey, {}).get(eventType)
 
-    def safeGetPreGeneratedEvent(self, time: int, stateKey: str) -> Optional[Event]:
+    def safeGetPreGeneratedEvent(
+        self, time: int, stateKey: StateKey
+    ) -> Optional[Event]:
         return self.safeGetEvent(time, stateKey, "pre-generated")
 
-    def safeGetUserGeneratedEvent(self, time: int, stateKey: str) -> Optional[Event]:
+    def safeGetUserGeneratedEvent(
+        self, time: int, stateKey: StateKey
+    ) -> Optional[Event]:
         return self.safeGetEvent(time, stateKey, "user-generated")
 
     def yieldEvents(
         self,
         startTime: int = None,
         endTime: int = None,
-        stateKeys: Set[str] = None,
+        stateKeys: Set[StateKey] = None,
         eventType: EventType = None,
     ) -> Generator[Event, None, None]:
         """
@@ -118,17 +122,23 @@ class EventStore:
                         yield event
 
     def yieldPreGeneratedEvents(
-        self, startTime: int = None, endTime: int = None, stateKeys: Set[str] = None
+        self,
+        startTime: int = None,
+        endTime: int = None,
+        stateKeys: Set[StateKey] = None,
     ) -> Generator[Event, None, None]:
         return self.yieldEvents(startTime, endTime, stateKeys, "pre-generated")
 
     def yieldUserGeneratedEvents(
-        self, startTime: int = None, endTime: int = None, stateKeys: Set[str] = None
+        self,
+        startTime: int = None,
+        endTime: int = None,
+        stateKeys: Set[StateKey] = None,
     ) -> Generator[Event, None, None]:
         return self.yieldEvents(startTime, endTime, stateKeys, "user-generated")
 
-    def getFirstEvent(self, stateKey: str) -> Event:
+    def getFirstEvent(self, stateKey: StateKey) -> Event:
         return next(self.yieldEvents(stateKeys={stateKey}))
 
-    def getFirstEventValue(self, stateKey: str) -> Any:
+    def getFirstEventValue(self, stateKey: StateKey) -> Any:
         return self.getFirstEvent(stateKey)["newValue"]

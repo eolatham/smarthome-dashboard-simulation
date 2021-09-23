@@ -22,8 +22,5 @@ class TimePublisher(SSEPublisher):
         """
         Publishes a `TimeInfo` object as a SSE.
         """
-        timeInfo: TimeInfo = {
-            "time": self.clock.time(),
-            "speed": self.clock.getSpeedupFactor(),
-        }
+        timeInfo = TimeInfo(time=self.clock.time(), speed=self.clock.getSpeedupFactor())
         self.publish(timeInfo)

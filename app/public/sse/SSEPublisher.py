@@ -1,5 +1,6 @@
 # STL
 from logging import Logger
+from datetime import datetime
 from typing import Any, Literal
 from abc import ABC, abstractmethod
 
@@ -68,6 +69,7 @@ class SSEPublisher(ABC):
         self.jobID = self.scheduler.add_job(
             self.job,
             trigger="interval",
+            next_run_time=datetime.now(),  # Start ASAP
             seconds=self.jobIntervalSeconds / self.clock.getSpeedupFactor()
             if self.jobIntervalTimeType == APP_TIME
             else self.jobIntervalSeconds,
@@ -91,10 +93,12 @@ class SSEPublisher(ABC):
 
     def start(self) -> None:
         """
-        Starts the background scheduler if it is not already running.
+        Starts the background scheduler if it is not already running
+        and reschedules the SSE-publishing job.
         """
         if not self.scheduler.running:
             self.scheduler.start()
+        self.__createJob()
 
     def publish(self, *data: Any) -> None:
         """

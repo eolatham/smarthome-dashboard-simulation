@@ -18,7 +18,7 @@ from public.time.TimePublisher import TimePublisher
 from public.events.Event import Event, queryEvents
 from public.events.EventStore import EventStore
 from public.events.EventPublisher import EventPublisher
-from public.analysis.IndoorTempPublisher import IndoorTempPublisher
+from public.analysis.AnalysisPublisher import AnalysisPublisher
 
 logging.basicConfig(
     level=logging.INFO,
@@ -55,15 +55,11 @@ if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
         BACKGROUND_SCHEDULER,
         *PUBLISH_EVENTS_INTERVAL,
     )
-    INDOOR_TEMP_PUBLISHER = IndoorTempPublisher(
+    ANALYSIS_PUBLISHER = AnalysisPublisher(
         LOGGER,
         APP,
         APP_CLOCK,
         EVENT_STORE,
-        OUTDOOR_TEMP_STATE_KEY,
-        THERMOSTAT_TEMP_STATE_KEY,
-        DOOR_STATE_KEYS,
-        WINDOW_STATE_KEYS,
         BACKGROUND_SCHEDULER,
         *PUBLISH_INDOOR_TEMP_INTERVAL,
     )
@@ -73,14 +69,11 @@ if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
 SUCCESS = "Success", 200
 
 
-# TODO: add route to get constants (min/max app time speeds, min/max thermostat values)
-
-
 @APP.route("/start")
 def startSimulation():
     """
     Starts/restarts the smart home dashboard simulation by:
-    - clearing user-generated events from the event map
+    - clearing user-generated events from the event store
     - starting or restarting the app clock
     - resetting and starting the SSE publishers
     """
@@ -88,7 +81,7 @@ def startSimulation():
     APP_CLOCK.start()
     TIME_PUBLISHER.start()
     EVENT_PUBLISHER.start()
-    INDOOR_TEMP_PUBLISHER.start()
+    ANALYSIS_PUBLISHER.start()
     return SUCCESS
 
 
@@ -116,7 +109,7 @@ def appClockSpeedupFactor():
         )
     APP_CLOCK.setSpeedupFactor(speedupFactor)
     EVENT_PUBLISHER.refreshJobInterval()
-    INDOOR_TEMP_PUBLISHER.refreshJobInterval()
+    ANALYSIS_PUBLISHER.refreshJobInterval()
     return SUCCESS
 
 
@@ -134,12 +127,6 @@ def userGeneratedEvent():
 
     event["time"] = int(APP_CLOCK.time())
     EVENT_STORE.putUserGeneratedEvents(event)
-    return SUCCESS
-
-
-# TODO: implement this
-@APP.route("/utility-usage", methods=["GET"])
-def utilityUsage():
     return SUCCESS
 
 
