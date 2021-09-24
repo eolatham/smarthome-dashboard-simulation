@@ -136,6 +136,7 @@ Pre-generated events are the backbone of the smart home simulation. They:
 
 - define the base smart home state over a 2-month time period
 - are generated and stored in a database before the app runs
+  - See [the pseudocode](./pseudocode.md#pre-generated-events) and [the actual code](../generate_events.py).
 - are based on the provided family schedule and downloaded weather data
 - initialize values for all smart home state (other than [derived state](#derived-state)) at `time=0`
 - do not change the values of `thermostatTemp` or `kitchenRefrigerator` after initialization
@@ -324,6 +325,6 @@ The [derived state](#derived-state) and utility usage publisher calculates and s
 - All water values are represented in gallons.
 - All money values are represented in dollars.
 
-See [the pseudocode](./pseudocode.md) and [the actual code](../public/analysis).
+See [the pseudocode](./pseudocode.md#indoor-temperature-utility-usage) and [the actual code](../public/analysis).
 
 ## Frontend Design

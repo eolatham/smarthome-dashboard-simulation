@@ -9,7 +9,17 @@
 - Brittany Latham
 - Laura Thompson
 
+## Pre-Generated Events
+
+The following pseudocode describes the process for generating pre-generated events before the app runs:
+
+```txt
+
+```
+
 ## Indoor Temperature & Utility Usage
+
+The following pseudocode describes the app's process for calculating and publishing the indoor temperature and utility usage of the smart home during the simulation:
 
 ```txt
 at every thirty minutes of app time:
@@ -58,5 +68,5 @@ at every thirty minutes of app time:
     waterCost = cost calculated for waterUsage
     totalUtilitiesCost = electricityCost + waterCost
 
-    return indoorTemp, electricityUsage, electricityCost, waterUsage, waterCost, and totalUtilitiesCost
+    publish indoorTemp, electricityUsage, electricityCost, waterUsage, waterCost, and totalUtilitiesCost
 ```
