@@ -144,7 +144,7 @@ Pre-generated events are the backbone of the smart home simulation. They:
 
 #### Database Model
 
-The database stores pre-generated events in a schema with two (almost identical) sibling tables: one for [integer state events](#integer-state-events) and one for [boolean state events](#boolean-state-events).
+The database stores pre-generated events in a relational database (Postgres) schema with two (almost identical) sibling tables: one for [integer state events](#integer-state-events) and one for [boolean state events](#boolean-state-events).
 
 ![diagram](img/database_model.png)
 
