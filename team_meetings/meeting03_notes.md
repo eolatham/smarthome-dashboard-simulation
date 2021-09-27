@@ -32,5 +32,5 @@
 
 ## Next Meeting
 
-- Deadlines for next week: Everything in Shortcut In Developement below Requirements Doc
+- Deadlines for next week: Everything in Shortcut In Development below Requirements Doc
 - Will try to get a requirements doc done and submitted to Langston ASAP
