@@ -9,6 +9,8 @@
 - Brittany Latham
 - Laura Thompson
 
+## Overview
+
 ### Smart Home Simulation
 
 The user should be able to:
@@ -35,15 +37,78 @@ Each of these user actions should:
 
 #### Utility Usage
 
-The user should be able to view utility usage data for:
+The user should be able to view utility usage and cost data for:
 
-- the **previous month** (based on the previous month's smart home events)
-- the **current month** (based on the current month's smart home events)
+- the **last day**
+- the **last week**
+- the **last month**
+- the **next month** (projected)
 
-The following utility usage information should be displayed:
+## Application Screens
 
-- the projected water usage (in gallons) and the resulting cost
-- the projected electricity usage (in kilowatt-hours) and the resulting cost
-- the projected total utility cost (water + electricity)
+The following sections illustrate and describe the various screens and components the application should have to satisfy the above general requirements.
 
-Costs should be displayed in dollars.
+### Main Screen
+
+![wireframe](img/screen1_wireframe.png)
+
+#### Interactive Floor Plan
+
+This component should show all of the rooms, doors, windows, and appliances in the smart home.
+
+As the smart home state changes at runtime, the component should indicate:
+
+- what lights are on and off
+- what doors are open and closed
+- what windows are open and closed
+
+The component should also allow the user to turn specific lights on or off by clicking on them.
+
+#### Thermostat Control
+
+This component should:
+
+- display the current indoor, outdoor, and thermostat temperature values
+- allow the user to change the thermostat temperature setting
+
+### Control Screen
+
+![wireframe](img/screen2_wireframe.png)
+
+This screen should contain controls that allow the user to:
+
+- turn each individual light on or off
+- open or close each individual door and window
+
+### Analysis Screen
+
+![wireframe](img/screen3_wireframe.png)
+
+#### Utility Usage Graph
+
+This component should display a live-updated utility usage graph that includes the following data:
+
+- the **water usage** trend from the start of the simulation to now
+- the **power usage** trend from the start of the simulation to now
+- the **total utilities cost** trend from the start of the simulation to now
+
+#### Utility Usage Table
+
+This component should display a table like the following:
+
+|                        | Water Usage | Power Usage | Total Cost |
+| ---------------------- | ----------- | ----------- | ---------- |
+| Last Day               | x           | x           | x          |
+| Last Week              | x           | x           | x          |
+| Last Month             | x           | x           | x          |
+| Next Month (Projected) | x           | x           | x          |
+
+### All Screens
+
+#### Menu Bar
+
+All screens should include a menu bar at the top that contains the following:
+
+- links to all application screens so that the user can switch between them
+- a button to restart the simulation
+- a simulation speed control component that allows the user to speed up or slow down the simulation
