@@ -6,10 +6,7 @@ class PredeterminedState():
     def __init__():
         # See excel
 
-
-# State exists for every second
-# State generated for 5,184,000 seconds (60 days/2 months)
-# Conversions 60 sec = 1 min, 3600 sec = 1 hr, 86,400 sec = 1 day
+# Send events - smallest increment of change = 30 sec door event
 
 # Questions
 # When are lightbulbs and bath exhaust fan on?
