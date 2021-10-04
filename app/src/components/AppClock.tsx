@@ -38,7 +38,10 @@ class AppClock extends React.Component<AppClockProps, AppClockState> {
         <h2>App Clock</h2>
         <h3>Simulation Time:</h3>
         <div style={{ whiteSpace: "pre-wrap" }}>{this.state.time}</div>
-        <h3>Simulation Speed: {Math.round(this.state.speed)} x real time</h3>
+        <h3>Simulation Speed:</h3>
+        <div style={{ whiteSpace: "pre-wrap" }}>
+          {Math.round(this.state.speed)} x real time
+        </div>
       </>
     );
   }
