@@ -1,3 +1,7 @@
+# STL
+from datetime import datetime
+
+
 POSTGRES_URL = "postgresql://username:password@localhost:5432/smart_home_simulation"
 REDIS_URL = "redis://localhost"
 
@@ -6,6 +10,8 @@ APP_TIME = "APP_TIME"
 
 MIN_APP_TIME = 0  # Seconds
 MAX_APP_TIME = 5184000  # Seconds (60 days)
+
+SIMULATION_START_DATE_TIMESTAMP = datetime(2021, 10, 4).timestamp()
 
 MIN_SPEEDUP_FACTOR = 1  # 1 real second = 1 app second
 MAX_SPEEDUP_FACTOR = 3600  # 1 real second = 1 app hour
