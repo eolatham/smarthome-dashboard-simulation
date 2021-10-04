@@ -115,3 +115,33 @@ All screens should include a menu bar at the top that contains the following:
 - the current simulation time
 - a simulation speed control component that allows the user to speed up or slow down the simulation
 - a button to restart the simulation
+
+## Additional Features
+
+The following sections describe features to be implemented by the BA students on the team related to their minors.
+
+### Smart Home Marketing Pitch
+
+**Student**: Steven Capleton
+**Minor**: Economics
+
+**Present study findings that promote economic reasons to have a smart home automated system.**
+
+### Advanced Utility Usage Projection
+
+**Student**: Landon Dyken
+**Minor**: Mathematics
+
+**Calculate next month utility usage projections in a smart and accurate way based on past events.**
+
+### Web Design Style Guide
+
+**Student**: Karen Horten
+**Minor**: Graphic Design
+
+**Create a web design style guide to ensure that each web page of the application is styled in an attractive and consistent way.**
+
+### ?
+
+**Student**: Brittney Latham
+**Minor**: Mathematics
