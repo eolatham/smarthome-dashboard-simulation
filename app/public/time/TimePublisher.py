@@ -1,16 +1,26 @@
 # PDM
 from typing import TypedDict
+from datetime import datetime
 
 # LOCAL
-from public.time.AppClock import AppClock
 from public.sse.SSEPublisher import SSEPublisher
 from public.constants import SIMULATION_START_DATE_TIMESTAMP
 
 
 class TimeInfo(TypedDict):
-    relativeTime: float  # The current app time in seconds
-    absoluteTime: str  # The current app time counted from `SIMULATION_START_DATE_TIMESTAMP`
-    speed: float  # The current speedup factor of the app clock
+    """
+    `time` is a string representing the absolute simulation time in the following format:
+    ```
+    12:00:00 AM
+    Monday
+    Day 1
+    ```
+
+    `speed` is the current simulation speed (the current speedup factor of the app clock).
+    """
+
+    time: str
+    speed: float
 
 
 class TimePublisher(SSEPublisher):
@@ -20,15 +30,33 @@ class TimePublisher(SSEPublisher):
 
     sseType = "time"
 
+    def getAbsoluteSimulationTimeString(self) -> str:
+        """
+        Returns a string representing the current app time
+        counted from  `SIMULATION_START_DATE_TIMESTAMP`
+        in the following format:
+        ```
+        12:00:00 AM
+        Monday
+        Day 1
+        ```
+        """
+        secondsPerDay = 86400
+
+        fromTime = SIMULATION_START_DATE_TIMESTAMP
+        additionalTime = self.clock.time()
+
+        dayNum = int(additionalTime / secondsPerDay + 1)
+        dt = datetime.fromtimestamp(fromTime + additionalTime)
+        return dt.strftime(f"%I:%M:%S %p\n%A\nDay {dayNum}")
+
     # Override
     def job(self) -> None:
         """
         Publishes a `TimeInfo` object as a SSE.
         """
-        time = self.clock.time()
         timeInfo = TimeInfo(
-            relativeTime=time,
-            absoluteTime=AppClock.absoluteTime(SIMULATION_START_DATE_TIMESTAMP, time),
+            time=self.getAbsoluteSimulationTimeString(),
             speed=self.clock.getSpeedupFactor(),
         )
         self.publish(timeInfo)
