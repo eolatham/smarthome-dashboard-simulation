@@ -28,9 +28,9 @@ Given the data provided in specifications, this pseudocode should return semi-ra
 #### Events M-F
 
 7:15-7:45a - 4 door events  
-3:45-4:15a - 2 door events  
-5:15-5:45a - 2 door events  
-6:00-8:00a - 8 door events
+3:45-4:15p - 2 door events  
+5:15-5:45p - 2 door events  
+6:00-8:00p - 8 door events
 
 5-6a - 5 min microwave event  
 6-7:15a - 5 min microwave event  
