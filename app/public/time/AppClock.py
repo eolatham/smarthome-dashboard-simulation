@@ -1,6 +1,5 @@
 # STL
 from time import time
-from datetime import datetime
 
 # PDM
 from typeguard import typechecked
@@ -53,22 +52,6 @@ class AppClock:
         appTimePassed = realTimePassed * self.speedupFactor
         unboundAppTime = self.appTimeZero + appTimePassed
         return min(unboundAppTime, self.maxTime)
-
-    @staticmethod
-    def absoluteTime(fromTime: float, additionalTime: float) -> str:
-        """
-        Returns a string representing `additionalTime` counted from `fromTime`
-        in the following format:
-        ```
-        12:00:00 AM
-        Monday
-        Day 1
-        ```
-        """
-        secondsPerDay = 86400
-        dayNum = int(additionalTime / secondsPerDay + 1)
-        dt = datetime.fromtimestamp(fromTime + additionalTime)
-        return dt.strftime(f"%I:%M:%S %p\n%A\nDay {dayNum}")
 
     def getSpeedupFactor(self) -> float:
         return self.speedupFactor
