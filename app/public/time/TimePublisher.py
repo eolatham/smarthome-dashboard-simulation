@@ -2,11 +2,14 @@
 from typing import TypedDict
 
 # LOCAL
+from public.time.AppClock import AppClock
 from public.sse.SSEPublisher import SSEPublisher
+from public.constants import SIMULATION_START_DATE_TIMESTAMP
 
 
 class TimeInfo(TypedDict):
-    time: float  # The current app time in seconds
+    relativeTime: float  # The current app time in seconds
+    absoluteTime: str  # The current app time counted from `SIMULATION_START_DATE_TIMESTAMP`
     speed: float  # The current speedup factor of the app clock
 
 
@@ -22,5 +25,10 @@ class TimePublisher(SSEPublisher):
         """
         Publishes a `TimeInfo` object as a SSE.
         """
-        timeInfo = TimeInfo(time=self.clock.time(), speed=self.clock.getSpeedupFactor())
+        time = self.clock.time()
+        timeInfo = TimeInfo(
+            relativeTime=time,
+            absoluteTime=AppClock.absoluteTime(SIMULATION_START_DATE_TIMESTAMP, time),
+            speed=self.clock.getSpeedupFactor(),
+        )
         self.publish(timeInfo)
