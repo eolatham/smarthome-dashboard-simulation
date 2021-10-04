@@ -328,3 +328,11 @@ The [derived state](#derived-state) and utility usage publisher calculates and s
 See [the pseudocode](./pseudocode.md#indoor-temperature-utility-usage) and [the actual code](../public/analysis).
 
 ## Frontend Design
+
+The frontend is a React JavaScript app comprised of several components that display data sent from the backend and allow the user to adjust certian values in the simulation.
+
+The internal workings of the frontend are considerably simpler than that of the backend, mainly because most of what the frontend does is _react_ to events that are sent to it.
+
+For user actions (such as actions affecting the [app clock](#app-clock) or [smart home state](#smart-home-state)), the frontend sends basic HTTP requests to the backend to process them.
+
+See [the requirements document](requirements.md) for information about what the frontend looks like and what it can do.
