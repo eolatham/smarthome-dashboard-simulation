@@ -6,7 +6,7 @@
 
 ## Meeting Notes
 
-### Data Generator 
+### Data Generator
 
 - Difficult to animate diagram
 - Perhaps just toggle between two different states on same component
@@ -25,4 +25,3 @@
 - Data generation script by Wednesday - Laura
 - Finishing main parts of requirements doc - Eric
 - We will touch base again on Wednesday
-
