@@ -6,6 +6,7 @@ bathRoomfaucet - Should we instead have bathRoom1Bath and bathRoom1Shower to mat
 garageCarDoor1,2, and garageHouseDoor - when do these get used?
 Is it reasonable to assert that the project starts Monday, midnight, at least 60 days prior?
 How to avoid overlap with door events?
+There is some SUS behavior with events starting on the NIGHT of the first day in doors
 """
 import random
 import psycopg2
@@ -255,20 +256,33 @@ class StateGenerator:
 
         #Iterate over each day
         for t_day in range(0, 60*TIME_MAP["day"], TIME_MAP["day"]):
-        # S-S
+            # S-S
             if ((t_day % TIME_MAP["Saturday"]) == 0 ) or ((t_day % TIME_MAP["Sunday"]) == 0):
-                #7a-10p - 30 sec door event x32 (non overlapping)
-                t_range_start = t_day + 7 * TIME_MAP["hour"]
-                t_range_end = t_day + 22 * TIME_MAP["hour"]
-                doorEvent(t_range_start, t_range_end, 32)
+                #5-7p 30 min stove event
+                t_range_start = t_day + 17 * TIME_MAP["hour"]
+                t_range_end = t_day + 19 * TIME_MAP["hour"]
+                self.createEvent(t_range_start, t_range_end, 30 * TIME_MAP["minute"], "stove", "kitchenStove")
+
+                #4-7p 60 min oven event
+                t_range_start = t_day + 16 * TIME_MAP["hour"]
+                t_range_end = t_day + 19 * TIME_MAP["hour"]
+                self.createEvent(t_range_start, t_range_end, 60 * TIME_MAP["minute"], "oven", "kitchenOven")
 
                 t_day = t_day + TIME_MAP["day"] #Increment by a day
 
             # M-F
             else:
+                #5:45-7p 15 min stove event
+                t_range_start = t_day + 17 * TIME_MAP["hour"] + 45 * TIME_MAP["minute"]
+                t_range_end = t_day + 19 * TIME_MAP["hour"]
+                self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "stove", "kitchenStove")
 
+                #5:45-7p 45 min oven event
+                t_range_start = t_day + 17 * TIME_MAP["hour"] + 45 * TIME_MAP["minute"]
+                t_range_end = t_day + 19 * TIME_MAP["hour"]
+                self.createEvent(t_range_start, t_range_end, 45 * TIME_MAP["minute"], "oven", "kitchenOven")
 
-        pass
+                t_day = t_day + TIME_MAP["day"] #Increment by a day
 
     def generateMicrowaveEvents(self):
         """Generate Microwave Events"""
@@ -276,16 +290,98 @@ class StateGenerator:
     def generateTvEvents(self):
         # Can be decoupled
         """Generate Bedroom TV and Living Room TV Events"""
-        pass
+        #Iterate over each day
+        for t_day in range(0, 60*TIME_MAP["day"], TIME_MAP["day"]):
+            # S-S
+            if ((t_day % TIME_MAP["Saturday"]) == 0 ) or ((t_day % TIME_MAP["Sunday"]) == 0):
+                #7a-10p 8hr LR TV event
+                t_range_start = t_day + 7 * TIME_MAP["hour"]
+                t_range_end = t_day + 22 * TIME_MAP["hour"]
+                self.createEvent(t_range_start, t_range_end, 8 * TIME_MAP["hour"], "livingRoomTv", "livingRoomTv")
 
-    def generateWindowEvents(self):
-        """Generate Microwave Events"""
-        # This will be empty
-        pass
+                #6a-10a 2hr BR TV event
+                t_range_start = t_day + 6 * TIME_MAP["hour"]
+                t_range_end = t_day + 10 * TIME_MAP["hour"]
+                self.createEvent(t_range_start, t_range_end, 2 * TIME_MAP["hour"], "bedRoomTv", "bedRoom1Tv")
 
+            # M-F
+            else:
+                #4:45-10p 4hr LR TV event
+                t_range_start = t_day + 16 * TIME_MAP["hour"] + 45 * TIME_MAP["minute"]
+                t_range_end = t_day + 22 * TIME_MAP["hour"]
+                self.createEvent(t_range_start, t_range_end, 4 * TIME_MAP["hour"], "livingRoomTv", "livingRoomTv")
+
+                #7p-10p 2hr BR TV event
+                t_range_start = t_day + 19 * TIME_MAP["hour"]
+                t_range_end = t_day + 22 * TIME_MAP["hour"]
+                self.createEvent(t_range_start, t_range_end, 2 * TIME_MAP["hour"], "bedRoomTv", "bedRoom1Tv")
+
+            #Any Day
+            #7p-10p 2hr BR TV event
+            t_range_start = t_day + 19 * TIME_MAP["hour"]
+            t_range_end = t_day + 22 * TIME_MAP["hour"]
+            self.createEvent(t_range_start, t_range_end, 2 * TIME_MAP["hour"], "bedRoomTv", "bedRoom1Tv")
+            
+            t_day = t_day + TIME_MAP["day"] #Increment by a day
+
+    
     def generateShowerBathFanEvents(self):
         # Can be decoupled - ish
+        #NOT DONE!!! Still needs fan and M-F morning showers
         """Generate Shower, Bath, and Bath Exhause Fan Events"""
+        #Iterate over each day
+        for t_day in range(0, 60*TIME_MAP["day"], TIME_MAP["day"]):
+            # S-S
+            if ((t_day % TIME_MAP["Saturday"]) == 0 ) or ((t_day % TIME_MAP["Sunday"]) == 0):
+                #6-7a 15 min shower event
+                t_range_start = t_day + 6 * TIME_MAP["hour"]
+                t_range_end = t_day + 7 * TIME_MAP["hour"]
+                self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "shower", "bathRoom1Shower")
+
+                #7-8a 15 min shower event
+                t_range_start = t_day + 7 * TIME_MAP["hour"]
+                t_range_end = t_day + 8 * TIME_MAP["hour"]
+                self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "shower", "bathRoom2Shower")
+
+                #11-12p 15 min shower event
+                t_range_start = t_day + 11 * TIME_MAP["hour"]
+                t_range_end = t_day + 12 * TIME_MAP["hour"]
+                self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "shower", "bathRoom1Shower")
+
+                #12-1p 15 min bath event
+                t_range_start = t_day + 12 * TIME_MAP["hour"]
+                t_range_end = t_day + 13 * TIME_MAP["hour"]
+                self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "bath", "bathRoom1Bath")
+
+            # M-F
+            else:
+                #5:30-6:15a 15 min shower event
+                t_range_start = t_day + 6 * TIME_MAP["hour"]
+                t_range_end = t_day + 7 * TIME_MAP["hour"]
+                self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "shower", "bathRoom1Shower")
+
+                #6:15-7a 15 min shower event
+                t_range_start = t_day + 7 * TIME_MAP["hour"]
+                t_range_end = t_day + 8 * TIME_MAP["hour"]
+                self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "shower", "bathRoom2Shower")
+
+            #Any Day
+            #6-7p 15 min bath event
+            t_range_start = t_day + 18 * TIME_MAP["hour"]
+            t_range_end = t_day + 19 * TIME_MAP["hour"]
+            self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "bath", "bathRoom1Bath")
+
+            #7-8p 15 min bath event
+            t_range_start = t_day + 19 * TIME_MAP["hour"]
+            t_range_end = t_day + 20 * TIME_MAP["hour"]
+            self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "bath", "bathRoom2Bath")
+
+            t_day = t_day + TIME_MAP["day"] #Increment by a day
+
+    def generateLightEvents(self):
+        """Generate Light Events"""
+        # This will likely get moved into door events because lights 
+        # Are on when family is home and awake
         pass
 
     def generateDishwasherEvents(self):
@@ -301,10 +397,9 @@ class StateGenerator:
         #This will be empty
         pass
 
-    def generateLightEvents(self):
-        """Generate Light Events"""
-        # This will likely get moved into door events because lights 
-        # Are on when family is home and awake
+    def generateWindowEvents(self):
+        """Generate Microwave Events"""
+        # This will be empty
         pass
 
     def createEvent(self, t_range_start, t_range_end, duration, state_type, state_key, message=("ON", "OFF"), num_insert=1, table="boolean_event"):
@@ -348,7 +443,10 @@ def main():
 
     #stateGenerator.generateTempEvents()
     #stateGenerator.generateInitialState()
-    stateGenerator.generateDoorEvents()
+    #stateGenerator.generateDoorEvents()
+    #stateGenerator.generateOvenStoveEvents()
+    #stateGenerator.generateTvEvents()
+    stateGenerator.generateShowerBathFanEvents()
     
 
 
