@@ -48,9 +48,9 @@ The user should be able to view utility usage and cost data for:
 
 The following sections illustrate and describe the various screens and components the application should have to satisfy the above general requirements.
 
-### Main Screen
+### Home Screen
 
-![wireframe](img/screen1_wireframe.png)
+![wireframe](img/home_screen_wireframe.png)
 
 #### Interactive Floor Plan
 
@@ -73,7 +73,7 @@ This component should:
 
 ### Control Screen
 
-![wireframe](img/screen2_wireframe.png)
+![wireframe](img/control_screen_wireframe.png)
 
 This screen should contain controls that allow the user to:
 
@@ -82,7 +82,7 @@ This screen should contain controls that allow the user to:
 
 ### Analysis Screen
 
-![wireframe](img/screen3_wireframe.png)
+![wireframe](img/analysis_screen_wireframe.png)
 
 #### Utility Usage Graph
 
@@ -107,8 +107,11 @@ This component should display a table like the following:
 
 #### Menu Bar
 
+![wireframe](img/menu_bar.png)
+
 All screens should include a menu bar at the top that contains the following:
 
 - links to all application screens so that the user can switch between them
-- a button to restart the simulation
+- the current simulation time
 - a simulation speed control component that allows the user to speed up or slow down the simulation
+- a button to restart the simulation
