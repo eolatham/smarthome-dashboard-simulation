@@ -122,26 +122,24 @@ The following sections describe features to be implemented by the BA students on
 
 ### Smart Home Marketing Pitch
 
-**Student**: Steven Capleton
-**Minor**: Economics
-
-**Present study findings that promote economic reasons to have a smart home automated system.**
+- Student: Steven Capleton
+- Minor: Economics
+- Description: Present study findings that promote economic reasons to have a smart home automated system.
 
 ### Advanced Utility Usage Projection
 
-**Student**: Landon Dyken
-**Minor**: Mathematics
-
-**Calculate next month utility usage projections in a smart and accurate way based on past events.**
+- Student: Landon Dyken
+- Minor: Mathematics
+- Description: Calculate next month utility usage projections in a smart and accurate way based on past events.
 
 ### Web Design Style Guide
 
-**Student**: Karen Horten
-**Minor**: Graphic Design
-
-**Create a web design style guide to ensure that each web page of the application is styled in an attractive and consistent way.**
+- Student: Karen Horten
+- Minor: Graphic Design
+- Description: Create a web design style guide to ensure that each web page of the application is styled in an attractive and consistent way.
 
 ### ?
 
-**Student**: Brittney Latham
-**Minor**: Mathematics
+- Student: Brittney Latham
+- Minor: Mathematics
+- Description: ?
