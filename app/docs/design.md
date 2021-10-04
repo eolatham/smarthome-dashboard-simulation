@@ -301,9 +301,9 @@ The app publishes different types of SSE from a [SSE-compatible Flask app](https
 
 See [SSEPublisher.py](../public/sse/SSEPublisher.py).
 
-#### App Time Publisher
+#### Simulation Time Publisher
 
-The app time publisher sends the current time and speed of the [app clock](#app-clock) as a SSE to the frontend to be displayed **every real second**.
+The simulation time publisher sends the current absolute simulation time (the current time of the [app clock](#app-clock) counted from a constant start date) and the current simulation speed (the current speed of the [app clock](#app-clock)) as a SSE to the frontend to be displayed **every real second**.
 
 See [TimePublisher.py](../public/time/TimePublisher.py).
 

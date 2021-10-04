@@ -5,15 +5,14 @@ import { SSE_URL } from "../common/constants";
 // TODO: add functionality to change app clock speed
 type AppClockProps = {};
 type AppClockState = {
-  relativeTime: number;
-  absoluteTime: string;
+  time: string;
   speed: number;
 };
 class AppClock extends React.Component<AppClockProps, AppClockState> {
   eventSource: EventSource;
   constructor(props: AppClockProps) {
     super(props);
-    this.state = { relativeTime: 0, absoluteTime: null, speed: 0 };
+    this.state = { time: null, speed: 0 };
     this.eventSource = new EventSource(SSE_URL);
     this.processEvent = this.processEvent.bind(this);
   }
@@ -37,10 +36,12 @@ class AppClock extends React.Component<AppClockProps, AppClockState> {
     return (
       <>
         <h2>App Clock</h2>
-        <h3>Relative Time: {Math.round(this.state.relativeTime)} seconds</h3>
-        <h3>Absolute Time:</h3>
-        <div style={{ whiteSpace: "pre-wrap" }}>{this.state.absoluteTime}</div>
-        <h3>Speed: {Math.round(this.state.speed)} x real time</h3>
+        <h3>Simulation Time:</h3>
+        <div style={{ whiteSpace: "pre-wrap" }}>{this.state.time}</div>
+        <h3>Simulation Speed:</h3>
+        <div style={{ whiteSpace: "pre-wrap" }}>
+          {Math.round(this.state.speed)} x real time
+        </div>
       </>
     );
   }
