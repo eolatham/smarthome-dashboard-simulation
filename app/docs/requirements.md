@@ -142,7 +142,7 @@ The following sections describe features to be implemented by the BA students on
 ### Web Design Style Guide
 
 - **Student**: Karen Horten
-- **Minor**: Graphic Design
+- **Minor**: Business
 - **Description**: Create a web design style guide to ensure that each web page of the application is styled in an attractive and consistent way.
 
 ### Utility Usage Comparison
