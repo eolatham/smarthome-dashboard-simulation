@@ -344,10 +344,12 @@ See [the requirements document](requirements.md) for information about what the 
 - is always rendered
 - acts as a container that renders the selected [app screen](requirements.md#application-screens)
 - subscribes to [SSE channels](#server-sent-event-publishers) established by the backend
-- manages state for all of the [app screens](requirements.md#application-screens)
-  - stores state for each [app screen](requirements.md#application-screens) in a separate nested sub-object within its own state
-  - passes the appropriate state object and a function for updating it as props to the selected [app screen](requirements.md#application-screens) component
-  - updates state for the appropriate [app screens](requirements.md#application-screens) when it receives state-changing SSEs
-  - implements [shouldComponentUpdate](https://reactjs.org/docs/react-component.html#shouldcomponentupdate) to re-render only when state for the selected [app screen](requirements.md#application-screens) changes
+- manages state for all of the app screens
+  - stores state for each app screen in a separate nested sub-object within its own state
+  - passes the appropriate state object and a function for updating it as props to the selected app screen component
+  - updates state for the appropriate app screens when it receives state-changing SSEs
+  - implements [shouldComponentUpdate](https://reactjs.org/docs/react-component.html#shouldcomponentupdate) to re-render only when state for the selected app screen changes
 
 The `App` component essentially renders one selected app screen at a time, while processing all events for the other app screens in the background, which allows the simulation to run accurately and efficiently.
+
+See [App.tsx](../src/App.tsx).
