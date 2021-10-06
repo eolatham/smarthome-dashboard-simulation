@@ -15,7 +15,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from public.constants import *
 from public.time.AppClock import AppClock
 from public.time.TimePublisher import TimePublisher
-from public.events.Event import Event, testEvents
+from public.events.Event import UserGeneratedEvent, testEvents
 from public.events.EventStore import EventStore
 from public.events.EventPublisher import EventPublisher
 from public.analysis.AnalysisPublisher import AnalysisPublisher
@@ -137,8 +137,8 @@ def userGeneratedEvent():
     included in the calculations of derived state and utility usage.
     """
     try:
-        event: Event = request.json.get("event")
-        check_type("`event`", event, Event)
+        event: UserGeneratedEvent = request.json.get("event")
+        check_type("`event`", event, UserGeneratedEvent)
     except TypeError as e:
         return f"The value of `event` is invalid... {e.args[0]}", 400
 

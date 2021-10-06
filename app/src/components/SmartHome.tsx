@@ -1,12 +1,12 @@
 import React from "react";
-import { SmartHomeEvent, AnalysisObject } from "../common/types";
+import { Event, AnalysisObject } from "../common/types";
 import { processEventSourceError } from "../common/helpers";
 import { START_SIMULATION_URL, SSE_URL } from "../common/constants";
 
 // TODO: implement actual smart home state and functionality
 type SmartHomeProps = {};
 type SmartHomeState = {
-  events: SmartHomeEvent[];
+  events: Event[];
   indoorTemp: number;
   electricityUsage: number;
   electricityCost: number;
@@ -44,7 +44,7 @@ class SmartHome extends React.Component<SmartHomeProps, SmartHomeState> {
   }
 
   processEvent(event) {
-    var data: SmartHomeEvent = JSON.parse(event.data);
+    var data: Event = JSON.parse(event.data);
     console.log("Received smart home event with data:", data);
     this.setState({ events: [...this.state.events, data] });
   }
