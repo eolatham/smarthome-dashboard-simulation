@@ -9,13 +9,27 @@ import {
   UserGeneratedBooleanStateKey,
   UserGeneratedBooleanEvent,
 } from "./types";
-import { USER_GENERATED_EVENT_URL } from "./constants";
+import { CLOCK_SPEED_URL, USER_GENERATED_EVENT_URL } from "./constants";
 
 export function processEventSourceError(error: object) {
   console.log("Failed to connect to Flask-Redis SSE stream...", error);
 }
 
-function postUserGeneratedEventRequest(event: UserGeneratedEvent) {
+export function postClockSpeedRequest(speed: number) {
+  fetch(CLOCK_SPEED_URL, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ speed: speed }),
+  }).then((resp) => {
+    if (resp.status !== 200)
+      window.alert("Failed to post clock speed to the server!");
+  });
+}
+
+export function postUserGeneratedEventRequest(event: UserGeneratedEvent) {
   fetch(USER_GENERATED_EVENT_URL, {
     method: "POST",
     headers: {
