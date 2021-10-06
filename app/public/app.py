@@ -71,6 +71,21 @@ if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
 SUCCESS = "Success", 200
 
 
+@APP.route("/constants", methods=["GET"])
+def constants():
+    """
+    Gets constants to be used in frontend user input components.
+    """
+    return jsonify(
+        {
+            "MIN_SPEEDUP_FACTOR": MIN_SPEEDUP_FACTOR,
+            "MAX_SPEEDUP_FACTOR": MAX_SPEEDUP_FACTOR,
+            "MIN_THERMOSTAT_TEMP": MIN_THERMOSTAT_TEMP,
+            "MAX_THERMOSTAT_TEMP": MAX_THERMOSTAT_TEMP,
+        }
+    )
+
+
 @APP.route("/start")
 def startSimulation():
     """

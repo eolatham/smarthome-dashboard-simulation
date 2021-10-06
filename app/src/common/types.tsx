@@ -2,6 +2,12 @@
  * Module for storing common types.
  */
 
+export type ConstantsFromBackend = {
+  MIN_SPEEDUP_FACTOR: number;
+  MAX_SPEEDUP_FACTOR: number;
+  MIN_THERMOSTAT_TEMP: number;
+  MAX_THERMOSTAT_TEMP: number;
+};
 export type SmartHomeEvent = {
   time: number;
   stateType: string;
