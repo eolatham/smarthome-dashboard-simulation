@@ -2,10 +2,8 @@
 Generate state of home for two months
 
 QUESTIONS:
-bathRoomfaucet - Should we instead have bathRoom1Bath and bathRoom1Shower to match state_types
-garageCarDoor1,2, and garageHouseDoor - when do these get used?
-Is it reasonable to assert that the project starts Monday, midnight, at least 60 days prior?
-How to avoid overlap with door events?
+1 Door behavior - Do we want to open/close garage doors when leaving for work/school?
+2. Light behavior - Should all lights be on when someone is home/awake?
 There is some SUS behavior with events starting on the NIGHT of the first day in doors
 """
 import random
@@ -215,9 +213,8 @@ class StateGenerator:
 
         #Iterate over each day
         for t_day in range(0, 60*TIME_MAP["day"], TIME_MAP["day"]):
-
             # S-S
-            if ((t_day % TIME_MAP["Saturday"]) == 0 ) or ((t_day % TIME_MAP["Sunday"]) == 0):
+            if ((t_day != 0) and (((t_day % TIME_MAP["Saturday"]) == 0 ) or ((t_day % TIME_MAP["Sunday"]) == 0))):
                 #7a-10p - 30 sec door event x32 (non overlapping)
                 t_range_start = t_day + 7 * TIME_MAP["hour"]
                 t_range_end = t_day + 22 * TIME_MAP["hour"]
@@ -227,19 +224,19 @@ class StateGenerator:
             else:
                 t_morning_start = t_day + 7 * TIME_MAP["hour"] + 15 * TIME_MAP["minute"]
                 t_morning_end = t_morning_start + 30 * TIME_MAP["minute"]
-                doorEvent(t_range_start, t_range_end, 4)
+                doorEvent(t_morning_start, t_morning_end, 4)
 
                 t_kids_start = t_day + 15 * TIME_MAP["hour"] + 45 * TIME_MAP["minute"]
                 t_kids_end = t_kids_start + 30 * TIME_MAP["minute"]
-                doorEvent(t_range_start, t_range_end, 2)
+                doorEvent(t_kids_start, t_kids_end, 2)
 
                 t_adults_start = t_day + 17 * TIME_MAP["hour"] + 15 * TIME_MAP["minute"]
                 t_adults_end = t_adults_start + 30 * TIME_MAP["minute"]
-                doorEvent(t_range_start, t_range_end, 2)
+                doorEvent(t_adults_start, t_adults_end, 2)
 
                 t_evening_start = t_day + 18 * TIME_MAP["hour"]
                 t_evening_end = t_evening_start + 2 * TIME_MAP["hour"]
-                doorEvent(t_range_start, t_range_end, 8)
+                doorEvent(t_evening_start, t_evening_end, 8)
 
 
     def generateOvenStoveEvents(self):
@@ -249,7 +246,7 @@ class StateGenerator:
         #Iterate over each day
         for t_day in range(0, 60*TIME_MAP["day"], TIME_MAP["day"]):
             # S-S
-            if ((t_day % TIME_MAP["Saturday"]) == 0 ) or ((t_day % TIME_MAP["Sunday"]) == 0):
+            if ((t_day != 0) and (((t_day % TIME_MAP["Saturday"]) == 0 ) or ((t_day % TIME_MAP["Sunday"]) == 0))):
                 #5-7p 30 min stove event
                 t_range_start = t_day + 17 * TIME_MAP["hour"]
                 t_range_end = t_day + 19 * TIME_MAP["hour"]
@@ -278,7 +275,7 @@ class StateGenerator:
         #Iterate over each day
         for t_day in range(0, 60*TIME_MAP["day"], TIME_MAP["day"]):
             # S-S 
-            if ((t_day % TIME_MAP["Saturday"]) == 0 ) or ((t_day % TIME_MAP["Sunday"]) == 0):
+            if ((t_day != 0) and (((t_day % TIME_MAP["Saturday"]) == 0 ) or ((t_day % TIME_MAP["Sunday"]) == 0))):
                 #7a-10p 5 min microwave event X6 
                 t_range_start = t_day + 7 * TIME_MAP["hour"]
                 t_range_end = t_day + 22 * TIME_MAP["hour"]
@@ -312,7 +309,7 @@ class StateGenerator:
         #Iterate over each day
         for t_day in range(0, 60*TIME_MAP["day"], TIME_MAP["day"]):
             # S-S
-            if ((t_day % TIME_MAP["Saturday"]) == 0 ) or ((t_day % TIME_MAP["Sunday"]) == 0):
+            if ((t_day != 0) and (((t_day % TIME_MAP["Saturday"]) == 0 ) or ((t_day % TIME_MAP["Sunday"]) == 0))):
                 #7a-10p 8hr LR TV event
                 t_range_start = t_day + 7 * TIME_MAP["hour"]
                 t_range_end = t_day + 22 * TIME_MAP["hour"]
@@ -357,7 +354,7 @@ class StateGenerator:
         #Iterate over each day
         for t_day in range(0, 60*TIME_MAP["day"], TIME_MAP["day"]):
             # S-S
-            if ((t_day % TIME_MAP["Saturday"]) == 0 ) or ((t_day % TIME_MAP["Sunday"]) == 0):
+            if ((t_day != 0) and (((t_day % TIME_MAP["Saturday"]) == 0 ) or ((t_day % TIME_MAP["Sunday"]) == 0))):
                 #6-7a 15 min shower event
                 t_range_start = t_day + 6 * TIME_MAP["hour"]
                 t_range_end = t_day + 7 * TIME_MAP["hour"]
