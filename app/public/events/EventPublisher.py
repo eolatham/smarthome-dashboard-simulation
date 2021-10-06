@@ -48,7 +48,6 @@ class EventPublisher(SSEPublisher):
         if eventStore.isEmpty():
             raise ValueError("`eventStore` should contain all pre-generated events!")
         self.eventStore = eventStore
-        self.lastPublishTime = eventStore.minTime
         super().__init__(
             logger, app, clock, scheduler, jobIntervalSeconds, jobIntervalType
         )
