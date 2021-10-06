@@ -4,28 +4,15 @@ Generate state of home for two months
 QUESTIONS:
 1 Door behavior - Do we want to open/close garage doors when leaving for work/school?
 2. Light behavior - Should all lights be on when someone is home/awake?
-There is some SUS behavior with events starting on the NIGHT of the first day in doors
 """
+#STL
 import random
 import psycopg2
 import datetime
 from meteostat import Hourly, Point
 
-
-TIME_MAP = {
-    #Assumes 0 = Midnight on Monday
-    "minute": 60,
-    "hour": 3600,
-    "day": 86400,
-    "week": 604800,
-    "month": 2592000, #Assumes 30 days
-    "Tuesday": 86400,
-    "Wednesday": 172800,
-    "Thursday": 259200,
-    "Friday": 345600,
-    "Saturday": 432000,
-    "Sunday": 518400,
-}
+#LOCAL
+from public.constants import TIME_MAP
 
 HUMAN_READABLE_MAP = {
     # This could be done with some sort of regex...
@@ -509,16 +496,16 @@ def main():
 
     stateGenerator = StateGenerator(None, start_datetime, weather_location)
 
-    #stateGenerator.generateTempEvents()
-    #stateGenerator.generateInitialState()
-    #stateGenerator.generateDoorEvents()
-    #stateGenerator.generateOvenStoveEvents()
-    #stateGenerator.generateTvEvents()
-    #stateGenerator.generateShowerBathFanEvents()
-    #stateGenerator.generateMicrowaveEvents()
-    #stateGenerator.generateDishwasherEvents()
-    #stateGenerator.generateClothesWasherDryerEvents()
-    #stateGenerator.generateLightEvents()
+    stateGenerator.generateTempEvents()
+    stateGenerator.generateInitialState()
+    stateGenerator.generateDoorEvents()
+    stateGenerator.generateOvenStoveEvents()
+    stateGenerator.generateTvEvents()
+    stateGenerator.generateShowerBathFanEvents()
+    stateGenerator.generateMicrowaveEvents()
+    stateGenerator.generateDishwasherEvents()
+    stateGenerator.generateClothesWasherDryerEvents()
+    stateGenerator.generateLightEvents()
     
 
 
