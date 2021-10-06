@@ -88,6 +88,8 @@ This screen should contain controls that allow the user to:
 
 This component should display a live-updated utility usage graph that includes the following data:
 
+- the **local average water usage** as a horizontal line (related to the additional [utility usage comparison feature](#utility-usage-comparison))
+- the **local average power usage** as a horizontal line (related to the additional [utility usage comparison feature](#utility-usage-comparison))
 - the **water usage** trend from the start of the simulation to now
 - the **power usage** trend from the start of the simulation to now
 - the **total utilities cost** trend from the start of the simulation to now
@@ -96,12 +98,17 @@ This component should display a live-updated utility usage graph that includes t
 
 This component should display a table like the following:
 
-|                        | Water Usage | Power Usage | Total Cost |
-| ---------------------- | ----------- | ----------- | ---------- |
-| Last Day               | x           | x           | x          |
-| Last Week              | x           | x           | x          |
-| Last Month             | x           | x           | x          |
-| Next Month (Projected) | x           | x           | x          |
+|                        | Water Usage                          | Power Usage                        | Total Cost |
+| ---------------------- | ------------------------------------ | ---------------------------------- | ---------- |
+| Last Day               | gallons, % higher/lower than average | watts, % higher/lower than average | dollars    |
+| Last Week              | gallons, % higher/lower than average | watts, % higher/lower than average | dollars    |
+| Last Month             | gallons, % higher/lower than average | watts, % higher/lower than average | dollars    |
+| Next Month (projected) | gallons, % higher/lower than average | watts, % higher/lower than average | dollars    |
+
+Important details:
+
+- Cells for water and power usage should include percentages calculated with the additional [utility usage comparison feature](#utility-usage-comparison).
+- Projections for next month's utility usage should be calculated with the additional [advanced utility usage projection feature](#advanced-utility-usage-projection).
 
 ### All Screens
 
@@ -122,24 +129,24 @@ The following sections describe features to be implemented by the BA students on
 
 ### Smart Home Marketing Pitch
 
-- Student: Steven Capleton
-- Minor: Economics
-- Description: Present study findings that promote economic reasons to have a smart home automated system.
+- **Student**: Steven Capleton
+- **Minor**: Economics
+- **Description**: Present study findings that promote economic reasons to have a smart home automated system.
 
 ### Advanced Utility Usage Projection
 
-- Student: Landon Dyken
-- Minor: Mathematics
-- Description: Calculate next month utility usage projections in a smart and accurate way based on past events.
+- **Student**: Landon Dyken
+- **Minor**: Mathematics
+- **Description**: Calculate next month utility usage projections in a smart and accurate way based on past events.
 
 ### Web Design Style Guide
 
-- Student: Karen Horten
-- Minor: Graphic Design
-- Description: Create a web design style guide to ensure that each web page of the application is styled in an attractive and consistent way.
+- **Student**: Karen Horten
+- **Minor**: Business
+- **Description**: Create a web design style guide to ensure that each web page of the application is styled in an attractive and consistent way.
 
-### ?
+### Utility Usage Comparison
 
-- Student: Brittney Latham
-- Minor: Mathematics
-- Description: ?
+- **Student**: Brittney Latham
+- **Minor**: Mathematics
+- **Description**: Compare the smart home's utility usage with utility usage averages from other homes in the area.

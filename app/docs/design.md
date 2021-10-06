@@ -301,9 +301,9 @@ The app publishes different types of SSE from a [SSE-compatible Flask app](https
 
 See [SSEPublisher.py](../public/sse/SSEPublisher.py).
 
-#### App Time Publisher
+#### Simulation Time Publisher
 
-The app time publisher sends the current time and speed of the [app clock](#app-clock) as a SSE to the frontend to be displayed **every real second**.
+The simulation time publisher sends the current absolute simulation time (the current time of the [app clock](#app-clock) counted from a constant start date) and the current simulation speed (the current speed of the [app clock](#app-clock)) as a SSE to the frontend to be displayed **every real second**.
 
 See [TimePublisher.py](../public/time/TimePublisher.py).
 
@@ -336,3 +336,20 @@ The internal workings of the frontend are considerably simpler than that of the 
 For user actions (such as actions affecting the [app clock](#app-clock) or [smart home state](#smart-home-state)), the frontend sends basic HTTP requests to the backend to process them.
 
 See [the requirements document](requirements.md) for information about what the frontend looks like and what it can do.
+
+### The `App` Component
+
+`App` is the root component of the frontend. It:
+
+- is always rendered
+- acts as a container that renders the selected [app screen](requirements.md#application-screens)
+- subscribes to [SSE channels](#server-sent-event-publishers) established by the backend
+- manages state for all of the app screens
+  - stores state for each app screen in a separate nested sub-object within its own state
+  - passes the appropriate state object and a function for updating it as props to the selected app screen component
+  - updates state for the appropriate app screens when it receives state-changing SSEs
+  - implements [shouldComponentUpdate](https://reactjs.org/docs/react-component.html#shouldcomponentupdate) to re-render only when state for the selected app screen changes
+
+The `App` component essentially renders one selected app screen at a time, while processing all events for the other app screens in the background, which allows the simulation to run accurately and efficiently.
+
+See [App.tsx](../src/App.tsx).
