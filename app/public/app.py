@@ -15,7 +15,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from public.constants import *
 from public.time.AppClock import AppClock
 from public.time.TimePublisher import TimePublisher
-from public.events.Event import UserGeneratedEvent, testEvents
+from public.events.Event import UserGeneratedEvent, testEvents, isThermostatEvent
 from public.events.EventStore import EventStore
 from public.events.EventPublisher import EventPublisher
 from public.analysis.AnalysisPublisher import AnalysisPublisher
@@ -141,6 +141,18 @@ def userGeneratedEvent():
         check_type("`event`", event, UserGeneratedEvent)
     except TypeError as e:
         return f"The value of `event` is invalid... {e.args[0]}", 400
+
+    if isThermostatEvent(event):
+        if event["new_value"] < MIN_THERMOSTAT_TEMP:
+            return (
+                f"The thermostat temperature should not be less than {MIN_THERMOSTAT_TEMP}",
+                400,
+            )
+        if event["new_value"] > MAX_THERMOSTAT_TEMP:
+            return (
+                f"The thermostat temperature should not be greater than {MAX_THERMOSTAT_TEMP}",
+                400,
+            )
 
     event["time"] = int(APP_CLOCK.time())
     EVENT_STORE.putUserGeneratedEvents(event)

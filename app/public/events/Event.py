@@ -185,6 +185,10 @@ def isBooleanEvent(event: Event) -> bool:
     return isinstance(event["new_value"], bool)
 
 
+def isThermostatEvent(event: Event) -> bool:
+    return event["state_key"] == "thermostatTemp"
+
+
 def queryEvents() -> List[Event]:
     """
     Returns all pre-generated events from the database.
