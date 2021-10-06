@@ -3,7 +3,6 @@ import { Event, AnalysisObject } from "../common/types";
 import { processEventSourceError } from "../common/helpers";
 import { START_SIMULATION_URL, SSE_URL } from "../common/constants";
 
-// TODO: implement actual smart home state and functionality
 type SmartHomeProps = {};
 type SmartHomeState = {
   events: Event[];

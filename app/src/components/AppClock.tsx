@@ -2,7 +2,6 @@ import React from "react";
 import { processEventSourceError } from "../common/helpers";
 import { SSE_URL } from "../common/constants";
 
-// TODO: add functionality to change app clock speed
 type AppClockProps = {};
 type AppClockState = {
   time: string;
