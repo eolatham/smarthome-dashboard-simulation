@@ -222,18 +222,22 @@ class StateGenerator:
 
             # M-F
             else:
+                #7-7:30a 4x 30 sec door event
                 t_morning_start = t_day + 7 * TIME_MAP["hour"] + 15 * TIME_MAP["minute"]
                 t_morning_end = t_morning_start + 30 * TIME_MAP["minute"]
                 doorEvent(t_morning_start, t_morning_end, 4)
 
+                #3:45-4:15p 2x 30 sec door event
                 t_kids_start = t_day + 15 * TIME_MAP["hour"] + 45 * TIME_MAP["minute"]
                 t_kids_end = t_kids_start + 30 * TIME_MAP["minute"]
                 doorEvent(t_kids_start, t_kids_end, 2)
 
+                #5:15-5:45 2x 30 sec door event
                 t_adults_start = t_day + 17 * TIME_MAP["hour"] + 15 * TIME_MAP["minute"]
                 t_adults_end = t_adults_start + 30 * TIME_MAP["minute"]
                 doorEvent(t_adults_start, t_adults_end, 2)
 
+                #6-8p 8x 30 sec door event
                 t_evening_start = t_day + 18 * TIME_MAP["hour"]
                 t_evening_end = t_evening_start + 2 * TIME_MAP["hour"]
                 doorEvent(t_evening_start, t_evening_end, 8)
