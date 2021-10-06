@@ -50,13 +50,11 @@ HUMAN_READABLE_MAP = {
     "bathRoom1OverheadLight": "Bathroom 1 Overhead Light", 
     "bathRoom1ExhaustFan": "Bathroom 1 Exhaust Fan", 
     "bathRoom1Window": "Bathroom 1 Window", 
-    "bathRoom1Bath": "Bathroom 1 Bath", 
-    "bathRoom1Shower": "Bathroom 1 Shower", 
+    "bathRoom1Faucet": "Bathroom 1 Faucet", 
     "bathRoom2OverheadLight": "Bathroom 2 Overhead Light",
     "bathRoom2ExhaustFan": "Bathroom 2 Exhaust Fan", 
     "bathRoom2Window": "Bathroom 2 Window", 
-    "bathRoom2Bath": "Bathroom 2 Bath", 
-    "bathRoom2Shower": "Bathroom 2 Shower",
+    "bathRoom2Faucet": "Bathroom 2 Faucet", 
     "livingRoomOverheadLight": "Living Room Overhead Light", 
     "livingRoomLamp1": "Living Room Lamp 1",
     "livingRoomLamp2": "Living Room Lamp 2", 
@@ -110,7 +108,7 @@ class StateGenerator:
         self.start = start
         #Assert start time is midnight, on monday, and at least 60 days prior:
         if not (start.weekday() == 0 and start.hour == 0 and start.minute == 0 and start.second == 0 and ((start + datetime.timedelta(61)) <= datetime.datetime.today())):
-            start_date = datetime.date.today() - datetime.timedelta(61)
+            start_date = datetime.date.today() - datetime.timedelta(days=61)
             week_day = start_date.weekday()
             start_date = start_date - datetime.timedelta(week_day)
             self.start = datetime.datetime(start_date.year, start_date.month, start_date.day)
@@ -139,14 +137,14 @@ class StateGenerator:
                         ["light", "bathRoom1OverheadLight", False, "Bathroom 1 Overhead Light is OFF"],
                         ["bathExhaustFan", "bathRoom1ExhaustFan", False, "Bathroom 1 Exhaust Fan is OFF"],
                         ["window", "bathRoom1Window", False, "Bathroom 1 Window is CLOSED"],
-                        ["shower", "bathRoom1Shower", False, "Bathroom 1 Shower is OFF"], #NOTE THIS IS DIFFERENT THAN BATHROOM FAUCET
-                        ["bath", "bathRoom1Bath", False, "Bathroom 1 Bath is OFF"],
+                        ["shower", "bathRoom1Faucet", False, "Bathroom 1 Faucet is OFF"], #NOTE THIS IS DIFFERENT THAN BATHROOM FAUCET
+                        ["bath", "bathRoom1Bath", False, "Bathroom 1 Faucet is OFF"],
 
                         ["light", "bathRoom2OverheadLight", False, "Bathroom 2 Overhead Light is OFF"],
                         ["bathExhaustFan", "bathRoom2ExhaustFan", False, "Bathroom 2 Exhaust Fan is OFF"],
                         ["window", "bathRoom2Window", False, "Bathroom 2 Window is CLOSED"],
-                        ["shower", "bathRoom2Shower", False, "Bathroom 2 Shower is OFF"], #NOTE THIS IS DIFFERENT THAN BATHROOM FAUCET
-                        ["bath", "bathRoom2Bath", False, "Bathroom 2 Bath is OFF"],
+                        ["shower", "bathRoom2Faucet", False, "Bathroom 2 Faucet is OFF"], #NOTE THIS IS DIFFERENT THAN BATHROOM FAUCET
+                        ["bath", "bathRoom2Faucet", False, "Bathroom 2 Faucet is OFF"],
 
                         ["light", "livingRoomOverheadLight", False, "Living Room Overhead Light is OFF"],
                         ["light", "livingRoomLamp1", False, "Living Room Lamp 1 is OFF"],
@@ -169,21 +167,21 @@ class StateGenerator:
                         ["door", "garageCarDoor2", False, "Garage Car Door 2 is CLOSED"],
                         ["door", "garageHouseDoor", False, "Garage House Door is CLOSED"],
                         ["door", "frontDoor", False, "Front Door is CLOSED"],
-                        ["door", "backDoor", False, "Back Door is CLOSED"]]
+                        ["door", "backDoor", False, "Back Door is CLOSED"],
+                        
+                        ["clothesWasher", "clothesWasher", False, "Clothes Washer is OFF"],
+                        ["clothesDryer", "clothesDryer", False, "Clothes Dryer is OFF"]]
         
         for initial_state in initial_states:
-            print(initial_state)
-            #self.insertEvent("boolean_event", 0, initial_state[0], initial_state[1], initial_state[2], initial_state[3])
+            self.insertEvent("boolean_event", 0, initial_state[0], initial_state[1], initial_state[2], initial_state[3])
 
         #Integer initial states
-        #self.insertEvent("integer_event", 0, "temp", "thermostatTemp", 70, "Thermostat is set to 70")
-        print(["integer_event", 0, "temp", "thermostatTemp", 70, "Thermostat is set to 70"])
+        self.insertEvent("integer_event", 0, "temp", "thermostatTemp", 70, "Thermostat is set to 70")
 
         init_weather_data = Hourly(self.weather_location, self.start, self.start)
         init_weather_data = init_weather_data.fetch()
         temp = int(9/5*init_weather_data.temp[0]) + 32
-        #self.insertEvent("integer_event", 0, "temp", "outdoorTemp", temp, "Current outdoor temperature is "+str(temp))
-        print(["integer_event", 0, "temp", "outdoorTemp", temp, "Current outdoor temperature is "+str(temp)])
+        self.insertEvent("integer_event", 0, "temp", "outdoorTemp", temp, "Current outdoor temperature is "+str(temp))
 
     def generateTempEvents(self):
         """ Generate hourly weather data"""
@@ -195,9 +193,7 @@ class StateGenerator:
             weather_data = weather_data.fetch()
             for i in range(len(weather_data)):
                 temp = int(9/5*weather_data.temp[i]) + 32
-                #self.insertEvent("integer_event", i*TIME_MAP["hour"], "temp", "outdoorTemp", temp, "The current outdoor temperature is "+str(temp)))
-                weather_vals = ["integer_event", i*TIME_MAP["hour"], "temp", "outdoorTemp", temp, "The current outdoor temperature is "+str(temp)]
-                print(weather_vals)
+                self.insertEvent("integer_event", i*TIME_MAP["hour"], "temp", "outdoorTemp", temp, "The current outdoor temperature is "+str(temp))
         
         except Exception as e:
             print(e)
@@ -227,8 +223,6 @@ class StateGenerator:
                 t_range_end = t_day + 22 * TIME_MAP["hour"]
                 doorEvent(t_range_start, t_range_end, 32)
 
-                t_day = t_day + TIME_MAP["day"] #Increment by a day
-
             # M-F
             else:
                 t_morning_start = t_day + 7 * TIME_MAP["hour"] + 15 * TIME_MAP["minute"]
@@ -246,8 +240,6 @@ class StateGenerator:
                 t_evening_start = t_day + 18 * TIME_MAP["hour"]
                 t_evening_end = t_evening_start + 2 * TIME_MAP["hour"]
                 doorEvent(t_range_start, t_range_end, 8)
-
-                t_day = t_day + TIME_MAP["day"] #Increment by a day
 
 
     def generateOvenStoveEvents(self):
@@ -268,8 +260,6 @@ class StateGenerator:
                 t_range_end = t_day + 19 * TIME_MAP["hour"]
                 self.createEvent(t_range_start, t_range_end, 60 * TIME_MAP["minute"], "oven", "kitchenOven")
 
-                t_day = t_day + TIME_MAP["day"] #Increment by a day
-
             # M-F
             else:
                 #5:45-7p 15 min stove event
@@ -282,10 +272,39 @@ class StateGenerator:
                 t_range_end = t_day + 19 * TIME_MAP["hour"]
                 self.createEvent(t_range_start, t_range_end, 45 * TIME_MAP["minute"], "oven", "kitchenOven")
 
-                t_day = t_day + TIME_MAP["day"] #Increment by a day
 
     def generateMicrowaveEvents(self):
         """Generate Microwave Events"""
+        #Iterate over each day
+        for t_day in range(0, 60*TIME_MAP["day"], TIME_MAP["day"]):
+            # S-S 
+            if ((t_day % TIME_MAP["Saturday"]) == 0 ) or ((t_day % TIME_MAP["Sunday"]) == 0):
+                #7a-10p 5 min microwave event X6 
+                t_range_start = t_day + 7 * TIME_MAP["hour"]
+                t_range_end = t_day + 22 * TIME_MAP["hour"]
+                self.createEvent(t_range_start, t_range_end, 5 * TIME_MAP["minute"], "microwave", "kitchenMicrowave", num_insert=6)
+
+            #M-F
+            else:
+                #5a-6a 5 min microwave event
+                t_range_start = t_day + 5 * TIME_MAP["hour"]
+                t_range_end = t_day + 6 * TIME_MAP["hour"]
+                self.createEvent(t_range_start, t_range_end, 5 * TIME_MAP["minute"], "microwave", "kitchenMicrowave")
+
+                #6-7:15a 5 min microwave event
+                t_range_start = t_day + 6 * TIME_MAP["hour"]
+                t_range_end = t_day + 7 * TIME_MAP["hour"] + 15 * TIME_MAP["minute"]
+                self.createEvent(t_range_start, t_range_end, 5 * TIME_MAP["minute"], "microwave", "kitchenMicrowave")
+
+                #4:15-4:45p 5 min microwave event
+                t_range_start = t_day + 16 * TIME_MAP["hour"] + 15 * TIME_MAP["minute"]
+                t_range_end = t_day + 16 * TIME_MAP["hour"] + 45 * TIME_MAP["minute"]
+                self.createEvent(t_range_start, t_range_end, 5 * TIME_MAP["minute"], "microwave", "kitchenMicrowave")
+
+                #4:45-5:15p 5 min microwave event
+                t_range_start = t_day + 16 * TIME_MAP["hour"] + 45 * TIME_MAP["minute"]
+                t_range_end = t_day + 17 * TIME_MAP["hour"] + 15 * TIME_MAP["minute"]
+                self.createEvent(t_range_start, t_range_end, 5 * TIME_MAP["minute"], "microwave", "kitchenMicrowave")
 
     def generateTvEvents(self):
         # Can be decoupled
@@ -322,13 +341,19 @@ class StateGenerator:
             t_range_end = t_day + 22 * TIME_MAP["hour"]
             self.createEvent(t_range_start, t_range_end, 2 * TIME_MAP["hour"], "bedRoomTv", "bedRoom1Tv")
             
-            t_day = t_day + TIME_MAP["day"] #Increment by a day
 
     
     def generateShowerBathFanEvents(self):
         # Can be decoupled - ish
-        #NOT DONE!!! Still needs fan and M-F morning showers
         """Generate Shower, Bath, and Bath Exhause Fan Events"""
+        fan1 = {
+            "state_type": "bathExhaustFan",
+            "state_key": "bathRoom1ExhaustFan"
+        }
+        fan2 = {
+            "state_type": "bathExhaustFan",
+            "state_key": "bathRoom2ExhaustFan"
+        }
         #Iterate over each day
         for t_day in range(0, 60*TIME_MAP["day"], TIME_MAP["day"]):
             # S-S
@@ -336,60 +361,84 @@ class StateGenerator:
                 #6-7a 15 min shower event
                 t_range_start = t_day + 6 * TIME_MAP["hour"]
                 t_range_end = t_day + 7 * TIME_MAP["hour"]
-                self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "shower", "bathRoom1Shower")
+                self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "shower", "bathRoom1Faucet", concurrent_event=fan1)
 
                 #7-8a 15 min shower event
                 t_range_start = t_day + 7 * TIME_MAP["hour"]
                 t_range_end = t_day + 8 * TIME_MAP["hour"]
-                self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "shower", "bathRoom2Shower")
+                self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "shower", "bathRoom2Faucet", concurrent_event=fan2)
 
                 #11-12p 15 min shower event
                 t_range_start = t_day + 11 * TIME_MAP["hour"]
                 t_range_end = t_day + 12 * TIME_MAP["hour"]
-                self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "shower", "bathRoom1Shower")
+                self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "shower", "bathRoom1Faucet", concurrent_event=fan1)
 
                 #12-1p 15 min bath event
                 t_range_start = t_day + 12 * TIME_MAP["hour"]
                 t_range_end = t_day + 13 * TIME_MAP["hour"]
-                self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "bath", "bathRoom1Bath")
+                self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "bath", "bathRoom1Faucet", concurrent_event=fan1)
 
             # M-F
             else:
                 #5:30-6:15a 15 min shower event
-                t_range_start = t_day + 6 * TIME_MAP["hour"]
-                t_range_end = t_day + 7 * TIME_MAP["hour"]
-                self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "shower", "bathRoom1Shower")
+                t_range_start = t_day + 5 * TIME_MAP["hour"] + 30 * TIME_MAP["minute"]
+                t_range_end = t_day + 6 * TIME_MAP["hour"] + 15 * TIME_MAP["minute"]
+                self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "shower", "bathRoom1Faucet", concurrent_event=fan1)
 
                 #6:15-7a 15 min shower event
-                t_range_start = t_day + 7 * TIME_MAP["hour"]
-                t_range_end = t_day + 8 * TIME_MAP["hour"]
-                self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "shower", "bathRoom2Shower")
+                t_range_start = t_day + 6 * TIME_MAP["hour"] + 15 * TIME_MAP["minute"]
+                t_range_end = t_day + 7 * TIME_MAP["hour"]
+                self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "shower", "bathRoom2Faucet", concurrent_event=fan2)
 
             #Any Day
             #6-7p 15 min bath event
             t_range_start = t_day + 18 * TIME_MAP["hour"]
             t_range_end = t_day + 19 * TIME_MAP["hour"]
-            self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "bath", "bathRoom1Bath")
+            self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "bath", "bathRoom1Faucet", concurrent_event=fan1)
 
             #7-8p 15 min bath event
             t_range_start = t_day + 19 * TIME_MAP["hour"]
             t_range_end = t_day + 20 * TIME_MAP["hour"]
-            self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "bath", "bathRoom2Bath")
+            self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "bath", "bathRoom2Faucet", concurrent_event=fan2)
 
-            t_day = t_day + TIME_MAP["day"] #Increment by a day
+    def generateDishwasherEvents(self):
+        """Generate Dishwasher Events"""
+        # Iterate over each week
+        for t_week in range(0, 8 * TIME_MAP["week"], TIME_MAP["week"]):
+            run_days = random.sample(range(7), 4)
+            # Any 4 days, 7-10p 45 min dishWasher event
+            for run_day in run_days:
+                t_range_start = t_week + run_day * TIME_MAP["day"] + 19 * TIME_MAP["hour"]
+                t_range_end = t_week + run_day * TIME_MAP["day"] + 22 * TIME_MAP["hour"]
+                self.createEvent(t_range_start, t_range_end, 45 * TIME_MAP["minute"], "dishWasher", "kitchenDishWasher")
+
+    def generateClothesWasherDryerEvents(self):
+        """Generate Clothes Washer and Clothes Dryer Events"""
+
+        dryer = {
+            "state_type": "clothesDryer",
+            "state_key": "clothesDryer"
+        }
+        #Iterate over each week
+        for t_week in range(0, 8 * TIME_MAP["week"], TIME_MAP["week"]):
+            run_days = random.sample(range(7), 4)
+            # Any 4 days, 60 min clothes wash/dry event
+            for run_day in run_days:
+                # 7-10p on weekdays
+                if run_day < 5:
+                    t_range_start = t_week + run_day * TIME_MAP["day"] + 19 * TIME_MAP["hour"]
+                    t_range_end = t_week + run_day * TIME_MAP["day"] + 22 * TIME_MAP["hour"]
+                    self.createEvent(t_range_start, t_range_end, 30 * TIME_MAP["minute"], "clothesWasher", "clothesWasher", concurrent_event=dryer)
+                # 8a-10p on weekends
+                else:
+                    t_range_start = t_week + run_day * TIME_MAP["day"] + 8 * TIME_MAP["hour"]
+                    t_range_end = t_week + run_day * TIME_MAP["day"] + 22 * TIME_MAP["hour"]
+                    self.createEvent(t_range_start, t_range_end, 30 * TIME_MAP["minute"], "clothesWasher", "clothesWasher", concurrent_event=dryer)
 
     def generateLightEvents(self):
         """Generate Light Events"""
         # This will likely get moved into door events because lights 
         # Are on when family is home and awake
-        pass
-
-    def generateDishwasherEvents(self):
-        """Generate Dishwasher Events"""
-        pass
-
-    def generateClothesWasherDryerEvents(self):
-        """Generate Clothes Washer and Clothes Dryer Events"""
         pass
     
     def generateRefrigeratorEvents(self):
@@ -402,19 +451,32 @@ class StateGenerator:
         # This will be empty
         pass
 
-    def createEvent(self, t_range_start, t_range_end, duration, state_type, state_key, message=("ON", "OFF"), num_insert=1, table="boolean_event"):
+    def createEvent(self, t_range_start, t_range_end, duration, state_type, state_key, message=("ON", "OFF"), concurrent_event=None, num_insert=1, table="boolean_event"):
             for i in range(num_insert):
                 #Determine time of door events and insert into db
                 event_start_t = random.randint(t_range_start, t_range_end - duration)
                 event_stop_t = event_start_t + duration
 
-                #self.insertEvent(table, event_start_t, state_type, state_key, True, HUMAN_READABLE_MAP[state_key]+" is "+message[0])
-                #self.insertEvent(table, event_stop_t, state_type, state_key, False, HUMAN_READABLE_MAP[state_key]+" is "+message[1])
-                print([table, event_start_t, state_type, state_key, True, HUMAN_READABLE_MAP[state_key]+" is "+message[0]])
-                print([table, event_stop_t, state_type, state_key, False, HUMAN_READABLE_MAP[state_key]+" is "+message[1]])        
+                self.insertEvent(table, event_start_t, state_type, state_key, True, HUMAN_READABLE_MAP[state_key]+" is "+message[0])
+                self.insertEvent(table, event_stop_t, state_type, state_key, False, HUMAN_READABLE_MAP[state_key]+" is "+message[1])
+
+                # Handle things that are contingent on other things - lights/bath fans
+                if concurrent_event is not None:
+                    #Special handler for running clothes dryer 30 mins after washer
+                    if concurrent_event["state_type"] == "clothesDryer":
+                        event_start_t += 30 * TIME_MAP["minute"]
+                        event_stop_t += 30 * TIME_MAP["minute"]
+
+                    self.insertEvent(table, event_start_t, concurrent_event["state_type"], concurrent_event["state_key"], True, HUMAN_READABLE_MAP[concurrent_event["state_key"]]+" is "+message[0])
+                    self.insertEvent(table, event_stop_t, concurrent_event["state_type"], concurrent_event["state_key"], False, HUMAN_READABLE_MAP[concurrent_event["state_key"]]+" is "+message[1])
+                    
 
     def insertEvent(self, table, time, state_type, state_key, new_value, message):
         """Insert specified values into database"""
+
+        print([table, str(self.convertToDate(time)), state_type, state_key, new_value, message])
+
+        """
         if table in ["boolean_event", "integer_event"]:
             try:
                 self.db.execute((f"INSERT INTO pre_generated_events.{table} "
@@ -425,6 +487,11 @@ class StateGenerator:
                 print(e)
         else:
             print("Could not insert into table" + table)
+        """
+
+    def convertToDate(self, time):
+        """Return a datetime object representing the date 'time' seconds after start"""
+        return self.start + datetime.timedelta(seconds=time)
 
 
 def main():
@@ -446,7 +513,11 @@ def main():
     #stateGenerator.generateDoorEvents()
     #stateGenerator.generateOvenStoveEvents()
     #stateGenerator.generateTvEvents()
-    stateGenerator.generateShowerBathFanEvents()
+    #stateGenerator.generateShowerBathFanEvents()
+    #stateGenerator.generateMicrowaveEvents()
+    #stateGenerator.generateDishwasherEvents()
+    #stateGenerator.generateClothesWasherDryerEvents()
+    #stateGenerator.generateLightEvents()
     
 
 
