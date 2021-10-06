@@ -48,9 +48,9 @@ The user should be able to view utility usage and cost data for:
 
 The following sections illustrate and describe the various screens and components the application should have to satisfy the above general requirements.
 
-### Main Screen
+### Home Screen
 
-![wireframe](img/screen1_wireframe.png)
+![wireframe](img/home_screen_wireframe.png)
 
 #### Interactive Floor Plan
 
@@ -73,7 +73,7 @@ This component should:
 
 ### Control Screen
 
-![wireframe](img/screen2_wireframe.png)
+![wireframe](img/control_screen_wireframe.png)
 
 This screen should contain controls that allow the user to:
 
@@ -82,12 +82,14 @@ This screen should contain controls that allow the user to:
 
 ### Analysis Screen
 
-![wireframe](img/screen3_wireframe.png)
+![wireframe](img/analysis_screen_wireframe.png)
 
 #### Utility Usage Graph
 
 This component should display a live-updated utility usage graph that includes the following data:
 
+- the **local average water usage** as a horizontal line (related to the additional [utility usage comparison feature](#utility-usage-comparison))
+- the **local average power usage** as a horizontal line (related to the additional [utility usage comparison feature](#utility-usage-comparison))
 - the **water usage** trend from the start of the simulation to now
 - the **power usage** trend from the start of the simulation to now
 - the **total utilities cost** trend from the start of the simulation to now
@@ -96,19 +98,55 @@ This component should display a live-updated utility usage graph that includes t
 
 This component should display a table like the following:
 
-|                        | Water Usage | Power Usage | Total Cost |
-| ---------------------- | ----------- | ----------- | ---------- |
-| Last Day               | x           | x           | x          |
-| Last Week              | x           | x           | x          |
-| Last Month             | x           | x           | x          |
-| Next Month (Projected) | x           | x           | x          |
+|                        | Water Usage                          | Power Usage                        | Total Cost |
+| ---------------------- | ------------------------------------ | ---------------------------------- | ---------- |
+| Last Day               | gallons, % higher/lower than average | watts, % higher/lower than average | dollars    |
+| Last Week              | gallons, % higher/lower than average | watts, % higher/lower than average | dollars    |
+| Last Month             | gallons, % higher/lower than average | watts, % higher/lower than average | dollars    |
+| Next Month (projected) | gallons, % higher/lower than average | watts, % higher/lower than average | dollars    |
+
+Important details:
+
+- Cells for water and power usage should include percentages calculated with the additional [utility usage comparison feature](#utility-usage-comparison).
+- Projections for next month's utility usage should be calculated with the additional [advanced utility usage projection feature](#advanced-utility-usage-projection).
 
 ### All Screens
 
 #### Menu Bar
 
+![wireframe](img/menu_bar.png)
+
 All screens should include a menu bar at the top that contains the following:
 
 - links to all application screens so that the user can switch between them
-- a button to restart the simulation
+- the current simulation time
 - a simulation speed control component that allows the user to speed up or slow down the simulation
+- a button to restart the simulation
+
+## Additional Features
+
+The following sections describe features to be implemented by the BA students on the team related to their minors.
+
+### Smart Home Marketing Pitch
+
+- **Student**: Steven Capleton
+- **Minor**: Economics
+- **Description**: Present study findings that promote economic reasons to have a smart home automated system.
+
+### Advanced Utility Usage Projection
+
+- **Student**: Landon Dyken
+- **Minor**: Mathematics
+- **Description**: Calculate next month utility usage projections in a smart and accurate way based on past events.
+
+### Web Design Style Guide
+
+- **Student**: Karen Horten
+- **Minor**: Business
+- **Description**: Create a web design style guide to ensure that each web page of the application is styled in an attractive and consistent way.
+
+### Utility Usage Comparison
+
+- **Student**: Brittney Latham
+- **Minor**: Mathematics
+- **Description**: Compare the smart home's utility usage with utility usage averages from other homes in the area.
