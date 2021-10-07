@@ -87,18 +87,17 @@ class AnalysisPublisher(SSEPublisher):
         if eventStore.isEmpty():
             raise ValueError("`eventStore` should contain all pre-generated events!")
         self.eventStore = eventStore
-        self.lastPublishTime = self.lastCalculationTime = eventStore.minTime
-        self.outdoorTemp = eventStore.getFirstEventValue("outdoorTemp")
-        self.thermostatTemp = eventStore.getFirstEventValue("thermostatTemp")
-        self.indoorTemp = self.thermostatTemp  # Use as initial value
-        self.booleanStateTrackerMap = BooleanStateTrackerMap(eventStore)
         super().__init__(
             logger, app, clock, scheduler, jobIntervalSeconds, jobIntervalType
         )
 
     # Override
     def start(self) -> None:
-        self.lastPublishTime = self.eventStore.minTime
+        self.lastPublishTime = self.lastCalculationTime = self.eventStore.minTime
+        self.outdoorTemp = self.eventStore.getFirstEventValue("outdoorTemp")
+        self.thermostatTemp = self.eventStore.getFirstEventValue("thermostatTemp")
+        self.indoorTemp = self.thermostatTemp  # Use as initial value
+        self.booleanStateTrackerMap = BooleanStateTrackerMap(self.eventStore)
         self.booleanStateTrackerMap.clear()
         super().start()
 

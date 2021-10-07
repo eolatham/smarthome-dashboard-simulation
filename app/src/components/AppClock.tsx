@@ -5,7 +5,6 @@ import { Container, Row } from "react-bootstrap";
 import { BsClock } from "react-icons/bs";
 
 
-// TODO: add functionality to change app clock speed
 type AppClockProps = {};
 type AppClockState = {
   time: string;

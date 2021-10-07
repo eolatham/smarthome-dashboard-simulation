@@ -11,6 +11,7 @@ APP_TIME = "APP_TIME"
 MIN_APP_TIME = 0  # Seconds
 MAX_APP_TIME = 5184000  # Seconds (60 days)
 
+# TODO: change this to the correct date after `generate_events.py` is run
 SIMULATION_START_DATE_TIMESTAMP = datetime(2021, 10, 4).timestamp()
 
 MIN_SPEEDUP_FACTOR = 1  # 1 real second = 1 app second

@@ -32,6 +32,7 @@ BooleanStateType = Literal[
     "clothesWasher",
     "clothesDryer",
 ]
+UserGeneratedBooleanStateType = Literal["door", "window", "light"]
 StateType = Union[IntegerStateType, BooleanStateType]
 
 IntegerStateKey = Literal["outdoorTemp", "thermostatTemp"]
@@ -83,6 +84,41 @@ BooleanStateKey = Literal[
     "kitchenWindow1",
     "kitchenWindow2",
 ]
+UserGeneratedBooleanStateKey = Literal[
+    "bedRoom1OverheadLight",
+    "bedRoom1Lamp1",
+    "bedRoom1Lamp2",
+    "bedRoom1Window1",
+    "bedRoom1Window2",
+    "bedRoom2OverheadLight",
+    "bedRoom2Lamp1",
+    "bedRoom2Lamp2",
+    "bedRoom2Window1",
+    "bedRoom2Window2",
+    "bedRoom3OverheadLight",
+    "bedRoom3Lamp1",
+    "bedRoom3Lamp2",
+    "bedRoom3Window1",
+    "bedRoom3Window2",
+    "bathRoom1OverheadLight",
+    "bathRoom1Window",
+    "bathRoom2OverheadLight",
+    "bathRoom2Window",
+    "frontDoor",
+    "backDoor",
+    "garageHouseDoor",
+    "garageCarDoor1",
+    "garageCarDoor2",
+    "livingRoomOverheadLight",
+    "livingRoomLamp1",
+    "livingRoomLamp2",
+    "livingRoomWindow1",
+    "livingRoomWindow2",
+    "livingRoomWindow3",
+    "kitchenOverheadLight",
+    "kitchenWindow1",
+    "kitchenWindow2",
+]
 StateKey = Union[IntegerStateKey, BooleanStateKey]
 
 
@@ -110,7 +146,35 @@ class BooleanEvent(TypedDict):
     message: str
 
 
-Event = Union[IntegerEvent, BooleanEvent]
+class UserGeneratedThermostatEvent(TypedDict):
+    """
+    A user-generated event changing the thermostat
+    temperature value in smart home state.
+    """
+
+    time: int
+    state_type: Literal["temp"]
+    state_key: Literal["thermostatTemp"]
+    new_value: int
+    message: str
+
+
+class UserGeneratedBooleanEvent(TypedDict):
+    """
+    A user-generated event changing a user-changeable
+    boolean value in smart home state.
+    """
+
+    time: int
+    state_type: UserGeneratedBooleanStateType
+    state_key: UserGeneratedBooleanStateKey
+    new_value: bool
+    message: str
+
+
+UserGeneratedEvent = Union[UserGeneratedThermostatEvent, UserGeneratedBooleanEvent]
+
+Event = Union[IntegerEvent, BooleanEvent, UserGeneratedEvent]
 
 
 def isIntegerEvent(event: Event) -> bool:
@@ -119,6 +183,10 @@ def isIntegerEvent(event: Event) -> bool:
 
 def isBooleanEvent(event: Event) -> bool:
     return isinstance(event["new_value"], bool)
+
+
+def isThermostatEvent(event: Event) -> bool:
+    return event["state_key"] == "thermostatTemp"
 
 
 def queryEvents() -> List[Event]:

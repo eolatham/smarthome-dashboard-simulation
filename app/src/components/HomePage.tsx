@@ -2,14 +2,9 @@ import React from "react";
 import Lightbulb from "./Lightbulb";
 
 class HomePage extends React.Component {
-
-    static getInitialState() {
-        var initialState = {
-            TODO: '',
-        };
-
-        return initialState;
-    }
+  static getInitialState() {
+    return {}; // TODO
+  }
 
     render() {
         return (        
