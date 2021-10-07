@@ -66,26 +66,6 @@ HUMAN_READABLE_MAP = {
 
 class StateGenerator:
     def __init__(self, db, start, weather_location):
-        """
-        Define initial state
-        """
-
-        """
-        self.boolean_state_types = ["door, window", "light", "bedRoomTv",
-            "livingRoomTv", "stove", "oven", "microwave",
-            "refrigerator", "dishWasher", "shower", "bath",
-            "bathExhaustFan", "clothesWasher", "clothesDryer"]
-        self.boolean_state_keys = "bedRoom1OverheadLight", "bedRoom1Lamp1", "bedRoom1Lamp2", "bedRoom1Window1",
-            "bedRoom1Window2", "bedRoom1Tv", "bedRoom2OverheadLight", "bedRoom2Lamp1", "bedRoom2Lamp2", "bedRoom2Window1",
-            "bedRoom2Window2", "bedRoom2OverheadLight", "bedRoom2Lamp1", "bedRoom2Lamp2", "bedRoom2Window1", "bedRoom2Window2", 
-            "bathRoom1OverheadLight", "bathRoom1ExhaustFan", "bathRoom1Window", "bathRoom1Faucet", "bathRoom2OverheadLight",
-            "bathRoom2ExhaustFan", "bathRoom2Window", "bathRoom2Faucet", "livingRoomOverheadLight", "livingRoomLamp1",
-            "livingRoomLamp2", "livingRoomTv", "livingRoomWindow1", "livingRoomWindow2", "livingRoomWindow3", "kitchenOverheadLight",
-            "kitchenStove", "kitchenOven", "kitchenMicrowave", "kitchenRefrigerator", "kitchenDishWasher", "kitchenWindow1",
-            "kitchenWindow2", "garageHouseDoor", "garageCarDoor1", "garageCarDoor2", "frontDoor", "backDoor", "clothesWasher", "clothesDryer"]
-        self.integer_state_types = ["temp"]
-        self.integer_state_keys = ["outdoorTemp", "thermostatTemp"]
-        """
 
         self.db = db
         self.weather_location = weather_location
@@ -425,9 +405,94 @@ class StateGenerator:
 
     def generateLightEvents(self):
         """Generate Light Events"""
-        # This will likely get moved into door events because lights 
-        # Are on when family is home and awake
-        pass
+
+        def randomLightChange(t_range_start, t_range_end):
+            """Every 15 mins in a time period, all lights have 20% chance of random (ON/OFF) state change"""
+            lights = ["bedRoom1OverheadLight", "bedRoom1Lamp1", "bedRoom1Lamp2", "bedRoom2OverheadLight", "bedRoom2Lamp1", "bedRoom2Lamp2", "bedRoom3OverheadLight", "bedRoom3Lamp1", "bedRoom3Lamp2", "livingRoomOverheadLight", "livingRoomLamp1", "livingRoomLamp2", "kitchenOverheadLight"]
+            for time in range(t_range_start, t_range_end, 15 * TIME_MAP["minute"]:
+                for light in lights:
+                    if random.random() < .2:
+                        if random.random() < .5:
+                            self.insertEvent("boolean_event", time, "light", light, True, light+" is ON")
+                        else:
+                            self.insertEvent("boolean_event", time, "light", light, False, light+" is OFF")
+
+        def kitchenLivingRoomLightsOn(t_range_start, t_range_end):
+            light_names = ["livingRoomOverheadLight", "livingRoomLamp1", "livingRoomLamp2", "kitchenOverheadLight"]
+            for light in light_names:
+                self.insertEvent("boolean_event", random.randint(t_range_start, t_range_end), "light", light, True, light+" is ON")
+
+        def bedroomBathroomLightsOn(t_range_start, t_range_end):
+            light_names = [["bedRoom1OverheadLight", "bedRoom1Lamp1", "bedRoom1Lamp2"], ["bedRoom2OverheadLight", "bedRoom2Lamp1", "bedRoom2Lamp2"], ["bedRoom3OverheadLight", "bedRoom3Lamp1", "bedRoom3Lamp2"]]
+            for bedroom in light_names:
+                lights = random.sample(bedroom, 2)
+                for light in lights:
+                    t = random.randint(t_range_start, t_range_end)
+                    self.insertEvent("boolean_event", t, "light", light, True, light+" is ON")
+
+            self.insertEvent("boolean_event", random.randint(t_range_start, t_range_end), "light", "bathRoom1OverheadLight", True, "bathRoom1OverheadLight is ON")
+            self.insertEvent("boolean_event", random.randint(t_range_start, t_range_end), "light", "bathRoom2OverheadLight", True, "bathRoom2OverheadLight is ON")
+
+        #Iterate over each day
+        for t_day in range(0, 60*TIME_MAP["day"], TIME_MAP["day"]):
+            # S-S
+            if ((t_day != 0) and (((t_day % TIME_MAP["Saturday"]) == 0 ) or ((t_day % TIME_MAP["Sunday"]) == 0))):
+                
+                #6-7a 15 min shower event
+                t_range_start = t_day + 6 * TIME_MAP["hour"]
+                t_range_end = t_day + 7 * TIME_MAP["hour"]
+                self.createEvent(t_range_start, t_range_end, 15 * TIME_MAP["minute"], "shower", "bathRoom1Faucet", concurrent_event=fan1)
+                
+                # 6-6:15a, 2/3 of bedroom lights + bathroom lights come on
+                t_range_start = t_day + 6 * TIME_MAP["hour"]
+                t_range_end = t_day + 6 * TIME_MAP["hour"] + 15 * TIME_MAP["minute"]
+                bedroomBathroomLightsOn(t_range_start, t_range_end)
+
+                # 8-8:15a Kitchen/living room lights come on
+                t_range_start = t_day + 8 * TIME_MAP["hour"]
+                t_range_end = t_day + 8 * TIME_MAP["hour"] + 15 * TIME_MAP["minute"]
+                kitchenLivingRoomLightsOn(t_range_start, t_range_end)
+
+                # Every 15 mins, all lights have 20% chance of state change
+                t_range_start = t_day + 8 * TIME_MAP["hour"] + 15 * TIME_MAP["minute"]
+                t_range_end = t_day + 17 * TIME_MAP["hour"]
+                randomLightChange(t_range_start, t_range_end)
+
+                # 5-5:30p kitchen/living room lights all turn on if not already on
+                t_range_start = t_day + 17 * TIME_MAP["hour"]
+                t_range_end = t_day + 17 * TIME_MAP["hour"] + 30 * TIME_MAP["minute"]
+                kitchenLivingRoomLightsOn(t_range_start, t_range_end)
+
+                # 8-8:30 bedroom/bathroom lights all turn on if not already
+                t_range_start = t_day + 20 * TIME_MAP["hour"]
+                t_range_end = t_day + 20 * TIME_MAP["hour"] + 30 * TIME_MAP["minute"]
+                bedroomBathroomLightsOn(t_range_start, t_range_end)
+
+                # 10-10:30 all lights turn off
+                lights = ["bedRoom1OverheadLight", "bedRoom1Lamp1", "bedRoom1Lamp2", "bedRoom2OverheadLight", "bedRoom2Lamp1", "bedRoom2Lamp2", "bedRoom3OverheadLight", "bedRoom3Lamp1", "bedRoom3Lamp2", "livingRoomOverheadLight", "livingRoomLamp1", "livingRoomLamp2", "kitchenOverheadLight"]
+                for light in lights:
+                    self.insertEvent("boolean_event", random.randint(t_range_start, t_range_end), "light", light, False, light+" is OFF")
+
+
+            # M-F
+            else:
+                # Parents wake up, 2/3 bedroom lights come on arbitrarily + bathroom lights come on
+
+                # 15 mins after parents wake up kitchen/living room lights come on, master bedroom/bathroom lights off
+
+                # Kids wake up, 2/3 of bedroom lights + bathroom lights come on
+
+                # Kids leave for school, all lights go off
+
+                # First person comes home, kitchen/living room lights turn on
+
+                # Every 15 mins, all lights have 20% chance of state change.
+
+                # 8pm bedroom, bathroom lights turn on
+
+                # 8:30 pm kids lights off, living room/kitchen lights off
+
+                #10:30 pm adult bedroom/bathroom lights off
     
     def generateRefrigeratorEvents(self):
         """Generate Refrigerator Events"""
