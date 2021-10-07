@@ -1,6 +1,9 @@
 import React from "react";
 import { processEventSourceError } from "../common/helpers";
 import { SSE_URL } from "../common/constants";
+import { Container, Row } from "react-bootstrap";
+import { BsClock } from "react-icons/bs";
+
 
 // TODO: add functionality to change app clock speed
 type AppClockProps = {};
@@ -35,13 +38,19 @@ class AppClock extends React.Component<AppClockProps, AppClockState> {
   render() {
     return (
       <>
-        <h2>App Clock</h2>
-        <h3>Simulation Time:</h3>
-        <div style={{ whiteSpace: "pre-wrap" }}>{this.state.time}</div>
-        <h3>Simulation Speed:</h3>
-        <div style={{ whiteSpace: "pre-wrap" }}>
-          {Math.round(this.state.speed)} x real time
+      <Container className="m-2" style={{fontSize: "0.5em"}}>
+        <b>Simulation Time</b>
+        <Row>
+          <BsClock fontSize="4em"/>
+          <div style={{ whiteSpace: "pre-wrap" }}>{this.state.time}</div>
+        </ Row>
+      </Container>
+      <Container className="m-2" style={{fontSize: "0.5em"}}>
+        <b>Simulation Speed</b>
+        <div style={{ fontSize: "3em", whiteSpace: "pre-wrap", borderStyle: "solid", borderColor: "black", backgroundColor: "white" }}>
+          {Math.round(this.state.speed)} x
         </div>
+      </Container>
       </>
     );
   }
