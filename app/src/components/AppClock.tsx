@@ -1,6 +1,6 @@
 import React from "react";
-import { processEventSourceError } from "../common/helpers";
-import { SSE_URL } from "../common/constants";
+import { processEventSourceError, postClockSpeedRequest } from "../common/helpers";
+import { SSE_URL, MIN_SPEEDUP_FACTOR, MAX_SPEEDUP_FACTOR } from "../common/constants";
 import { Container, Row } from "react-bootstrap";
 import { BsClock } from "react-icons/bs";
 
@@ -9,12 +9,13 @@ type AppClockProps = {};
 type AppClockState = {
   time: string;
   speed: number;
+  newSpeed: number;
 };
 class AppClock extends React.Component<AppClockProps, AppClockState> {
   eventSource: EventSource;
   constructor(props: AppClockProps) {
     super(props);
-    this.state = { time: null, speed: 0 };
+    this.state = { time: null, speed: 0, newSpeed: 61 };
     this.eventSource = new EventSource(SSE_URL);
     this.processEvent = this.processEvent.bind(this);
   }
@@ -49,6 +50,8 @@ class AppClock extends React.Component<AppClockProps, AppClockState> {
         <div style={{ fontSize: "3em", whiteSpace: "pre-wrap", borderStyle: "solid", borderColor: "black", backgroundColor: "white" }}>
           {Math.round(this.state.speed)} x
         </div>
+        <input type="number" step="10" min={MIN_SPEEDUP_FACTOR} max={MAX_SPEEDUP_FACTOR} value={this.state.newSpeed} onChange={(event) => this.setState({newSpeed: event.target.valueAsNumber})}/>
+        <button onClick={() => postClockSpeedRequest(this.state.newSpeed)}>Change Speed</button>
       </Container>
       </>
     );
