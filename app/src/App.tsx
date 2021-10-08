@@ -1,9 +1,9 @@
-import React from 'react';
-import HomePage from './components/HomePage';
-import ControlPage from './components/ControlPage';
-import AnalysisPage from './components/AnalysisPage';
-import MenuBar from './components/MenuBar';
-import SmartHome from './components/SmartHome';
+import React from "react";
+import HomePage from "./components/HomePage";
+import ControlPage from "./components/ControlPage";
+import AnalysisPage from "./components/AnalysisPage";
+import MenuBar from "./components/MenuBar";
+import SmartHome from "./components/SmartHome";
 import {
   BrowserRouter as Router,
   Switch,
@@ -40,7 +40,7 @@ class App extends React.Component<AppProps, AppState> {
 
     return (
       <Router>
-        <MenuBar/>
+        <MenuBar />
         <Switch>
           <Route
             exact

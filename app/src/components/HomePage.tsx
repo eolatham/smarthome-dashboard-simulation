@@ -6,13 +6,12 @@ class HomePage extends React.Component {
     return {}; // TODO
   }
 
-    render() {
-        return (        
-        <div>
-            <h1>Smart Home Dashboard Simulator</h1>
-            <h4>(refresh page to restart simulation)</h4>
-            <Lightbulb />
-          </div>)
-    }
+  render() {
+    return (
+      <div>
+        <h1>Home Page</h1>
+      </div>
+    );
+  }
 }
 export default HomePage;

@@ -15,8 +15,18 @@ export function processEventSourceError(error: object) {
   console.log("Failed to connect to Flask-Redis SSE stream...", error);
 }
 
-export function postClockSpeedRequest(speed: number) {
-  fetch(CLOCK_SPEED_URL, {
+export function getClockSpeedRequest(): Promise<number> {
+  return fetch(CLOCK_SPEED_URL, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  }).then((resp) => resp.json());
+}
+
+export function postClockSpeedRequest(speed: number): Promise<void> {
+  return fetch(CLOCK_SPEED_URL, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -29,8 +39,10 @@ export function postClockSpeedRequest(speed: number) {
   });
 }
 
-export function postUserGeneratedEventRequest(event: UserGeneratedEvent) {
-  fetch(USER_GENERATED_EVENT_URL, {
+export function postUserGeneratedEventRequest(
+  event: UserGeneratedEvent
+): Promise<void> {
+  return fetch(USER_GENERATED_EVENT_URL, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -43,7 +55,9 @@ export function postUserGeneratedEventRequest(event: UserGeneratedEvent) {
   });
 }
 
-export function postUserGeneratedThermostatEvent(thermostatTemp: number) {
+export function postUserGeneratedThermostatEvent(
+  thermostatTemp: number
+): Promise<void> {
   const event: UserGeneratedThermostatEvent = {
     time: -1, // This is set by the backend on retrieval
     state_type: "temp",
@@ -51,14 +65,14 @@ export function postUserGeneratedThermostatEvent(thermostatTemp: number) {
     new_value: thermostatTemp,
     message: "The user changed the thermostat temperature.",
   };
-  postUserGeneratedEventRequest(event);
+  return postUserGeneratedEventRequest(event);
 }
 
 export function postUserGeneratedBooleanEvent(
   stateType: UserGeneratedBooleanStateType,
   stateKey: UserGeneratedBooleanStateKey,
   newValue: boolean
-) {
+): Promise<void> {
   var message: string;
   switch (stateType) {
     case "door":
@@ -80,5 +94,5 @@ export function postUserGeneratedBooleanEvent(
     new_value: newValue,
     message: message,
   };
-  postUserGeneratedEventRequest(event);
+  return postUserGeneratedEventRequest(event);
 }
