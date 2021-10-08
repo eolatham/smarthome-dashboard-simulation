@@ -1,8 +1,12 @@
 body {
-  text-align: left;
+  font-size: 0.5em;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.flex-center {
+  justify-content: center;
 }

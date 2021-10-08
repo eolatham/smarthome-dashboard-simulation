@@ -55,59 +55,78 @@ class AppClock extends React.Component<AppClockProps, AppClockState> {
   render() {
     return (
       <>
-        <Container className="m-2" style={{ fontSize: "0.5em" }}>
-          <b>Simulation Time</b>
-          <Row>
-            <BsClock fontSize="4em" />
-            <div style={{ whiteSpace: "pre-wrap" }}>{this.state.time}</div>
+        <Container>
+          <Row className="flex-center">
+            <b>Simulation Time</b>
+          </Row>
+          <Row className="flex-center">
+            <BsClock
+              fontSize="3.7rem"
+              style={{ margin: "0.3rem 0 0.4rem 0" }}
+            />
+            <div
+              style={{
+                whiteSpace: "pre-wrap",
+                textAlign: "center",
+                fontFamily: "monospace",
+                fontSize: "0.9rem",
+              }}
+            >
+              {this.state.time}
+            </div>
           </Row>
         </Container>
-        <Container className="m-2" style={{ fontSize: "0.5em" }}>
-          <b>Simulation Speed</b>
-          <input
-            style={{
-              fontSize: "3em",
-              borderStyle: "solid",
-              borderColor: "black",
-              backgroundColor: "white",
-            }}
-            title="Press enter to set new speed"
-            type="number"
-            step="1"
-            min={MIN_SPEEDUP_FACTOR}
-            max={MAX_SPEEDUP_FACTOR}
-            value={this.state.speedString}
-            onChange={(event) =>
-              this.setState({
-                speed: event.target.valueAsNumber,
-                speedString: event.target.value,
-              })
-            }
-            onKeyPress={(event) => {
-              if (event.key === "Enter") {
-                let speed = this.state.speed;
-                let lastSpeed = this.state.lastSpeed;
-                if (speed === lastSpeed) return;
-                if (isNaN(speed)) {
-                  this.setState({
-                    speed: lastSpeed,
-                    speedString: String(lastSpeed),
-                  });
-                  return;
-                }
-                if (speed < MIN_SPEEDUP_FACTOR) speed = MIN_SPEEDUP_FACTOR;
-                if (speed > MAX_SPEEDUP_FACTOR) speed = MAX_SPEEDUP_FACTOR;
-                this.setState(
-                  {
-                    speed: speed,
-                    lastSpeed: speed,
-                    speedString: String(speed),
-                  },
-                  () => postClockSpeedRequest(speed)
-                );
+        <Container>
+          <Row className="flex-center">
+            <b>Simulation Speed</b>
+          </Row>
+          <Row className="flex-center">
+            <input
+              style={{
+                fontSize: "2rem",
+                borderStyle: "solid",
+                borderColor: "black",
+                backgroundColor: "white",
+                margin: "0.5rem 0",
+              }}
+              title="Press enter to set new speed"
+              type="number"
+              step="1"
+              min={MIN_SPEEDUP_FACTOR}
+              max={MAX_SPEEDUP_FACTOR}
+              value={this.state.speedString}
+              onChange={(event) =>
+                this.setState({
+                  speed: event.target.valueAsNumber,
+                  speedString: event.target.value,
+                })
               }
-            }}
-          />
+              onKeyPress={(event) => {
+                if (event.key === "Enter") {
+                  let speed = this.state.speed;
+                  let lastSpeed = this.state.lastSpeed;
+                  if (speed === lastSpeed) return;
+                  if (isNaN(speed)) {
+                    this.setState({
+                      speed: lastSpeed,
+                      speedString: String(lastSpeed),
+                    });
+                    return;
+                  }
+                  if (speed < MIN_SPEEDUP_FACTOR) speed = MIN_SPEEDUP_FACTOR;
+                  if (speed > MAX_SPEEDUP_FACTOR) speed = MAX_SPEEDUP_FACTOR;
+                  this.setState(
+                    {
+                      speed: speed,
+                      lastSpeed: speed,
+                      speedString: String(speed),
+                    },
+                    () => postClockSpeedRequest(speed)
+                  );
+                }
+              }}
+            />
+          </Row>
         </Container>
       </>
     );

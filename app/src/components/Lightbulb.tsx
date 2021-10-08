@@ -20,7 +20,7 @@ class Lightbulb extends React.Component {
       >
         <BsFillLightbulbFill
           color={this.state["on"] ? "yellow" : "black"}
-          fontSize="3em"
+          fontSize="2rem"
         ></BsFillLightbulbFill>
       </div>
     );

@@ -1,22 +1,19 @@
 import React from "react";
 import { useHistory, Link } from "react-router-dom";
-import { Navbar, Nav, Container, Row, Col } from "react-bootstrap";
+import { Navbar, Nav, Container, Row } from "react-bootstrap";
 import { MdRefresh } from "react-icons/md";
 import AppClock from "./AppClock";
 
 export default function MenuBar(props) {
   const history = useHistory();
-  const linkStyle = {
-    borderStyle: "solid",
-    borderColor: "black",
-    backgroundColor: "white",
-    color: "black",
-  };
-
+  const linkStyle = { color: "black", fontSize: "2rem" };
   return (
-    <Navbar style={{ fontSize: "2em" }} fixed="bottom">
-      <Container style={{ backgroundColor: "light-grey" }}>
-        <Nav activeKey={history.location.pathname} className="me-auto">
+    <Navbar
+      fixed="bottom"
+      style={{ padding: "0", backgroundColor: "lightgrey" }}
+    >
+      <Container>
+        <Nav variant="pills" activeKey={history.location.pathname}>
           <Link style={linkStyle} className="p-2" to="/home">
             Home
           </Link>
@@ -27,19 +24,21 @@ export default function MenuBar(props) {
             Analysis
           </Link>
         </Nav>
+        <Container />
         <AppClock />
-        <Container
-          className="m-2"
-          style={{ fontSize: "0.5em", justifyContent: "center" }}
-        >
-          <b>Restart Simulation</b>
-          <MdRefresh
-            fontSize="5em"
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              window.location.reload();
-            }}
-          />
+        <Container>
+          <Row className="flex-center">
+            <b>Restart Simulation</b>
+          </Row>
+          <Row className="flex-center">
+            <MdRefresh
+              fontSize="4.5rem"
+              style={{ cursor: "pointer", display: "block", margin: "auto" }}
+              onClick={() => {
+                window.location.reload();
+              }}
+            />
+          </Row>
         </Container>
       </Container>
     </Navbar>
