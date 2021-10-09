@@ -23,8 +23,10 @@ class SSEPublisher(ABC):
     server-sent events (SSEs) from a SSE-compatible Flask app on an interval
     of real time or app time via a background scheduler with a thread pool.
 
-    NOTE: implementing classes should override the `sseType` attribute
-    and implement the `job` method.
+    NOTE: implementing classes should:
+    - override the `sseType` attribute
+    - implement the `job` method
+    - override the `prepare` method (if necessary)
     """
 
     sseType: str = "CHANGE_ME"  # NOTE: implementing classes should override this!
@@ -63,6 +65,7 @@ class SSEPublisher(ABC):
         self.scheduler = scheduler
         self.jobIntervalSeconds = jobIntervalSeconds
         self.jobIntervalTimeType = jobIntervalTimeType
+        self.prepare()
         self.createJob()
 
     def createJob(self) -> None:
@@ -101,6 +104,7 @@ class SSEPublisher(ABC):
         Starts the background scheduler if it is not already running
         and reschedules the SSE-publishing job.
         """
+        self.prepare()
         if not self.scheduler.running:
             self.scheduler.start()
         self.createJob()
@@ -113,6 +117,12 @@ class SSEPublisher(ABC):
         with self.app.app_context():
             for d in data:
                 sse.publish(d, type=self.sseType)
+
+    def prepare(self) -> None:
+        """
+        Preparares the publisher to start; called by
+        the constructor and the `start` method.
+        """
 
     @abstractmethod
     def job(self) -> None:

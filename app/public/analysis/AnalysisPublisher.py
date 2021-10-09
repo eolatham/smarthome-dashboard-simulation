@@ -92,14 +92,13 @@ class AnalysisPublisher(SSEPublisher):
         )
 
     # Override
-    def start(self) -> None:
+    def prepare(self) -> None:
         self.lastPublishTime = self.lastCalculationTime = self.eventStore.minTime
         self.outdoorTemp = self.eventStore.getFirstEventValue("outdoorTemp")
         self.thermostatTemp = self.eventStore.getFirstEventValue("thermostatTemp")
         self.indoorTemp = self.thermostatTemp  # Use as initial value
         self.booleanStateTrackerMap = BooleanStateTrackerMap(self.eventStore)
         self.booleanStateTrackerMap.clear()
-        super().start()
 
     def updateIndoorTempAndReturnHvacElectricityUsage(
         self, event: IntegerEvent

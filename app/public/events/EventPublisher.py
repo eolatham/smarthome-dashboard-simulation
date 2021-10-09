@@ -53,9 +53,8 @@ class EventPublisher(SSEPublisher):
         )
 
     # Override
-    def start(self) -> None:
+    def prepare(self) -> None:
         self.lastPublishTime = self.eventStore.minTime
-        super().start()
 
     # Override
     def job(self) -> None:
