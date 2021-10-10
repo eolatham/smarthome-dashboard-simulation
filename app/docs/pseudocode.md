@@ -73,27 +73,33 @@ Given the data provided in specifications, this pseudocode should return semi-ra
 8a-10p - 60 min wash/dry event S-S, x2 (non overlapping)
 
 ```txt
-Call weather API and get hourly reports for temp
-Commit weather data to Integer State table in DB
 
-For every week/604,800 secs:
-    Random generate days to dishwash
-    Random generate days to clothes wash/dry
-    For every day in week/86,400 sec:
-        Check if weekday/weekend
-        For events listed above (in chronological order):
-            Random generate event start time
-            Commit 'start' event to DB
-            Commit 'stop' event to DB
+generate initial state
+generate weather and external temp data
+
+define function (eventFunction) for each different type of event:
+- doors
+- oven/stove
+- microwave
+- tv
+- shower/bath
+- dishwasher
+- clothes washer/dryer
+- lights
+
+eventFunction():
+    for each day:
+        if weekend:
+            create events based on weekend event schedule
+            insertEvent()
+        if weekday:
+            create events based on weekday event schedule
+            insertEvent()
+
+insertEvent():
+    write INSERT query to .sql file
+
 ```
-
-### Questions About Data Generation
-
-Do events in DB need to be in strictly chronological order? (I am assuming its better if this is the case)  
-When are lightbulbs and bath exhaust fan on?  
-When are windows open?  
-Is there water usage other than showers/washers?  
-Do we include pre-generated 'set thermostat data'?
 
 ## Indoor Temperature & Utility Usage
 
