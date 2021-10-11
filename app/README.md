@@ -17,6 +17,8 @@
 
 Run `make init` to set up the development environment.
 
+Note: you will have to hit `Ctrl+C` after Docker is finished initializing the database.
+
 ### Running The App
 
 #### `make start`
