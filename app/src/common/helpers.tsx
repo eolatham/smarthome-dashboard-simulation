@@ -49,7 +49,7 @@ export function postUserGeneratedThermostatEvent(thermostatTemp: number) {
     state_type: "temp",
     state_key: "thermostatTemp",
     new_value: thermostatTemp,
-    message: "The user changed the thermostat temperature.",
+    message: "The user changed the thermostat temperature",
   };
   postUserGeneratedEventRequest(event);
 }
@@ -62,13 +62,13 @@ export function postUserGeneratedBooleanEvent(
   var message: string;
   switch (stateType) {
     case "door":
-      message = `The user ${newValue ? "opened" : "closed"} the door.`;
+      message = `The user ${newValue ? "opened" : "closed"} the door`;
       break;
     case "window":
-      message = `The user ${newValue ? "opened" : "closed"} the window.`;
+      message = `The user ${newValue ? "opened" : "closed"} the window`;
       break;
     case "light":
-      message = `The user turned the light ${newValue ? "on" : "off"}.`;
+      message = `The user turned the light ${newValue ? "on" : "off"}`;
       break;
     default:
       throw new Error("`stateType` must be 'light', 'door', or 'window'!");
