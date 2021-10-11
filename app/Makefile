@@ -1,7 +1,8 @@
+# Kill once `docker up` is done
 init:
 	pdm install
 	npm install
-	docker compose build
+	docker-compose up
 
 # Postgres runs on localhost:5432
 # Redis    runs on localhost:6379
