@@ -4,6 +4,7 @@ from typing import List, TypedDict, Literal, Union
 
 # PDM
 import psycopg2
+from psycopg2.extras import RealDictCursor
 
 # LOCAL
 from public.constants import (
@@ -195,7 +196,7 @@ def queryEvents() -> List[Event]:
     """
     events: List[Event] = []
     with psycopg2.connect(dsn=POSTGRES_URL) as con:
-        with con.cursor() as cur:
+        with con.cursor(cursor_factory=RealDictCursor) as cur:
             cur.execute("SELECT * FROM pre_generated_events.integer_event")
             events.extend([IntegerEvent(**e) for e in cur.fetchall()])
             cur.execute("SELECT * FROM pre_generated_events.boolean_event")
