@@ -7,7 +7,6 @@ import AppClock from "./AppClock";
 export default function MenuBar(props) {
   const history = useHistory();
   const linkStyle = { color: "black", fontSize: "2rem" };
-  props.setCurrentPage("home");
   return (
     <Navbar
       fixed="bottom"

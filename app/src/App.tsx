@@ -13,10 +13,8 @@ import { CallbackFunction, AnalysisObject, Event } from "./common/types";
 import { processEventSourceError } from "./common/helpers";
 import { START_SIMULATION_URL, SSE_URL } from "./common/constants";
 
-type PageType = "home" | "control" | "analysis";
 type AppProps = {};
 type AppState = {
-  currentPage : PageType,
   homePageState: HomePageState;
   controlPageState: ControlPageState;
   analysisPageState: AnalysisPageState;
@@ -26,7 +24,6 @@ class App extends React.Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
     this.state = {
-      currentPage: "home",
       homePageState: HomePage.getInitialState(),
       controlPageState: ControlPage.getInitialState(),
       analysisPageState: AnalysisPage.getInitialState(),
@@ -34,7 +31,6 @@ class App extends React.Component<AppProps, AppState> {
     this.eventSource = new EventSource(SSE_URL);
     this.processEvent = this.processEvent.bind(this);
     this.processAnalysis = this.processAnalysis.bind(this);
-    this.setCurrentPage = this.setCurrentPage.bind(this);
     this.setHomePageState = this.setHomePageState.bind(this);
     this.setControlPageState = this.setControlPageState.bind(this);
     this.setAnalysisPageState = this.setAnalysisPageState.bind(this);
@@ -49,11 +45,6 @@ class App extends React.Component<AppProps, AppState> {
 
   componentWillUnmount() {
     this.eventSource.close();
-  }
-
-  shouldComponentUpdate(nextProps : AppProps, nextState : AppState) {
-    console.log(this.state.currentPage);
-    return true;
   }
 
   processEvent(event) {
@@ -95,13 +86,6 @@ class App extends React.Component<AppProps, AppState> {
     });
   }
 
-  setCurrentPage(page: PageType, callback?: CallbackFunction) {
-    this.setState(
-      { currentPage: page },
-      callback
-    );
-  }
-
   setHomePageState(state: object, callback?: CallbackFunction) {
     this.setState(
       { homePageState: { ...this.state.homePageState, ...state } },
@@ -126,7 +110,7 @@ class App extends React.Component<AppProps, AppState> {
   render() {
     return (
       <Router>
-        <MenuBar setCurrentPage={this.setCurrentPage}/>
+        <MenuBar />
         <Switch>
           <Route
             exact
