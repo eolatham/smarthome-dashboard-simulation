@@ -1,4 +1,4 @@
-# Kill once `docker up` is done
+# Kill after docker is done!
 init:
 	pdm install
 	npm install
