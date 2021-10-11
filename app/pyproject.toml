@@ -12,6 +12,7 @@ dependencies = [
     "flask-cors~=3.0",
     "typeguard~=2.12",
     "psycopg2-binary~=2.9",
+    "meteostat~=1.5",
 ]
 requires-python = ">=3.9"
 dynamic = ["classifiers"]

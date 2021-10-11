@@ -1,7 +1,6 @@
 # STL
 from datetime import datetime
 
-
 POSTGRES_URL = "postgresql://username:password@localhost:5432/smart_home_simulation"
 REDIS_URL = "redis://localhost"
 

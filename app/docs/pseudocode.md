@@ -13,8 +13,90 @@
 
 The following pseudocode describes the process for generating pre-generated events before the app runs:
 
-```txt
+Given the data provided in specifications, this pseudocode should return semi-randomly generated events based on the following schedule:
 
+### Family Schedule
+
+5a - adults wake up
+6a - kids wake up
+7:30a - adults/kids leave
+4p - kids arrive home
+5:30p - adults arrive home
+8:30p - kids sleep
+10:30p - adults sleep
+
+#### Events M-F
+
+7:15-7:45a - 4 door events
+3:45-4:15p - 2 door events
+5:15-5:45p - 2 door events
+6:00-8:00p - 8 door events
+
+5-6a - 5 min microwave event
+6-7:15a - 5 min microwave event
+4:15-4:45p - 5 min microwave event
+4:45-5:15p - 5 min microwave event
+
+5:45-7p - 15 min stove event
+5:45-7p - 45 min oven event
+
+4:15-10:00 - 4 hour LR TV event
+8:00 - 10:30 2 hr BR TV event
+
+5:30-6:15a - 15 min shower event
+6:15-7:00a - 15 min shower event
+6-7p - 15 min bath event
+7-8p - 15 min bath event
+
+#### Events S-S
+
+7a-10p - 30 sec door event (3 times)
+7a-10p - 5 min microwave event (6 times)
+5p-7p - 30 min stove event
+4p-7p - 60 min oven event
+
+7a-10p - 8 hr LR TV event
+6a-10a - 2 hr BR TV event
+7p-10p - 2 hr BR TV event
+
+6-7a - 15 min shower event
+7-8a - 15 min shower event
+11-12p - 15 min shower event
+12-1p - 15 min bath event
+6-7p - 15 min bath event
+7-8p - 15 min bath event
+
+#### Events Any Day
+
+7-10p - 45 min dishwasher event (4 times/week)
+7-10p - 60 min wash/dry event (2 times/M-F)
+8a-10p - 60 min wash/dry event (2 times/S-S)
+
+```txt
+generate initial state
+generate outdoor temp data
+
+define function (eventFunction) for each different type of event:
+- door
+- oven/stove
+- microwave
+- tv
+- shower/bath
+- dishwasher
+- clothes washer/dryer
+- lights
+
+eventFunction():
+    for each day:
+        if weekend:
+            create events based on weekend event schedule
+            writeEventInsertStatements()
+        if weekday:
+            create events based on weekday event schedule
+            writeEventInsertStatements()
+
+writeEventInsertStatements():
+    append SQL insert statements for the specified events to the output file
 ```
 
 ## Indoor Temperature & Utility Usage
