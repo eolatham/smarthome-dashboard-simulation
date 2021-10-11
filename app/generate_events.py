@@ -750,7 +750,7 @@ class StateGenerator:
         newValue: Union[bool, int],
         message: str,
     ) -> None:
-        """Appends an SQL insert statement for the specified event to the output file"""
+        """Append an SQL insert statement for the specified event to the output file"""
         assert table in ["boolean_event", "integer_event"]
         with open(self.outputFilename, "a") as f1:
             f1.write(
@@ -763,7 +763,7 @@ class StateGenerator:
     def writeIntegerEventInsertStatement(
         self, time: int, stateKey: str, newValue: int
     ) -> None:
-        """Appends an SQL insert statement for the specified integer event to the output file"""
+        """Append an SQL insert statement for the specified integer event to the output file"""
         stateType = STATE_TYPE[stateKey]
         message = f"{humanReadableStateKey(stateKey)} is {newValue}"
         self.writeEventInsertStatement(
@@ -778,7 +778,7 @@ class StateGenerator:
         isBath: bool = False,
         isShower: bool = False,
     ) -> None:
-        """Appends an SQL insert statement for the specified boolean event to the output file"""
+        """Append an SQL insert statement for the specified boolean event to the output file"""
         assert not (isBath and isShower)
         if isBath:
             stateType = "bath"
