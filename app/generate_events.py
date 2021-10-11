@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 A script that generates a series of events defining the state
 of the smart home over a two-month time period and saves
@@ -219,7 +221,12 @@ class StateGenerator:
     def generateInitialState(self) -> None:
         """Generates initial state, assuming t = 0 is a Monday at midnight"""
         for stateKey in BOOLEAN_STATE_KEYS:
-            self.writeBooleanEventInsertStatement(0, stateKey, False)
+            if stateKey in ["bathRoom1Faucet", "bathRoom2Faucet"]:
+                # Faucets are handled separately because they allow two types of events
+                self.writeBooleanEventInsertStatement(0, stateKey, False, isBath=True)
+                self.writeBooleanEventInsertStatement(0, stateKey, False, isShower=True)
+            else:
+                self.writeBooleanEventInsertStatement(0, stateKey, False)
 
         self.writeIntegerEventInsertStatement(0, "thermostatTemp", 70)
 
