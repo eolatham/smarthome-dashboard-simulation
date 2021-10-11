@@ -1,7 +1,5 @@
 # STL
 from datetime import datetime
-from meteostat import Point
-
 
 POSTGRES_URL = "postgresql://username:password@localhost:5432/smart_home_simulation"
 REDIS_URL = "redis://localhost"
@@ -25,29 +23,3 @@ PUBLISH_INDOOR_TEMP_INTERVAL = (1800, APP_TIME)  # Seconds (30 minutes)
 
 MIN_THERMOSTAT_TEMP = 55  # Degrees Fahrenheit
 MAX_THERMOSTAT_TEMP = 85  # Degrees Fahrenheit
-
-TIME_MAP = {
-    "minute": 60,
-    "hour": 3600,
-    "day": 86400,
-    "week": 604800,
-    "month": 2592000,  # Assumes 30 days
-    "Tuesday": 86400,  # Assumes 0 = Midnight on Monday
-    "Wednesday": 172800,
-    "Thursday": 259200,
-    "Friday": 345600,
-    "Saturday": 432000,
-    "Sunday": 518400,
-}
-
-DB_CONF = {
-    "dbname": "smart_home_simulation",
-    "user": "username",
-    "password": "password",
-    "host": "localhost",
-    "port": "5432",
-}
-
-LOCATION = Point(33.5186, -86.8104)  # Birmingham
-
-SQL_DATA_FILE = "init_data.sql"
