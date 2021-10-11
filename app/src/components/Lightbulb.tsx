@@ -1,8 +1,10 @@
 import React from "react";
 import { BsFillLightbulbFill } from "react-icons/bs";
 
-class Lightbulb extends React.Component {
-  constructor(props) {
+type LightbulbProps = {};
+type LightbulbState = { on: boolean };
+class Lightbulb extends React.Component<LightbulbProps, LightbulbState> {
+  constructor(props: LightbulbProps) {
     super(props);
     this.state = { on: false };
   }
@@ -11,7 +13,7 @@ class Lightbulb extends React.Component {
     return (
       <div
         onClick={() => {
-          if (this.state["on"]) {
+          if (this.state.on) {
             this.setState({ on: false });
           } else {
             this.setState({ on: true });
@@ -19,7 +21,7 @@ class Lightbulb extends React.Component {
         }}
       >
         <BsFillLightbulbFill
-          color={this.state["on"] ? "yellow" : "black"}
+          color={this.state.on ? "yellow" : "black"}
           fontSize="2rem"
         ></BsFillLightbulbFill>
       </div>

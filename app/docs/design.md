@@ -348,7 +348,6 @@ See [the requirements document](requirements.md) for information about what the 
   - stores state for each app screen in a separate nested sub-object within its own state
   - passes the appropriate state object and a function for updating it as props to the selected app screen component
   - updates state for the appropriate app screens when it receives state-changing SSEs
-  - implements [shouldComponentUpdate](https://reactjs.org/docs/react-component.html#shouldcomponentupdate) to re-render only when state for the selected app screen changes
 
 The `App` component essentially renders one selected app screen at a time, while processing all events for the other app screens in the background, which allows the simulation to run accurately and efficiently.
 

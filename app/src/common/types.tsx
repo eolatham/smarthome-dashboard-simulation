@@ -2,6 +2,12 @@
  * Module for storing common types.
  */
 
+export type CallbackFunction = () => void;
+export type SetStateFunction = (
+  state: object,
+  callback?: CallbackFunction
+) => void;
+
 export type ConstantsFromBackend = {
   MIN_SPEEDUP_FACTOR: number;
   MAX_SPEEDUP_FACTOR: number;
