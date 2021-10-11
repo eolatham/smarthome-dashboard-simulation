@@ -5,6 +5,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+import getHistory from 'react-router-global-history'; 
 import MenuBar from "./components/MenuBar";
 import HomePage, { HomePageState } from "./components/HomePage";
 import ControlPage, { ControlPageState } from "./components/ControlPage";
@@ -52,8 +53,17 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   shouldComponentUpdate(nextProps : AppProps, nextState : AppState) {
-    console.log(this.state.currentPage);
-    return true;
+    const history = getHistory();
+    if (history.location.pathname === "/home" && nextState.homePageState !== this.state.homePageState) {
+      return true
+    }
+    if (history.location.pathname === "/control" && nextState.controlPageState !== this.state.controlPageState) {
+      return true
+    }
+    if (history.location.pathname === "/analysis/" && nextState.analysisPageState !== this.state.analysisPageState) {
+      return true
+    }
+    return false;
   }
 
   processEvent(event) {
