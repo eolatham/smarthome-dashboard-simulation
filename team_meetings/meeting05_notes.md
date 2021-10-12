@@ -10,7 +10,7 @@
 ### Finished from last week
 
 - Data Generator
-- Control Bar to toggle between screens
+- Menu Bar to toggle between screens
 
 ### Demo
 
@@ -24,7 +24,7 @@ make start
 - Analysis page
 
 All of the crucial state calculations are complete,
-now we need to focus on designing the frontend.
+now we need to focus on building the frontend components.
 
 ### Frontend
 
