@@ -1,0 +1,60 @@
+@font-face {
+    font-family: "digital-7";
+    src: url(../font/digital-7/digital-7.ttf);
+}
+
+.Thermostat {
+    float: right;
+    position: fixed;
+    top: 8%;
+    right: 1%;
+    width: 10%;
+    border: 1px solid #000;
+    border-top-left-radius: 2ch;
+    border-top-right-radius: 2ch;
+    text-align: center;
+}
+
+.TempContainer {
+    border-top: 1px solid #000;
+}
+.Temp {
+    font-family: "digital-7";
+    font-size: 2em;
+    user-select: none;
+    width: 75%;
+    border: 1px solid #000;
+    border-radius: 1ch;
+    background-color: #eeeeeeee;
+    margin: 1ch auto;
+    margin-bottom: 1.5ch;
+    padding: 10px;
+}
+.SetTemp {
+    margin: 0 auto;
+}
+
+/******Buttons*******/
+[class*="Chevron"] {
+    display: block;
+    background-color: transparent;
+    border: transparent;
+    margin: 10px auto;
+    width: 40px;
+    height: 40px;
+    transform: rotate(45deg);
+}
+.ChevronUp {
+    margin-top: 25px;
+    z-index: 1;
+    border-top: 10px solid #ff0000;
+    border-left: 10px solid #ff0000;
+}
+.ChevronDown {
+    margin-bottom: 25px;
+    border-right: 10px solid #4169e1;
+    border-bottom: 10px solid #4169e1;
+}
+button:disabled {
+    opacity: 50%;
+}

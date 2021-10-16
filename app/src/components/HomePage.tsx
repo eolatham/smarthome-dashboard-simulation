@@ -4,6 +4,7 @@ import {
   IntegerStateKey,
   BooleanStateKey,
 } from "../common/types";
+import Thermostat from "./Thermostat";
 
 export type HomePageState = {
   integer: {
@@ -77,6 +78,9 @@ class HomePage extends React.Component<HomePageProps, HomePageState> {
     return (
       <div>
         <h1>Home</h1>
+        <div>
+          <Thermostat />
+        </div>
         <div style={{ whiteSpace: "pre-wrap" }}>
           {JSON.stringify(state, null, "\t")}
         </div>
