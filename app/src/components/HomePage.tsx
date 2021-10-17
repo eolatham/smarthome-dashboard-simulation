@@ -76,7 +76,7 @@ class HomePage extends React.Component<HomePageProps, HomePageState> {
     const { state } = this.props;
     return (
       <div>
-        <h1>Home</h1>
+        <h1>Home Page</h1>
         <div style={{ whiteSpace: "pre-wrap" }}>
           {JSON.stringify(state, null, "\t")}
         </div>

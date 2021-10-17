@@ -35,7 +35,7 @@ export function humanReadableStateKey(stateKey: string): string {
       lastSplit = i;
     }
   }
-  parts.push(stateKey.slice(lastSplit));
+  parts.push(capitalize(stateKey.slice(lastSplit)));
   return parts.join(" ");
 }
 
