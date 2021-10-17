@@ -1,8 +1,10 @@
 import React from "react";
+import { postUserGeneratedBooleanEvent } from "../common/helpers";
 import {
   SetStateFunction,
   UserGeneratedBooleanStateKey,
 } from "../common/types";
+import SwitchGroup from "./SwitchGroup";
 
 export type ControlPageState = {
   [Property in UserGeneratedBooleanStateKey]: boolean;
@@ -51,13 +53,85 @@ class ControlPage extends React.Component<ControlPageProps, ControlPageState> {
   }
 
   render() {
-    const { state } = this.props;
+    const switchGroupOnChange = (
+      stateKeys: UserGeneratedBooleanStateKey[],
+      newValue: boolean
+    ) => {
+      var newState = {};
+      stateKeys.forEach((stateKey) => {
+        newState[stateKey] = newValue;
+      });
+      this.props.setState(newState, () =>
+        stateKeys.forEach((stateKey) =>
+          postUserGeneratedBooleanEvent(stateKey, newValue)
+        )
+      );
+    };
+    const commonSwitchGroupProps = {
+      state: this.props.state,
+      onChange: switchGroupOnChange,
+    };
     return (
-      <div>
-        <h1>Control</h1>
-        <div style={{ whiteSpace: "pre-wrap" }}>
-          {JSON.stringify(state, null, "\t")}
-        </div>
+      <div
+        className="mx-5 my-3 p-0"
+        style={{ display: "flex", justifyContent: "space-between" }}
+      >
+        <SwitchGroup
+          {...commonSwitchGroupProps}
+          title="Bed Room Lights"
+          stateKeysMap={{
+            // Subgroup state key prefix: subgroup state key suffixes
+            bedRoom1: ["OverheadLight", "Lamp1", "Lamp2"],
+            bedRoom2: ["OverheadLight", "Lamp1", "Lamp2"],
+            bedRoom3: ["OverheadLight", "Lamp1", "Lamp2"],
+          }}
+        />
+        <SwitchGroup
+          {...commonSwitchGroupProps}
+          title="Other Lights"
+          stateKeysMap={{
+            // Subgroup state key prefix: subgroup state key suffixes
+            bathRoom1: ["OverheadLight"],
+            bathRoom2: ["OverheadLight"],
+            livingRoom: ["OverheadLight", "Lamp1", "Lamp2"],
+            kitchen: ["OverheadLight"],
+          }}
+        />
+        <SwitchGroup
+          {...commonSwitchGroupProps}
+          title="Doors"
+          stateKeysMap={{
+            // Subgroup state key prefix: subgroup state key suffixes
+            "": [
+              "frontDoor",
+              "backDoor",
+              "garageHouseDoor",
+              "garageCarDoor1",
+              "garageCarDoor2",
+            ],
+          }}
+        />
+        <SwitchGroup
+          {...commonSwitchGroupProps}
+          title="Bed Room Windows"
+          stateKeysMap={{
+            // Subgroup state key prefix: subgroup state key suffixes
+            bedRoom1: ["Window1", "Window2"],
+            bedRoom2: ["Window1", "Window2"],
+            bedRoom3: ["Window1", "Window2"],
+          }}
+        />
+        <SwitchGroup
+          {...commonSwitchGroupProps}
+          title="Other Windows"
+          stateKeysMap={{
+            // Subgroup state key prefix: subgroup state key suffixes
+            bathRoom1: ["Window"],
+            bathRoom2: ["Window"],
+            livingRoom: ["Window1", "Window2", "Window3"],
+            kitchen: ["Window1", "Window2"],
+          }}
+        />
       </div>
     );
   }
