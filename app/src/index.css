@@ -17,6 +17,13 @@ h6 {
   text-align: center;
 }
 
+hr {
+  padding: 0 !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.8rem !important;
+  border-color: black !important;
+}
+
 .flex-center {
   justify-content: center;
 }

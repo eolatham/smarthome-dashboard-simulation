@@ -54,11 +54,20 @@ const SwitchGroup = (props: SwitchGroupProps) => {
     />
   );
   return (
-    <div className="mx-4 my-2 p-0">
-      <h5 className="mb-3">{title}</h5>
+    <div
+      className="my-2 p-3"
+      style={{
+        height: "min-content",
+        border: "solid",
+        borderWidth: "0.15rem",
+        borderRadius: "0.5rem",
+      }}
+    >
+      <h5 className="mb-2">{title}</h5>
+      <hr />
       {allStateKeysSwitch}
       {Object.entries(stateKeysMap).map(([prefix, suffixes], index) => (
-        <div key={index} className="mb-4">
+        <div key={index} className={prefix ? "mt-4" : null}>
           {prefix ? (
             <h6 className="mt-3">{humanReadableStateKey(prefix)}</h6>
           ) : null}
