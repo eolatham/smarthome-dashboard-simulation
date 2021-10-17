@@ -17,7 +17,7 @@ ELECTRICITY_USAGE_RATE_MAP: Mapping[StateType, ElectricityUsageRate] = {
     "stove": {"wattsPerSecond": 3500 / 3600},
     "oven": {"wattsPerSecond": 4000 / 3600},
     "livingRoomTv": {"wattsPerSecond": 636 / 3600},
-    "bedRoomTv": {"wattsPerSecond": 100 / 3600},
+    "bedroomTv": {"wattsPerSecond": 100 / 3600},
     "dishWasher": {"wattsPerSecond": 1800 / 3600},
     "clothesWasher": {"wattsPerSecond": 500 / 3600},
     "clothesDryer": {"wattsPerSecond": 3000 / 3600},

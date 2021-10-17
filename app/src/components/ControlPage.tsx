@@ -16,25 +16,25 @@ export type ControlPageProps = {
 class ControlPage extends React.Component<ControlPageProps, ControlPageState> {
   static getInitialState(): ControlPageState {
     return {
-      bedRoom1OverheadLight: false,
-      bedRoom1Lamp1: false,
-      bedRoom1Lamp2: false,
-      bedRoom1Window1: false,
-      bedRoom1Window2: false,
-      bedRoom2OverheadLight: false,
-      bedRoom2Lamp1: false,
-      bedRoom2Lamp2: false,
-      bedRoom2Window1: false,
-      bedRoom2Window2: false,
-      bedRoom3OverheadLight: false,
-      bedRoom3Lamp1: false,
-      bedRoom3Lamp2: false,
-      bedRoom3Window1: false,
-      bedRoom3Window2: false,
-      bathRoom1OverheadLight: false,
-      bathRoom1Window: false,
-      bathRoom2OverheadLight: false,
-      bathRoom2Window: false,
+      bedroom1OverheadLight: false,
+      bedroom1Lamp1: false,
+      bedroom1Lamp2: false,
+      bedroom1Window1: false,
+      bedroom1Window2: false,
+      bedroom2OverheadLight: false,
+      bedroom2Lamp1: false,
+      bedroom2Lamp2: false,
+      bedroom2Window1: false,
+      bedroom2Window2: false,
+      bedroom3OverheadLight: false,
+      bedroom3Lamp1: false,
+      bedroom3Lamp2: false,
+      bedroom3Window1: false,
+      bedroom3Window2: false,
+      bathroom1OverheadLight: false,
+      bathroom1Window: false,
+      bathroom2OverheadLight: false,
+      bathroom2Window: false,
       frontDoor: false,
       backDoor: false,
       garageHouseDoor: false,
@@ -78,12 +78,12 @@ class ControlPage extends React.Component<ControlPageProps, ControlPageState> {
       >
         <SwitchGroup
           {...commonSwitchGroupProps}
-          title="Bed Room Lights"
+          title="Bedroom Lights"
           stateKeysMap={{
             // Subgroup state key prefix: subgroup state key suffixes
-            bedRoom1: ["OverheadLight", "Lamp1", "Lamp2"],
-            bedRoom2: ["OverheadLight", "Lamp1", "Lamp2"],
-            bedRoom3: ["OverheadLight", "Lamp1", "Lamp2"],
+            bedroom1: ["OverheadLight", "Lamp1", "Lamp2"],
+            bedroom2: ["OverheadLight", "Lamp1", "Lamp2"],
+            bedroom3: ["OverheadLight", "Lamp1", "Lamp2"],
           }}
         />
         <SwitchGroup
@@ -91,8 +91,8 @@ class ControlPage extends React.Component<ControlPageProps, ControlPageState> {
           title="Other Lights"
           stateKeysMap={{
             // Subgroup state key prefix: subgroup state key suffixes
-            bathRoom1: ["OverheadLight"],
-            bathRoom2: ["OverheadLight"],
+            bathroom1: ["OverheadLight"],
+            bathroom2: ["OverheadLight"],
             livingRoom: ["OverheadLight", "Lamp1", "Lamp2"],
             kitchen: ["OverheadLight"],
           }}
@@ -113,12 +113,12 @@ class ControlPage extends React.Component<ControlPageProps, ControlPageState> {
         />
         <SwitchGroup
           {...commonSwitchGroupProps}
-          title="Bed Room Windows"
+          title="Bedroom Windows"
           stateKeysMap={{
             // Subgroup state key prefix: subgroup state key suffixes
-            bedRoom1: ["Window1", "Window2"],
-            bedRoom2: ["Window1", "Window2"],
-            bedRoom3: ["Window1", "Window2"],
+            bedroom1: ["Window1", "Window2"],
+            bedroom2: ["Window1", "Window2"],
+            bedroom3: ["Window1", "Window2"],
           }}
         />
         <SwitchGroup
@@ -126,8 +126,8 @@ class ControlPage extends React.Component<ControlPageProps, ControlPageState> {
           title="Other Windows"
           stateKeysMap={{
             // Subgroup state key prefix: subgroup state key suffixes
-            bathRoom1: ["Window"],
-            bathRoom2: ["Window"],
+            bathroom1: ["Window"],
+            bathroom2: ["Window"],
             livingRoom: ["Window1", "Window2", "Window3"],
             kitchen: ["Window1", "Window2"],
           }}

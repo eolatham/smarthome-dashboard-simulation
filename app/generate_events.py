@@ -30,30 +30,30 @@ TIME_MAP = {
     "Sunday": 518400,
 }
 BOOLEAN_STATE_KEYS = [
-    "bedRoom1OverheadLight",
-    "bedRoom1Lamp1",
-    "bedRoom1Lamp2",
-    "bedRoom1Window1",
-    "bedRoom1Window2",
-    "bedRoom1Tv",
-    "bedRoom2OverheadLight",
-    "bedRoom2Lamp1",
-    "bedRoom2Lamp2",
-    "bedRoom2Window1",
-    "bedRoom2Window2",
-    "bedRoom3OverheadLight",
-    "bedRoom3Lamp1",
-    "bedRoom3Lamp2",
-    "bedRoom3Window1",
-    "bedRoom3Window2",
-    "bathRoom1OverheadLight",
-    "bathRoom1ExhaustFan",
-    "bathRoom1Window",
-    "bathRoom1Faucet",
-    "bathRoom2OverheadLight",
-    "bathRoom2ExhaustFan",
-    "bathRoom2Window",
-    "bathRoom2Faucet",
+    "bedroom1OverheadLight",
+    "bedroom1Lamp1",
+    "bedroom1Lamp2",
+    "bedroom1Window1",
+    "bedroom1Window2",
+    "bedroom1Tv",
+    "bedroom2OverheadLight",
+    "bedroom2Lamp1",
+    "bedroom2Lamp2",
+    "bedroom2Window1",
+    "bedroom2Window2",
+    "bedroom3OverheadLight",
+    "bedroom3Lamp1",
+    "bedroom3Lamp2",
+    "bedroom3Window1",
+    "bedroom3Window2",
+    "bathroom1OverheadLight",
+    "bathroom1ExhaustFan",
+    "bathroom1Window",
+    "bathroom1Faucet",
+    "bathroom2OverheadLight",
+    "bathroom2ExhaustFan",
+    "bathroom2Window",
+    "bathroom2Faucet",
     "clothesWasher",
     "clothesDryer",
     "frontDoor",
@@ -78,58 +78,58 @@ BOOLEAN_STATE_KEYS = [
     "kitchenWindow2",
 ]
 LIGHT_STATE_KEYS = [
-    "bedRoom1OverheadLight",
-    "bedRoom1Lamp1",
-    "bedRoom1Lamp2",
-    "bedRoom2OverheadLight",
-    "bedRoom2Lamp1",
-    "bedRoom2Lamp2",
-    "bedRoom3OverheadLight",
-    "bedRoom3Lamp1",
-    "bedRoom3Lamp2",
+    "bedroom1OverheadLight",
+    "bedroom1Lamp1",
+    "bedroom1Lamp2",
+    "bedroom2OverheadLight",
+    "bedroom2Lamp1",
+    "bedroom2Lamp2",
+    "bedroom3OverheadLight",
+    "bedroom3Lamp1",
+    "bedroom3Lamp2",
     "livingRoomOverheadLight",
     "livingRoomLamp1",
     "livingRoomLamp2",
     "kitchenOverheadLight",
 ]
 BEDROOM_LIGHT_STATE_KEYS = {
-    "adults": ["bedRoom1OverheadLight", "bedRoom1Lamp1", "bedRoom1Lamp2"],
+    "adults": ["bedroom1OverheadLight", "bedroom1Lamp1", "bedroom1Lamp2"],
     "kids": [
-        "bedRoom2OverheadLight",
-        "bedRoom2Lamp1",
-        "bedRoom2Lamp2",
-        "bedRoom3OverheadLight",
-        "bedRoom3Lamp1",
-        "bedRoom3Lamp2",
+        "bedroom2OverheadLight",
+        "bedroom2Lamp1",
+        "bedroom2Lamp2",
+        "bedroom3OverheadLight",
+        "bedroom3Lamp1",
+        "bedroom3Lamp2",
     ],
 }
 STATE_TYPE = {
     "outdoorTemp": "temp",
     "thermostatTemp": "temp",
-    "bedRoom1OverheadLight": "light",
-    "bedRoom1Lamp1": "light",
-    "bedRoom1Lamp2": "light",
-    "bedRoom1Window1": "window",
-    "bedRoom1Window2": "window",
-    "bedRoom1Tv": "bedRoomTv",
-    "bedRoom2OverheadLight": "light",
-    "bedRoom2Lamp1": "light",
-    "bedRoom2Lamp2": "light",
-    "bedRoom2Window1": "window",
-    "bedRoom2Window2": "window",
-    "bedRoom3OverheadLight": "light",
-    "bedRoom3Lamp1": "light",
-    "bedRoom3Lamp2": "light",
-    "bedRoom3Window1": "window",
-    "bedRoom3Window2": "window",
-    "bathRoom1OverheadLight": "light",
-    "bathRoom1ExhaustFan": "bathExhaustFan",
-    "bathRoom1Window": "window",
-    "bathRoom1Faucet": ("bath", "shower"),  # Not used in script
-    "bathRoom2OverheadLight": "light",
-    "bathRoom2ExhaustFan": "bathExhaustFan",
-    "bathRoom2Window": "window",
-    "bathRoom2Faucet": ("bath", "shower"),  # Not used in script
+    "bedroom1OverheadLight": "light",
+    "bedroom1Lamp1": "light",
+    "bedroom1Lamp2": "light",
+    "bedroom1Window1": "window",
+    "bedroom1Window2": "window",
+    "bedroom1Tv": "bedroomTv",
+    "bedroom2OverheadLight": "light",
+    "bedroom2Lamp1": "light",
+    "bedroom2Lamp2": "light",
+    "bedroom2Window1": "window",
+    "bedroom2Window2": "window",
+    "bedroom3OverheadLight": "light",
+    "bedroom3Lamp1": "light",
+    "bedroom3Lamp2": "light",
+    "bedroom3Window1": "window",
+    "bedroom3Window2": "window",
+    "bathroom1OverheadLight": "light",
+    "bathroom1ExhaustFan": "bathExhaustFan",
+    "bathroom1Window": "window",
+    "bathroom1Faucet": ("bath", "shower"),  # Not used in script
+    "bathroom2OverheadLight": "light",
+    "bathroom2ExhaustFan": "bathExhaustFan",
+    "bathroom2Window": "window",
+    "bathroom2Faucet": ("bath", "shower"),  # Not used in script
     "clothesWasher": "clothesWasher",
     "clothesDryer": "clothesDryer",
     "frontDoor": "door",
@@ -170,7 +170,7 @@ def humanReadableStateKey(stateKey: str) -> str:
 def booleanStateLabel(stateType: str, value: bool) -> str:
     if stateType in [
         "light",
-        "bedRoomTv",
+        "bedroomTv",
         "livingRoomTv",
         "stove",
         "oven",
@@ -221,7 +221,7 @@ class StateGenerator:
     def generateInitialState(self) -> None:
         """Generates initial state, assuming t = 0 is a Monday at midnight"""
         for stateKey in BOOLEAN_STATE_KEYS:
-            if stateKey in ["bathRoom1Faucet", "bathRoom2Faucet"]:
+            if stateKey in ["bathroom1Faucet", "bathroom2Faucet"]:
                 # Faucets are handled separately because they allow two types of events
                 self.writeBooleanEventInsertStatement(0, stateKey, False, isBath=True)
                 self.writeBooleanEventInsertStatement(0, stateKey, False, isShower=True)
@@ -414,7 +414,7 @@ class StateGenerator:
                 t0 = day + 6 * TIME_MAP["hour"]
                 t1 = day + 10 * TIME_MAP["hour"]
                 self.writeRandomizedBooleanEventInsertStatements(
-                    t0, t1, 2 * TIME_MAP["hour"], "bedRoom1Tv"
+                    t0, t1, 2 * TIME_MAP["hour"], "bedroom1Tv"
                 )
 
             # M-F
@@ -430,7 +430,7 @@ class StateGenerator:
                 t0 = day + 19 * TIME_MAP["hour"]
                 t1 = day + 22 * TIME_MAP["hour"]
                 self.writeRandomizedBooleanEventInsertStatements(
-                    t0, t1, 2 * TIME_MAP["hour"], "bedRoom1Tv"
+                    t0, t1, 2 * TIME_MAP["hour"], "bedroom1Tv"
                 )
 
             # Any Day
@@ -438,13 +438,13 @@ class StateGenerator:
             t0 = day + 19 * TIME_MAP["hour"]
             t1 = day + 22 * TIME_MAP["hour"]
             self.writeRandomizedBooleanEventInsertStatements(
-                t0, t1, 2 * TIME_MAP["hour"], "bedRoom1Tv"
+                t0, t1, 2 * TIME_MAP["hour"], "bedroom1Tv"
             )
 
     def generateShowerBathFanEvents(self) -> None:
         """Generate shower, bath, and bath exhaust fan events"""
-        fan1 = "bathRoom1ExhaustFan"
-        fan2 = "bathRoom2ExhaustFan"
+        fan1 = "bathroom1ExhaustFan"
+        fan2 = "bathroom2ExhaustFan"
         # Iterate over each day
         for day in range(0, 60 * TIME_MAP["day"], TIME_MAP["day"]):
             # S-S
@@ -456,7 +456,7 @@ class StateGenerator:
                     t0,
                     t1,
                     15 * TIME_MAP["minute"],
-                    "bathRoom1Faucet",
+                    "bathroom1Faucet",
                     isShower=True,
                     concurrentEventStateKey=fan1,
                 )
@@ -468,7 +468,7 @@ class StateGenerator:
                     t0,
                     t1,
                     15 * TIME_MAP["minute"],
-                    "bathRoom2Faucet",
+                    "bathroom2Faucet",
                     isShower=True,
                     concurrentEventStateKey=fan2,
                 )
@@ -480,7 +480,7 @@ class StateGenerator:
                     t0,
                     t1,
                     15 * TIME_MAP["minute"],
-                    "bathRoom1Faucet",
+                    "bathroom1Faucet",
                     isShower=True,
                     concurrentEventStateKey=fan1,
                 )
@@ -492,7 +492,7 @@ class StateGenerator:
                     t0,
                     t1,
                     15 * TIME_MAP["minute"],
-                    "bathRoom1Faucet",
+                    "bathroom1Faucet",
                     isBath=True,
                     concurrentEventStateKey=fan1,
                 )
@@ -506,7 +506,7 @@ class StateGenerator:
                     t0,
                     t1,
                     15 * TIME_MAP["minute"],
-                    "bathRoom1Faucet",
+                    "bathroom1Faucet",
                     isShower=True,
                     concurrentEventStateKey=fan1,
                 )
@@ -518,7 +518,7 @@ class StateGenerator:
                     t0,
                     t1,
                     15 * TIME_MAP["minute"],
-                    "bathRoom2Faucet",
+                    "bathroom2Faucet",
                     isShower=True,
                     concurrentEventStateKey=fan2,
                 )
@@ -531,7 +531,7 @@ class StateGenerator:
                 t0,
                 t1,
                 15 * TIME_MAP["minute"],
-                "bathRoom1Faucet",
+                "bathroom1Faucet",
                 isBath=True,
                 concurrentEventStateKey=fan1,
             )
@@ -543,7 +543,7 @@ class StateGenerator:
                 t0,
                 t1,
                 15 * TIME_MAP["minute"],
-                "bathRoom2Faucet",
+                "bathroom2Faucet",
                 isBath=True,
                 concurrentEventStateKey=fan2,
             )
@@ -638,10 +638,10 @@ class StateGenerator:
                     random.randint(t0, t1), stateKey, newValue
                 )
             self.writeBooleanEventInsertStatement(
-                random.randint(t0, t1), "bathRoom1OverheadLight", newValue
+                random.randint(t0, t1), "bathroom1OverheadLight", newValue
             )
             self.writeBooleanEventInsertStatement(
-                random.randint(t0, t1), "bathRoom2OverheadLight", newValue
+                random.randint(t0, t1), "bathroom2OverheadLight", newValue
             )
 
         def allLightsOff(t0: int, t1: int) -> None:

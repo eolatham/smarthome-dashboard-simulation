@@ -35,48 +35,48 @@ Boolean state represents things that can be open/closed or on/off, including doo
 True = open/on
 False = closed/off
 
-#### Bed Rooms
+#### Bedrooms
 
-##### Bed Room #1
+##### Bedroom #1
 
-- `bedRoom1OverheadLight`
-- `bedRoom1Lamp1`
-- `bedRoom1Lamp2`
-- `bedRoom1Window1`
-- `bedRoom1Window2`
-- `bedRoom1Tv`
+- `bedroom1OverheadLight`
+- `bedroom1Lamp1`
+- `bedroom1Lamp2`
+- `bedroom1Window1`
+- `bedroom1Window2`
+- `bedroom1Tv`
 
-##### Bed Room #2
+##### Bedroom #2
 
-- `bedRoom2OverheadLight`
-- `bedRoom2Lamp1`
-- `bedRoom2Lamp2`
-- `bedRoom2Window1`
-- `bedRoom2Window2`
+- `bedroom2OverheadLight`
+- `bedroom2Lamp1`
+- `bedroom2Lamp2`
+- `bedroom2Window1`
+- `bedroom2Window2`
 
-##### Bed Room #3
+##### Bedroom #3
 
-- `bedRoom3OverheadLight`
-- `bedRoom3Lamp1`
-- `bedRoom3Lamp2`
-- `bedRoom3Window1`
-- `bedRoom3Window2`
+- `bedroom3OverheadLight`
+- `bedroom3Lamp1`
+- `bedroom3Lamp2`
+- `bedroom3Window1`
+- `bedroom3Window2`
 
-#### Bath Rooms
+#### Bathrooms
 
-##### Bath Room #1
+##### Bathroom #1
 
-- `bathRoom1OverheadLight`
-- `bathRoom1ExhaustFan`
-- `bathRoom1Window`
-- `bathRoom1Faucet`
+- `bathroom1OverheadLight`
+- `bathroom1ExhaustFan`
+- `bathroom1Window`
+- `bathroom1Faucet`
 
-##### Bath Room #2
+##### Bathroom #2
 
-- `bathRoom2OverheadLight`
-- `bathRoom2ExhaustFan`
-- `bathRoom2Window`
-- `bathRoom2Faucet`
+- `bathroom2OverheadLight`
+- `bathroom2ExhaustFan`
+- `bathroom2Window`
+- `bathroom2Faucet`
 
 #### Living Room
 
@@ -200,7 +200,7 @@ CREATE TABLE IF NOT EXISTS pre_generated_events.boolean_event (
 - `"door"`
 - `"window"`
 - `"light"`
-- `"bedRoomTv"`
+- `"bedroomTv"`
 - `"livingRoomTv"`
 - `"stove"`
 - `"oven"`
