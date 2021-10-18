@@ -23,10 +23,10 @@ const Thermostat = (props: ThermostatProps) => {
       <h2>Thermostat Control</h2>
       <hr />
       <h3>Outdoor Temp</h3>
-      <div className="temp">{outdoorTemp}</div>
+      <div className="temp">{Math.round(outdoorTemp)}</div>
       <hr />
       <h3>Indoor Temp</h3>
-      <div className="temp">{indoorTemp}</div>
+      <div className="temp">{Math.round(indoorTemp)}</div>
       <hr />
       <h3>Thermostat Temp</h3>
       <button

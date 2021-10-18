@@ -74,7 +74,7 @@ class ControlPage extends React.Component<ControlPageProps, ControlPageState> {
     return (
       <div
         className="mx-5 my-3 p-0"
-        style={{ display: "flex", justifyContent: "space-between" }}
+        style={{ display: "flex", justifyContent: "space-evenly" }}
       >
         <SwitchGroup
           {...commonSwitchGroupProps}
