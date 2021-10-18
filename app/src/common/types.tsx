@@ -54,7 +54,7 @@ export type BooleanStateType =
 export type UserGeneratedBooleanStateType = "door" | "window" | "light";
 export type StateType = IntegerStateType | BooleanStateType;
 
-export type IntegerStateKey = "outdoorTemp" | "thermostatTemp";
+export type IntegerStateKey = "outdoorTemp" | "indoorTemp" | "thermostatTemp";
 export type BooleanStateKey =
   | "bedRoom1OverheadLight"
   | "bedRoom1Lamp1"
