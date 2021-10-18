@@ -10,7 +10,7 @@ export default function MenuBar(props) {
   return (
     <Navbar
       fixed="bottom"
-      style={{ padding: "0", backgroundColor: "lightgrey" }}
+      style={{ padding: "0", backgroundColor: "#eeeeeeee" }}
     >
       <Container>
         <Nav variant="pills" activeKey={history.location.pathname}>

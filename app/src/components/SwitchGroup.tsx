@@ -60,7 +60,7 @@ const SwitchGroup = (props: SwitchGroupProps) => {
         height: "min-content",
         border: "solid",
         borderWidth: "0.15rem",
-        borderRadius: "0.5rem",
+        borderRadius: "1rem",
       }}
     >
       <h5 className="mb-2">{title}</h5>
