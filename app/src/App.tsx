@@ -32,6 +32,8 @@ class App extends React.Component<AppProps, AppState> {
     this.processEvent = this.processEvent.bind(this);
     this.processAnalysis = this.processAnalysis.bind(this);
     this.setHomePageState = this.setHomePageState.bind(this);
+    this.setHomePageIntegerState = this.setHomePageIntegerState.bind(this);
+    this.setHomePageBooleanState = this.setHomePageBooleanState.bind(this);
     this.setControlPageState = this.setControlPageState.bind(this);
     this.setAnalysisPageState = this.setAnalysisPageState.bind(this);
   }
@@ -69,9 +71,9 @@ class App extends React.Component<AppProps, AppState> {
   processAnalysis(analysis) {
     var data: AnalysisObject = JSON.parse(analysis.data);
     console.log("Received smart home analysis with data:", data);
+    this.setHomePageIntegerState({ indoorTemp: data.indoorTemp });
     const { analysisPageState } = this.state;
     this.setAnalysisPageState({
-      indoorTemp: data.indoorTemp,
       electricityUsage:
         analysisPageState.electricityUsage +
         data.utilityUsage.electricity.watts,
@@ -89,6 +91,20 @@ class App extends React.Component<AppProps, AppState> {
   setHomePageState(state: object, callback?: CallbackFunction) {
     this.setState(
       { homePageState: { ...this.state.homePageState, ...state } },
+      callback
+    );
+  }
+
+  setHomePageIntegerState(integerState: object, callback?: CallbackFunction) {
+    this.setHomePageState(
+      { integer: { ...this.state.homePageState.integer, ...integerState } },
+      callback
+    );
+  }
+
+  setHomePageBooleanState(booleanState: object, callback?: CallbackFunction) {
+    this.setHomePageState(
+      { boolean: { ...this.state.homePageState.boolean, ...booleanState } },
       callback
     );
   }
@@ -119,6 +135,8 @@ class App extends React.Component<AppProps, AppState> {
               <HomePage
                 state={this.state.homePageState}
                 setState={this.setHomePageState}
+                setIntegerState={this.setHomePageIntegerState}
+                setBooleanState={this.setHomePageBooleanState}
                 {...props}
               />
             )}

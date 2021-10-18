@@ -1,9 +1,12 @@
 import React from "react";
+import Thermostat from "./Thermostat";
 import {
   SetStateFunction,
   IntegerStateKey,
   BooleanStateKey,
 } from "../common/types";
+import { postUserGeneratedThermostatEvent } from "../common/helpers";
+import { MIN_THERMOSTAT_TEMP, MAX_THERMOSTAT_TEMP } from "../common/constants";
 
 export type HomePageState = {
   integer: {
@@ -16,11 +19,13 @@ export type HomePageState = {
 export type HomePageProps = {
   state: HomePageState;
   setState: SetStateFunction;
+  setIntegerState: SetStateFunction;
+  setBooleanState: SetStateFunction;
 };
 class HomePage extends React.Component<HomePageProps, HomePageState> {
   static getInitialState(): HomePageState {
     return {
-      integer: { thermostatTemp: null, outdoorTemp: null },
+      integer: { outdoorTemp: null, indoorTemp: null, thermostatTemp: null },
       boolean: {
         bedroom1OverheadLight: false,
         bedroom1Lamp1: false,
@@ -73,12 +78,25 @@ class HomePage extends React.Component<HomePageProps, HomePageState> {
   }
 
   render() {
-    const { state } = this.props;
+    const { state, setIntegerState } = this.props;
     return (
       <div>
-        <h1>Home Page</h1>
-        <div style={{ whiteSpace: "pre-wrap" }}>
-          {JSON.stringify(state, null, "\t")}
+        <div>
+          <Thermostat
+            outdoorTemp={state.integer.outdoorTemp}
+            indoorTemp={state.integer.indoorTemp}
+            thermostatTemp={state.integer.thermostatTemp}
+            minThermostatTemp={MIN_THERMOSTAT_TEMP}
+            maxThermostatTemp={MAX_THERMOSTAT_TEMP}
+            onThermostatTempChange={(newThermostatTemp: number) =>
+              setIntegerState(
+                {
+                  thermostatTemp: newThermostatTemp,
+                },
+                () => postUserGeneratedThermostatEvent(newThermostatTemp)
+              )
+            }
+          />
         </div>
       </div>
     );

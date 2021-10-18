@@ -2,7 +2,6 @@ import React from "react";
 import { SetStateFunction } from "../common/types";
 
 export type AnalysisPageState = {
-  indoorTemp: number;
   electricityUsage: number;
   electricityCost: number;
   waterUsage: number;
@@ -19,7 +18,6 @@ class AnalysisPage extends React.Component<
 > {
   static getInitialState(): AnalysisPageState {
     return {
-      indoorTemp: null,
       electricityUsage: 0,
       electricityCost: 0,
       waterUsage: 0,
