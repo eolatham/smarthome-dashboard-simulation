@@ -8,7 +8,6 @@ from psycopg2.extras import RealDictCursor
 
 # LOCAL
 from public.constants import (
-    POSTGRES_URL,
     MIN_APP_TIME,
     MAX_APP_TIME,
     MIN_THERMOSTAT_TEMP,
@@ -190,12 +189,12 @@ def isThermostatEvent(event: Event) -> bool:
     return event["state_key"] == "thermostatTemp"
 
 
-def queryEvents() -> List[Event]:
+def queryEvents(postgresDsn: str) -> List[Event]:
     """
     Returns all pre-generated events from the database.
     """
     events: List[Event] = []
-    with psycopg2.connect(dsn=POSTGRES_URL) as con:
+    with psycopg2.connect(dsn=postgresDsn) as con:
         with con.cursor(cursor_factory=RealDictCursor) as cur:
             cur.execute("SELECT * FROM pre_generated_events.integer_event")
             events.extend([IntegerEvent(**e) for e in cur.fetchall()])

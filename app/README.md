@@ -25,6 +25,26 @@ Note: you will have to hit `Ctrl+C` after Docker is finished initializing the da
 
 Run `make start` to start the application.
 
-### Documentation
+### Database Information
+
+#### Local Development Database
+
+By default, the app is set up to use a local Postgres database within Docker for development and testing purposes.
+
+See the `LOCAL_POSTGRES_URL` variable in [constants.py](public/constants.py) for connection details.
+
+#### Remote Demo Database
+
+A Postgres database has been set up on a remote server to be used during the demo of this project.
+
+See the `REMOTE_POSTGRES_URL` variable in [constants.py](public/constants.py) for connection details.
+
+_Note that connecting to the remote server is only possible on UAB's network or through the UAB VPN._
+
+##### Demo Preparation
+
+Before demoing the project, run `./prepare_for_demo.sh` (see [the script](prepare_for_demo.sh)).
+
+### App Documentation
 
 Documentation about the app is stored under the [docs](docs) directory.

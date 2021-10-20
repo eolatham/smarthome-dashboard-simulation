@@ -206,9 +206,12 @@ class StateGenerator:
         self.weatherLocation = weatherLocation
         self.outputFilename = outputFilename
 
-        # Create new empty file
+        # Create new output file
         with open(outputFilename, "w") as f:
-            f.write("")
+            f.write(  # Clear tables before inserting fresh set of events
+                "DELETE FROM pre_generated_events.integer_event;\n"
+                "DELETE FROM pre_generated_events.boolean_event;\n\n"
+            )
 
         # Set start time to be midnight, on Monday, and at least 60 days prior
         startDate = datetime.date.today() - datetime.timedelta(days=61)

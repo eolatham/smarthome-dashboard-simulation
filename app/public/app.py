@@ -39,7 +39,7 @@ if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
     APP_CLOCK = AppClock(MIN_APP_TIME, MAX_APP_TIME, DEFAULT_SPEEDUP_FACTOR)
     BACKGROUND_SCHEDULER = BackgroundScheduler()
     EVENT_STORE = EventStore()
-    EVENT_STORE.putPreGeneratedEvents(*queryEvents())
+    EVENT_STORE.putPreGeneratedEvents(*queryEvents(LOCAL_POSTGRES_URL))
     TIME_PUBLISHER = TimePublisher(
         LOGGER,
         APP,
