@@ -98,7 +98,6 @@ class AnalysisPublisher(SSEPublisher):
         self.thermostatTemp = self.eventStore.getFirstEventValue("thermostatTemp")
         self.indoorTemp = self.thermostatTemp  # Use as initial value
         self.booleanStateTrackerMap = BooleanStateTrackerMap(self.eventStore)
-        self.booleanStateTrackerMap.clear()
 
     def updateIndoorTempAndReturnHvacElectricityUsage(
         self, event: IntegerEvent
