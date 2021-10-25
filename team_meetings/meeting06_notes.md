@@ -1,15 +1,16 @@
-# Team Meeting 05 - 10/11/2021
+# Team Meeting 06 - 10/25/2021
 
 ## Agenda
 
--
+- Give task progress update
+- Demo current app functionality
 
 ## Meeting Notes
 
 ### Finished from last week
 
+- Control screen
 - Thermostat component
-- Control Screen
 
 ### Not Finished
 
