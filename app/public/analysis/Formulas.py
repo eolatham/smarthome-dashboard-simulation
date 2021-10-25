@@ -38,7 +38,10 @@ class Formulas:
         openWindowChange = (
             indoorChangePerOpenWindowSecPerOutdoorDiff * openWindowTime * outdoorDiff
         )
-        return changeDirection * (baseChange + openDoorChange + openWindowChange)
+        maxPossibleChange = outdoorDiff
+        unclippedChange = baseChange + openDoorChange + openWindowChange
+        actualChange = min(unclippedChange, maxPossibleChange)
+        return changeDirection * actualChange
 
     @staticmethod
     def isHvacRunning(indoorTemp: float, thermostatTemp: float) -> bool:
