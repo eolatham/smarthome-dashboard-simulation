@@ -154,7 +154,7 @@ class AnalysisPublisher(SSEPublisher):
                     cast(IntegerEvent, event)
                 )
         electricityUsage += self.booleanStateTrackerMap.getTotalElectricityUsage()
-        electricityCost = Formulas.electricityCost(electricityUsage)
+        electricityCost = Formulas.electricityCost(electricityUsage, end - start)
 
         waterUsage = self.booleanStateTrackerMap.getTotalWaterUsage()
         waterCost = Formulas.waterCost(waterUsage)
