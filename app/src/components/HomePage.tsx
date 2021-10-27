@@ -1,4 +1,5 @@
 import React from "react";
+import Floorplan from "./Floorplan";
 import Thermostat from "./Thermostat";
 import {
   SetStateFunction,
@@ -83,9 +84,15 @@ class HomePage extends React.Component<HomePageProps, HomePageState> {
       <div className="my-3" style={{ display: "flex" }}>
         <div
           className="mx-3"
-          style={{ display: "flex", justifyContent: "center", width: "80%" }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            width: "80%",
+          }}
         >
           <h1>Interactive Floorplan</h1>
+          <Floorplan />
         </div>
         <div
           className="mx-3"

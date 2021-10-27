@@ -38,7 +38,10 @@ class Formulas:
         openWindowChange = (
             indoorChangePerOpenWindowSecPerOutdoorDiff * openWindowTime * outdoorDiff
         )
-        return changeDirection * (baseChange + openDoorChange + openWindowChange)
+        maxPossibleChange = outdoorDiff
+        unclippedChange = baseChange + openDoorChange + openWindowChange
+        actualChange = min(unclippedChange, maxPossibleChange)
+        return changeDirection * actualChange
 
     @staticmethod
     def isHvacRunning(indoorTemp: float, thermostatTemp: float) -> bool:
@@ -128,9 +131,9 @@ class Formulas:
         return electricityUsageRate * runningTime
 
     @staticmethod
-    def electricityCost(electricityUsage: float) -> float:
-        costRate = 0.12 / 1000 / 3600  # Dollars per watt
-        return costRate * electricityUsage
+    def electricityCost(electricityUsage: float, totalTime: float) -> float:
+        costRate = 0.12 / 1000 / 3600  # Dollars per watt-second
+        return costRate * electricityUsage * totalTime
 
     @staticmethod
     def waterCost(waterUsage: float) -> float:

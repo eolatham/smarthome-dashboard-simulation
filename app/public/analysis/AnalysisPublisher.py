@@ -98,7 +98,6 @@ class AnalysisPublisher(SSEPublisher):
         self.thermostatTemp = self.eventStore.getFirstEventValue("thermostatTemp")
         self.indoorTemp = self.thermostatTemp  # Use as initial value
         self.booleanStateTrackerMap = BooleanStateTrackerMap(self.eventStore)
-        self.booleanStateTrackerMap.clear()
 
     def updateIndoorTempAndReturnHvacElectricityUsage(
         self, event: IntegerEvent
@@ -154,7 +153,7 @@ class AnalysisPublisher(SSEPublisher):
                     cast(IntegerEvent, event)
                 )
         electricityUsage += self.booleanStateTrackerMap.getTotalElectricityUsage()
-        electricityCost = Formulas.electricityCost(electricityUsage)
+        electricityCost = Formulas.electricityCost(electricityUsage, end - start)
 
         waterUsage = self.booleanStateTrackerMap.getTotalWaterUsage()
         waterCost = Formulas.waterCost(waterUsage)
