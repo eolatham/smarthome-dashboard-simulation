@@ -13,6 +13,7 @@ export type ConstantsFromBackend = {
   MAX_SPEEDUP_FACTOR: number;
   MIN_THERMOSTAT_TEMP: number;
   MAX_THERMOSTAT_TEMP: number;
+  PUBLISH_ANALYSIS_INTERVAL: number;
 };
 
 export type WaterUsage = {
@@ -29,7 +30,7 @@ export type UtilityUsage = {
   totalDollars: number;
 };
 export type AnalysisObject = {
-  time: number;
+  time: string;
   indoorTemp: number;
   utilityUsage: UtilityUsage;
 };

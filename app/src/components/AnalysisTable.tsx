@@ -1,41 +1,30 @@
 import React from "react";
-import { SetStateFunction } from "../common/types";
 
-export type AnalysisTableState = {
-  electricityUsage: number;
-  electricityCost: number;
+export type RowData = {
   waterUsage: number;
-  waterCost: number;
+  electricityUsage: number;
   totalUtilitiesCost: number;
 };
 export type AnalysisTableProps = {
-  state: AnalysisTableState;
-  setState: SetStateFunction;
+  utilitiesDataLastDay: RowData;
+  utilitiesDataLastWeek: RowData;
+  utilitiesDataLastMonth: RowData;
 };
-class AnalysisTable extends React.Component<
-  AnalysisTableProps,
-  AnalysisTableState
-> {
-  static getInitialState(): AnalysisTableState {
-    return {
-      electricityUsage: 0,
-      electricityCost: 0,
-      waterUsage: 0,
-      waterCost: 0,
-      totalUtilitiesCost: 0,
-    };
-  }
-
-  render() {
-    const { state } = this.props;
-    return (
-      <div>
-        <h1>Utility Usage Table</h1>
-        <div style={{ whiteSpace: "pre-wrap" }}>
-          {JSON.stringify(state, null, "\t")}
-        </div>
+const AnalysisTable = (props: AnalysisTableProps) => {
+  // TODO: calculate projected utilities data for next month
+  const utilitiesDataNextMonth: RowData = {
+    waterUsage: 0,
+    electricityUsage: 0,
+    totalUtilitiesCost: 0,
+  };
+  // TODO: render table with projected data and data from props
+  return (
+    <div>
+      <h1>Utility Usage Table</h1>
+      <div style={{ whiteSpace: "pre-wrap" }}>
+        {JSON.stringify({ ...props, utilitiesDataNextMonth }, null, "\t")}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 export default AnalysisTable;

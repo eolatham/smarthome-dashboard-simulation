@@ -9,9 +9,14 @@ import MenuBar from "./components/MenuBar";
 import HomePage, { HomePageState } from "./components/HomePage";
 import ControlPage, { ControlPageState } from "./components/ControlPage";
 import AnalysisPage, { AnalysisPageState } from "./components/AnalysisPage";
+import { RowData } from "./components/AnalysisTable";
 import { CallbackFunction, AnalysisObject, Event } from "./common/types";
 import { processEventSourceError } from "./common/helpers";
-import { START_SIMULATION_URL, SSE_URL } from "./common/constants";
+import {
+  START_SIMULATION_URL,
+  SSE_URL,
+  PUBLISH_ANALYSIS_INTERVAL,
+} from "./common/constants";
 
 type AppProps = {};
 type AppState = {
@@ -71,20 +76,104 @@ class App extends React.Component<AppProps, AppState> {
   processAnalysis(analysis) {
     var data: AnalysisObject = JSON.parse(analysis.data);
     console.log("Received smart home analysis with data:", data);
+
+    // Update indoor temp value
     this.setHomePageIntegerState({ indoorTemp: data.indoorTemp });
-    const { analysisPageState } = this.state;
+
+    const {
+      waterUsageData,
+      electricityUsageData,
+      totalUtilitiesCostData,
+      dataLength: previousDataLength,
+      dataIndexOneDayAgo: previousDataIndexOneDayAgo,
+      dataIndexOneWeekAgo: previousDataIndexOneWeekAgo,
+      dataIndexOneMonthAgo: previousDataIndexOneMonthAgo,
+      utilitiesDataLastDay: previousUtilitiesDataLastDay,
+      utilitiesDataLastWeek: previousUtilitiesDataLastWeek,
+      utilitiesDataLastMonth: previousUtilitiesDataLastMonth,
+    } = this.state.analysisPageState;
+
+    // Update utility usage graph data
+    waterUsageData.push({
+      x: data.time,
+      y: data.utilityUsage.water.gallons,
+    });
+    electricityUsageData.push({
+      x: data.time,
+      y: data.utilityUsage.electricity.watts,
+    });
+    totalUtilitiesCostData.push({
+      x: data.time,
+      y: data.utilityUsage.totalDollars,
+    });
+
+    // Update utility usage table data
+    const newDataLength = previousDataLength + 1;
+    const dataIndexNDaysAgo = (n: number): number =>
+      Math.max(
+        0,
+        newDataLength - (n * 24 * 60 * 60) / PUBLISH_ANALYSIS_INTERVAL
+      );
+    const newDataIndexOneDayAgo = dataIndexNDaysAgo(1);
+    const newDataIndexOneWeekAgo = dataIndexNDaysAgo(7);
+    const newDataIndexOneMonthAgo = dataIndexNDaysAgo(30);
+    const utilitiesData = (
+      previousUtilitiesData: RowData,
+      previousIndex: number,
+      newIndex: number
+    ): RowData => {
+      var waterUsageToSubtract = 0;
+      var electricityUsageToSubtract = 0;
+      var totalUtilitiesCostToSubtract = 0;
+      for (var i = previousIndex; i < newIndex; ++i) {
+        waterUsageToSubtract += waterUsageData[i].y;
+        electricityUsageToSubtract += electricityUsageData[i].y;
+        totalUtilitiesCostToSubtract += totalUtilitiesCostData[i].y;
+      }
+      const waterUsageToAdd = data.utilityUsage.water.gallons;
+      const electricityUsageToAdd = data.utilityUsage.electricity.watts;
+      const totalUtilitiesCostToAdd = data.utilityUsage.totalDollars;
+      return {
+        waterUsage:
+          previousUtilitiesData.waterUsage -
+          waterUsageToSubtract +
+          waterUsageToAdd,
+        electricityUsage:
+          previousUtilitiesData.electricityUsage -
+          electricityUsageToSubtract +
+          electricityUsageToAdd,
+        totalUtilitiesCost:
+          previousUtilitiesData.totalUtilitiesCost -
+          totalUtilitiesCostToSubtract +
+          totalUtilitiesCostToAdd,
+      };
+    };
+    const newUtilitiesDataLastDay = utilitiesData(
+      previousUtilitiesDataLastDay,
+      previousDataIndexOneDayAgo,
+      newDataIndexOneDayAgo
+    );
+    const newUtilitiesDataLastWeek = utilitiesData(
+      previousUtilitiesDataLastWeek,
+      previousDataIndexOneWeekAgo,
+      newDataIndexOneWeekAgo
+    );
+    const newUtilitiesDataLastMonth = utilitiesData(
+      previousUtilitiesDataLastMonth,
+      previousDataIndexOneMonthAgo,
+      newDataIndexOneMonthAgo
+    );
     this.setAnalysisPageState({
-      electricityUsage:
-        analysisPageState.electricityUsage +
-        data.utilityUsage.electricity.watts,
-      electricityCost:
-        analysisPageState.electricityCost +
-        data.utilityUsage.electricity.dollars,
-      waterUsage:
-        analysisPageState.waterUsage + data.utilityUsage.water.gallons,
-      waterCost: analysisPageState.waterCost + data.utilityUsage.water.dollars,
-      totalUtilitiesCost:
-        analysisPageState.totalUtilitiesCost + data.utilityUsage.totalDollars,
+      waterUsageData,
+      electricityUsageData,
+      totalUtilitiesCostData,
+      dataLength: newDataLength,
+      dataIndexOneDayAgo: newDataIndexOneDayAgo,
+      dataIndexOneWeekAgo: newDataIndexOneWeekAgo,
+      dataIndexOneMonthAgo: newDataIndexOneMonthAgo,
+      utilitiesDataLastDay: newUtilitiesDataLastDay,
+      utilitiesDataLastWeek: newUtilitiesDataLastWeek,
+      utilitiesDataLastMonth: newUtilitiesDataLastMonth,
     });
   }
 
@@ -169,5 +258,4 @@ class App extends React.Component<AppProps, AppState> {
     );
   }
 }
-
 export default App;

@@ -1,14 +1,21 @@
 import React from "react";
 import { SetStateFunction } from "../common/types";
-import AnalysisGraph from "./AnalysisGraph";
-import AnalysisTable from "./AnalysisTable";
+import AnalysisGraph, { DataPoint } from "./AnalysisGraph";
+import AnalysisTable, { RowData } from "./AnalysisTable";
 
 export type AnalysisPageState = {
-  electricityUsage: number;
-  electricityCost: number;
-  waterUsage: number;
-  waterCost: number;
-  totalUtilitiesCost: number;
+  // For graph
+  waterUsageData: DataPoint[];
+  electricityUsageData: DataPoint[];
+  totalUtilitiesCostData: DataPoint[];
+  // For table
+  dataLength: number;
+  dataIndexOneDayAgo: number;
+  dataIndexOneWeekAgo: number;
+  dataIndexOneMonthAgo: number;
+  utilitiesDataLastDay: RowData;
+  utilitiesDataLastWeek: RowData;
+  utilitiesDataLastMonth: RowData;
 };
 export type AnalysisPageProps = {
   state: AnalysisPageState;
@@ -20,28 +27,52 @@ class AnalysisPage extends React.Component<
 > {
   static getInitialState(): AnalysisPageState {
     return {
-      electricityUsage: 0,
-      electricityCost: 0,
-      waterUsage: 0,
-      waterCost: 0,
-      totalUtilitiesCost: 0,
+      waterUsageData: [],
+      electricityUsageData: [],
+      totalUtilitiesCostData: [],
+      dataLength: 0,
+      dataIndexOneDayAgo: 0,
+      dataIndexOneWeekAgo: 0,
+      dataIndexOneMonthAgo: 0,
+      utilitiesDataLastDay: {
+        waterUsage: 0,
+        electricityUsage: 0,
+        totalUtilitiesCost: 0,
+      },
+      utilitiesDataLastWeek: {
+        waterUsage: 0,
+        electricityUsage: 0,
+        totalUtilitiesCost: 0,
+      },
+      utilitiesDataLastMonth: {
+        waterUsage: 0,
+        electricityUsage: 0,
+        totalUtilitiesCost: 0,
+      },
     };
   }
 
   render() {
-    const { state } = this.props;
+    const {
+      waterUsageData,
+      electricityUsageData,
+      totalUtilitiesCostData,
+      utilitiesDataLastDay,
+      utilitiesDataLastWeek,
+      utilitiesDataLastMonth,
+    } = this.props.state;
     return (
       <div>
         <div style={{ whiteSpace: "pre-wrap" }}>
           <AnalysisGraph
-            state={this.state}
-            setState={this.setState}
-            {...this.props}
+            waterUsageData={waterUsageData}
+            electricityUsageData={electricityUsageData}
+            totalUtilitiesCostData={totalUtilitiesCostData}
           />
           <AnalysisTable
-            state={this.state}
-            setState={this.setState}
-            {...this.props}
+            utilitiesDataLastDay={utilitiesDataLastDay}
+            utilitiesDataLastWeek={utilitiesDataLastWeek}
+            utilitiesDataLastMonth={utilitiesDataLastMonth}
           />
         </div>
       </div>

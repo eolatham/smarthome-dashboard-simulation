@@ -132,5 +132,4 @@ class AppClock extends React.Component<AppClockProps, AppClockState> {
     );
   }
 }
-
 export default AppClock;

@@ -1,41 +1,24 @@
 import React from "react";
-import { SetStateFunction } from "../common/types";
+import { ResponsiveLine } from "@nivo/line";
 
-export type AnalysisGraphState = {
-  electricityUsage: number;
-  electricityCost: number;
-  waterUsage: number;
-  waterCost: number;
-  totalUtilitiesCost: number;
+export type DataPoint = {
+  x: string; // The time that this data point corresponds to
+  y: number; // The total value for the time period between the previous data point and this one
 };
 export type AnalysisGraphProps = {
-  state: AnalysisGraphState;
-  setState: SetStateFunction;
+  waterUsageData: DataPoint[];
+  electricityUsageData: DataPoint[];
+  totalUtilitiesCostData: DataPoint[];
 };
-class AnalysisGraph extends React.Component<
-  AnalysisGraphProps,
-  AnalysisGraphState
-> {
-  static getInitialState(): AnalysisGraphState {
-    return {
-      electricityUsage: 0,
-      electricityCost: 0,
-      waterUsage: 0,
-      waterCost: 0,
-      totalUtilitiesCost: 0,
-    };
-  }
-
-  render() {
-    const { state } = this.props;
-    return (
-      <div>
-        <h1>Utility Usage Graph</h1>
-        <div style={{ whiteSpace: "pre-wrap" }}>
-          {JSON.stringify(state, null, "\t")}
-        </div>
+const AnalysisGraph = (props: AnalysisGraphProps) => {
+  // TODO: use ResponsiveLine with data from props (https://nivo.rocks/line/canvas/)
+  return (
+    <div>
+      <h1>Utility Usage Graph</h1>
+      <div style={{ whiteSpace: "pre-wrap" }}>
+        {JSON.stringify(props, null, "\t")}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 export default AnalysisGraph;

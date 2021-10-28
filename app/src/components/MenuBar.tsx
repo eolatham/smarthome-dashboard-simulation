@@ -4,7 +4,8 @@ import { Navbar, Nav, Container, Row } from "react-bootstrap";
 import { MdRefresh } from "react-icons/md";
 import AppClock from "./AppClock";
 
-export default function MenuBar(props) {
+export type MenuBarProps = {};
+const MenuBar = (props: MenuBarProps) => {
   const history = useHistory();
   const linkStyle = { color: "black", fontSize: "2rem" };
   return (
@@ -43,6 +44,5 @@ export default function MenuBar(props) {
       </Container>
     </Navbar>
   );
-}
-
-export { MenuBar };
+};
+export default MenuBar;
