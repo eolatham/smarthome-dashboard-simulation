@@ -11,6 +11,9 @@ export const CLOCK_SPEED_URL = `${SERVER_BASE_URL}/speed`;
 export const USER_GENERATED_EVENT_URL = `${SERVER_BASE_URL}/user-generated-event`;
 export const SSE_URL = `${SERVER_BASE_URL}/sse`;
 
+export const AVG_WATER_USAGE_RATE = 25; // Gallons per day
+export const AVG_ELECTRICITY_USAGE_RATE = 10000; // Watts per day
+
 var constantsRequest = new XMLHttpRequest();
 constantsRequest.open("GET", CONSTANTS_URL, false); // Synchronous!
 constantsRequest.send();
