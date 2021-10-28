@@ -62,13 +62,19 @@ class AnalysisPage extends React.Component<
       utilitiesDataLastMonth,
     } = this.props.state;
     return (
-      <div>
-        <div style={{ whiteSpace: "pre-wrap" }}>
+      <div className="page-container my-3">
+        <div className="page-section-column mx-3" style={{ width: "60%" }}>
+          <h1>Utility Usage Graph</h1>
+          <br />
           <AnalysisGraph
             waterUsageData={waterUsageData}
             electricityUsageData={electricityUsageData}
             totalUtilitiesCostData={totalUtilitiesCostData}
           />
+        </div>
+        <div className="page-section-column mx-3" style={{ width: "40%" }}>
+          <h1>Utility Usage Table</h1>
+          <br />
           <AnalysisTable
             utilitiesDataLastDay={utilitiesDataLastDay}
             utilitiesDataLastWeek={utilitiesDataLastWeek}

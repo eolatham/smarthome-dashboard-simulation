@@ -13,11 +13,16 @@ export type AnalysisGraphProps = {
 const AnalysisGraph = (props: AnalysisGraphProps) => {
   // TODO: use ResponsiveLine with data from props (https://nivo.rocks/line/canvas/)
   return (
-    <div>
-      <h1>Utility Usage Graph</h1>
-      <div style={{ whiteSpace: "pre-wrap" }}>
-        {JSON.stringify(props, null, "\t")}
-      </div>
+    <div
+      style={{
+        width: "100%",
+        height: "500px",
+        overflowY: "scroll",
+        backgroundColor: "#eeeeeeee",
+        whiteSpace: "pre-wrap",
+      }}
+    >
+      {JSON.stringify(props, null, "\t")}
     </div>
   );
 };

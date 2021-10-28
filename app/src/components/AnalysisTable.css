@@ -1,0 +1,15 @@
+.table {
+  color: black !important;
+  border: 2px solid black !important;
+  text-align: center !important;
+}
+
+td,
+tr,
+th {
+  vertical-align: middle !important;
+  border-top-color: black !important;
+  border-bottom-color: black !important;
+  border-left-color: black !important;
+  border-right-color: black !important;
+}

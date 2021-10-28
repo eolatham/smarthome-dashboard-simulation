@@ -81,28 +81,12 @@ class HomePage extends React.Component<HomePageProps, HomePageState> {
   render() {
     const { state, setIntegerState } = this.props;
     return (
-      <div className="my-3" style={{ display: "flex" }}>
-        <div
-          className="mx-3"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            width: "80%",
-          }}
-        >
+      <div className="page-container my-3">
+        <div className="page-section-column mx-3" style={{ width: "80%" }}>
           <h1>Interactive Floorplan</h1>
           <Floorplan />
         </div>
-        <div
-          className="mx-3"
-          style={{
-            display: "flex",
-            flexFlow: "column",
-            justifyContent: "center",
-            width: "20%",
-          }}
-        >
+        <div className="page-section-column mx-3" style={{ width: "20%" }}>
           <Thermostat
             outdoorTemp={state.integer.outdoorTemp}
             indoorTemp={state.integer.indoorTemp}

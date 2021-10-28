@@ -4,29 +4,35 @@
 }
 
 h3 {
-  margin-top: 0.4rem !important;
+  font-size: 1.6rem !important;
+}
+
+h4 {
+  margin-bottom: 0 !important;
 }
 
 .thermostat {
+  height: 100%;
   display: flex;
-  flex-flow: column;
+  flex-direction: column;
   text-align: center;
   align-items: center;
+  justify-content: space-evenly;
   border: 0.15rem solid black;
   border-radius: 1rem;
   padding: 1rem;
 }
 .temp {
   font-family: "digital-7";
-  font-size: 3.5rem;
+  font-size: 3rem;
   text-align: center;
   width: 70%;
   border: 0.1rem solid black;
   border-radius: 1rem;
   background-color: #eeeeeeee;
-  margin-top: 0.5rem;
-  margin-bottom: 1.5rem;
   padding: 0.6rem 0.2rem 0.2rem 0.2rem;
+  margin-top: 0.7rem;
+  margin-bottom: 0.6rem;
 }
 
 button:disabled {
@@ -42,12 +48,14 @@ button:disabled {
   outline: none !important;
 }
 .chevron-up {
-  margin-top: 2rem;
   border-top: 0.7rem solid red;
   border-left: 0.7rem solid red;
+  margin-top: 1.25rem;
+  margin-bottom: -1.5rem;
 }
 .chevron-down {
-  margin-bottom: 2rem;
   border-right: 0.7rem solid blue;
   border-bottom: 0.7rem solid blue;
+  margin-top: -1.5rem;
+  margin-bottom: 0.5rem;
 }

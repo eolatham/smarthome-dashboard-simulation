@@ -1,9 +1,10 @@
 import React from "react";
-import { Table, Row, Col } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import {
   AVG_WATER_USAGE_RATE,
   AVG_ELECTRICITY_USAGE_RATE,
 } from "../common/constants";
+import "./AnalysisTable.css";
 
 export type RowData = {
   waterUsage: number;
@@ -39,30 +40,36 @@ type UtilitiesDataRowProps = {
 const UtilitiesDataRow = (props: UtilitiesDataRowProps) => {
   const { days, title, utilitiesData } = props;
   return (
-    <Row>
-      <Col>
+    <tr>
+      <th>
         <h5>{title}</h5>
-      </Col>
-      <Col>
-        <b>{Math.round(utilitiesData.waterUsage)} Gallons</b>
+      </th>
+      <th>
+        <div style={{ fontWeight: "bold" }}>
+          {Math.round(utilitiesData.waterUsage)} gallons
+        </div>
         <PercentOfAverage
           utility="water"
           value={utilitiesData.waterUsage}
           days={days}
         />
-      </Col>
-      <Col>
-        <b>{Math.round(utilitiesData.electricityUsage)} Watts</b>
+      </th>
+      <th>
+        <div style={{ fontWeight: "bold" }}>
+          {Math.round(utilitiesData.electricityUsage)} watts
+        </div>
         <PercentOfAverage
           utility="electricity"
           value={utilitiesData.electricityUsage}
           days={days}
         />
-      </Col>
-      <Col>
-        <b>${utilitiesData.totalUtilitiesCost.toFixed(2)}</b>
-      </Col>
-    </Row>
+      </th>
+      <th>
+        <div style={{ fontWeight: "bold" }}>
+          ${utilitiesData.totalUtilitiesCost.toFixed(2)}
+        </div>
+      </th>
+    </tr>
   );
 };
 
@@ -84,21 +91,24 @@ const AnalysisTable = (props: AnalysisTableProps) => {
     totalUtilitiesCost: 0,
   };
   return (
-    <div>
-      <h1>Utility Usage Table</h1>
-      <Table style={{ textAlign: "center" }}>
-        <Row>
-          <Col></Col>
-          <Col>
+    <Table bordered>
+      <thead>
+        <tr>
+          <th>
+            <h4>Timeframe</h4>
+          </th>
+          <th>
             <h4>Water Usage</h4>
-          </Col>
-          <Col>
+          </th>
+          <th>
             <h4>Power Usage</h4>
-          </Col>
-          <Col>
+          </th>
+          <th>
             <h4>Total Cost</h4>
-          </Col>
-        </Row>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
         <UtilitiesDataRow
           days={1}
           title="Last Day"
@@ -119,8 +129,8 @@ const AnalysisTable = (props: AnalysisTableProps) => {
           title="Next Month (Projected)"
           utilitiesData={utilitiesDataNextMonth}
         />
-      </Table>
-    </div>
+      </tbody>
+    </Table>
   );
 };
 export default AnalysisTable;

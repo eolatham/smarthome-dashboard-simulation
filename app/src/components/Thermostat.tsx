@@ -20,15 +20,15 @@ const Thermostat = (props: ThermostatProps) => {
   } = props;
   return (
     <div className="thermostat">
-      <h2>Thermostat Control</h2>
+      <h3>Thermostat Control</h3>
       <hr />
-      <h3>Outdoor Temp</h3>
+      <h4>Outdoor Temp</h4>
       <div className="temp">{Math.round(outdoorTemp)}</div>
       <hr />
-      <h3>Indoor Temp</h3>
+      <h4>Indoor Temp</h4>
       <div className="temp">{Math.round(indoorTemp)}</div>
       <hr />
-      <h3>Thermostat Temp</h3>
+      <h4>Thermostat Temp</h4>
       <button
         className="chevron-up"
         onClick={(e) => onThermostatTempChange(thermostatTemp + 1)}
