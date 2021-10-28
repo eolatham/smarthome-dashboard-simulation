@@ -39,7 +39,7 @@ class AnalysisObject(TypedDict):
     as well as the current app time.
     """
 
-    time: float
+    time: str
     indoorTemp: float
     utilityUsage: UtilityUsage
 
@@ -159,7 +159,7 @@ class AnalysisPublisher(SSEPublisher):
         waterCost = Formulas.waterCost(waterUsage)
 
         analysisObject = AnalysisObject(
-            time=self.clock.time(),
+            time=self.clock.getAbsoluteSimulationTimeString(),
             indoorTemp=self.indoorTemp,
             utilityUsage=UtilityUsage(
                 electricity=ElectricityUsage(

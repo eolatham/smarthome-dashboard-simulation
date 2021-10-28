@@ -1,8 +1,12 @@
 # STL
 from time import time
+from datetime import datetime
 
 # PDM
 from typeguard import typechecked
+
+# LOCAL
+from public.constants import SIMULATION_START_DATE_TIMESTAMP
 
 
 class AppClock:
@@ -52,6 +56,26 @@ class AppClock:
         appTimePassed = realTimePassed * self.speedupFactor
         unboundAppTime = self.appTimeZero + appTimePassed
         return min(unboundAppTime, self.maxTime)
+
+    def getAbsoluteSimulationTimeString(self) -> str:
+        """
+        Returns a string representing the current app time
+        counted from `SIMULATION_START_DATE_TIMESTAMP`
+        in the following format:
+        ```
+        12:00:00 AM
+        Monday
+        Day 1
+        ```
+        """
+        secondsPerDay = 86400
+
+        fromTime = SIMULATION_START_DATE_TIMESTAMP
+        additionalTime = self.time()
+
+        dayNum = int(additionalTime / secondsPerDay + 1)
+        dt = datetime.fromtimestamp(fromTime + additionalTime)
+        return dt.strftime(f"%I:%M:%S %p\n%A\nDay {dayNum}")
 
     def getSpeedupFactor(self) -> float:
         return self.speedupFactor

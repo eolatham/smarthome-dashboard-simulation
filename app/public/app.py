@@ -61,7 +61,7 @@ if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
         APP_CLOCK,
         EVENT_STORE,
         BACKGROUND_SCHEDULER,
-        *PUBLISH_INDOOR_TEMP_INTERVAL,
+        *PUBLISH_ANALYSIS_INTERVAL,
     )
 
 ######################################## ROUTES ########################################
@@ -80,6 +80,7 @@ def constants():
             "MAX_SPEEDUP_FACTOR": MAX_SPEEDUP_FACTOR,
             "MIN_THERMOSTAT_TEMP": MIN_THERMOSTAT_TEMP,
             "MAX_THERMOSTAT_TEMP": MAX_THERMOSTAT_TEMP,
+            "PUBLISH_ANALYSIS_INTERVAL": PUBLISH_ANALYSIS_INTERVAL,
         }
     )
 

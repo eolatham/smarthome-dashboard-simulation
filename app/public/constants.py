@@ -24,7 +24,7 @@ DEFAULT_SPEEDUP_FACTOR = 60  # 1 real second = 1 app minute
 
 PUBLISH_TIME_INTERVAL = (1, REAL_TIME)  # Seconds
 PUBLISH_EVENTS_INTERVAL = (30, APP_TIME)  # Seconds
-PUBLISH_INDOOR_TEMP_INTERVAL = (1800, APP_TIME)  # Seconds (30 minutes)
+PUBLISH_ANALYSIS_INTERVAL = (1800, APP_TIME)  # Seconds (30 minutes)
 
 MIN_THERMOSTAT_TEMP = 55  # Degrees Fahrenheit
 MAX_THERMOSTAT_TEMP = 85  # Degrees Fahrenheit

@@ -1,10 +1,8 @@
 # PDM
 from typing import TypedDict
-from datetime import datetime
 
 # LOCAL
 from public.sse.SSEPublisher import SSEPublisher
-from public.constants import SIMULATION_START_DATE_TIMESTAMP
 
 
 class TimeInfo(TypedDict):
@@ -30,33 +28,13 @@ class TimePublisher(SSEPublisher):
 
     sseType = "time"
 
-    def getAbsoluteSimulationTimeString(self) -> str:
-        """
-        Returns a string representing the current app time
-        counted from  `SIMULATION_START_DATE_TIMESTAMP`
-        in the following format:
-        ```
-        12:00:00 AM
-        Monday
-        Day 1
-        ```
-        """
-        secondsPerDay = 86400
-
-        fromTime = SIMULATION_START_DATE_TIMESTAMP
-        additionalTime = self.clock.time()
-
-        dayNum = int(additionalTime / secondsPerDay + 1)
-        dt = datetime.fromtimestamp(fromTime + additionalTime)
-        return dt.strftime(f"%I:%M:%S %p\n%A\nDay {dayNum}")
-
     # Override
     def job(self) -> None:
         """
         Publishes a `TimeInfo` object as a SSE.
         """
         timeInfo = TimeInfo(
-            time=self.getAbsoluteSimulationTimeString(),
+            time=self.clock.getAbsoluteSimulationTimeString(),
             speed=self.clock.getSpeedupFactor(),
         )
         self.publish(timeInfo)
