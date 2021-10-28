@@ -1,5 +1,6 @@
 import React from "react";
 import { Table, Col, Row } from "react-bootstrap";
+import Plot from 'react-plotly.js';
 import { SetStateFunction } from "../common/types";
 
 export type AnalysisGraphState = {
