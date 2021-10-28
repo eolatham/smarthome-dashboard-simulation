@@ -30,7 +30,7 @@ class AnalysisTable extends React.Component<
     const { state } = this.props;
     return (
       <div>
-        <h1>Analysis Page</h1>
+        <h1>Utility Usage Table</h1>
         <div style={{ whiteSpace: "pre-wrap" }}>
           {JSON.stringify(state, null, "\t")}
         </div>

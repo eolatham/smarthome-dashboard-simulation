@@ -1,5 +1,7 @@
 import React from "react";
 import { SetStateFunction } from "../common/types";
+import AnalysisGraph from "./AnalysisGraph";
+import AnalysisTable from "./AnalysisTable";
 
 export type AnalysisPageState = {
   electricityUsage: number;
@@ -30,9 +32,17 @@ class AnalysisPage extends React.Component<
     const { state } = this.props;
     return (
       <div>
-        <h1>Analysis Page</h1>
         <div style={{ whiteSpace: "pre-wrap" }}>
-          {JSON.stringify(state, null, "\t")}
+          <AnalysisGraph
+            state={this.state}
+            setState={this.setState}
+            {...this.props}
+          />
+          <AnalysisTable
+            state={this.state}
+            setState={this.setState}
+            {...this.props}
+          />
         </div>
       </div>
     );
