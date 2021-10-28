@@ -1,4 +1,5 @@
 import React from "react";
+import { Table, Col, Row } from "react-bootstrap";
 import { SetStateFunction } from "../common/types";
 
 export type AnalysisGraphState = {
