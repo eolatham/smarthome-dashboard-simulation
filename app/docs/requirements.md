@@ -86,13 +86,13 @@ This screen should contain controls that allow the user to:
 
 #### Utility Usage Graph
 
-This component should display a live-updated utility usage graph that includes the following data:
+This component should display a live-updated graph that includes the following data:
 
-- the **local average water usage** as a horizontal line (related to the additional [utility usage comparison feature](#utility-usage-comparison))
-- the **local average power usage** as a horizontal line (related to the additional [utility usage comparison feature](#utility-usage-comparison))
-- the **water usage** trend from the start of the simulation to now
-- the **power usage** trend from the start of the simulation to now
-- the **total utilities cost** trend from the start of the simulation to now
+- the **local average water usage rate** as a horizontal line (related to the additional [utility usage comparison feature](#utility-usage-comparison))
+- the **local average power usage rate** as a horizontal line (related to the additional [utility usage comparison feature](#utility-usage-comparison))
+- the **water usage rate** trend from the start of the simulation to now
+- the **power usage rate** trend from the start of the simulation to now
+- the **total utilities cost rate** trend from the start of the simulation to now
 
 #### Utility Usage Table
 
