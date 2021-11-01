@@ -84,7 +84,7 @@ class HomePage extends React.Component<HomePageProps, HomePageState> {
       <div className="page-container my-3">
         <div className="page-section-column mx-3" style={{ width: "80%" }}>
           <h1>Interactive Floorplan</h1>
-          <Floorplan />
+          <Floorplan booleanState={state.boolean}/>
         </div>
         <div className="page-section-column mx-3" style={{ width: "20%" }}>
           <Thermostat
