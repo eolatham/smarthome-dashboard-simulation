@@ -1,4 +1,3 @@
-import React from "react";
 import { RiDoorClosedFill, RiDoorOpenFill } from "react-icons/ri";
 import Icon, { IconProps } from "./Icon";
 

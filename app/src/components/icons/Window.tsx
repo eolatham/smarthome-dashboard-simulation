@@ -1,4 +1,3 @@
-import React from "react";
 import { GiWindow, GiWindowBars } from "react-icons/gi";
 import Icon, { IconProps } from "./Icon";
 

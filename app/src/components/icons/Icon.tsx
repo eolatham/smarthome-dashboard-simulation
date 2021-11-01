@@ -1,5 +1,3 @@
-import React from "react";
-
 // To be used by components wrapping the AbstractIcon component
 export type IconProps = {
   size?: string;

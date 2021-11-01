@@ -1,4 +1,3 @@
-import React from "react";
 import { BsFillLightbulbFill } from "react-icons/bs";
 import Icon, { IconProps } from "./Icon";
 
