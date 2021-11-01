@@ -1,29 +1,24 @@
-# Team Meeting 06 - 10/25/2021
+# Team Meeting 07 - 11/01/2021
 
 ## Agenda
 
 - Give task progress update
-- Demo current app functionality
 
 ## Meeting Notes
 
-### Finished from last week
+### Utility Usage Page
 
-- Control screen
-- Thermostat component
+- Table component is done
+- Graph data is present but needs to be converted to graph
 
-### Not Finished
+### Floor Plan
 
-- Utility usage chart and table functions
-- Setting up floor plan for smart home
-
-### Frontend
-
-- Basic floorplan laid out in HTML/CSS
-  - Will need to add light/door components to this floorplan
+- Abstract icon component that will be used to display many of the floor plan components
+- Lightbulb - takes in IconProps and adds specific lightbulb visual components and passes the rest to abstract IconComponent
+- Lightbulbs have an OnClick, Doors do not
 
 ## Next Meeting
 
-- Finish creating components for doors/windows/lights (Next Monday)
-- Create utility usage chart and table stubbed functions (Wednesday)
-- Create utility usage chart
+- Finish floorplan components
+- Move floorplan components to specific locations in the room
+- Finish graph component
