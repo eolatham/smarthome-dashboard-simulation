@@ -5,4 +5,5 @@ __pycache__/
 *.egg-info/
 .pdm.toml
 react-app-env.d.ts
+package-lock.json
 build/
