@@ -1,5 +1,4 @@
 import React from "react";
-import { SetStateFunction } from "../common/types";
 import AnalysisGraph, { DataPoint } from "./AnalysisGraph";
 import AnalysisTable, { RowData } from "./AnalysisTable";
 
@@ -19,7 +18,6 @@ export type AnalysisPageState = {
 };
 export type AnalysisPageProps = {
   state: AnalysisPageState;
-  setState: SetStateFunction;
 };
 class AnalysisPage extends React.Component<
   AnalysisPageProps,
