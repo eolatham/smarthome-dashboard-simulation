@@ -79,12 +79,12 @@ class HomePage extends React.Component<HomePageProps, HomePageState> {
   }
 
   render() {
-    const { state, setIntegerState } = this.props;
+    const { state, setBooleanState, setIntegerState } = this.props;
     return (
       <div className="page-container my-3">
         <div className="page-section-column mx-3" style={{ width: "80%" }}>
           <h1>Interactive Floorplan</h1>
-          <Floorplan booleanState={state.boolean}/>
+          <Floorplan state={state.boolean} setState={setBooleanState} />
         </div>
         <div className="page-section-column mx-3" style={{ width: "20%" }}>
           <Thermostat
