@@ -20,5 +20,5 @@
 ## Next Meeting
 
 - Finish floorplan components
-- Move floorplan components to specific locations in the room
+  - Move floorplan components to specific locations in the room
 - Finish graph component
