@@ -36,11 +36,7 @@ class App extends React.Component<AppProps, AppState> {
     this.eventSource = new EventSource(SSE_URL);
     this.processEvent = this.processEvent.bind(this);
     this.processAnalysis = this.processAnalysis.bind(this);
-    this.setHomePageState = this.setHomePageState.bind(this);
-    this.setHomePageIntegerState = this.setHomePageIntegerState.bind(this);
-    this.setHomePageBooleanState = this.setHomePageBooleanState.bind(this);
-    this.setControlPageState = this.setControlPageState.bind(this);
-    this.setAnalysisPageState = this.setAnalysisPageState.bind(this);
+    this.setSmartHomeState = this.setSmartHomeState.bind(this);
   }
 
   componentDidMount() {
@@ -57,20 +53,7 @@ class App extends React.Component<AppProps, AppState> {
   processEvent(event) {
     var data: Event = JSON.parse(event.data);
     console.log("Received smart home event with data:", data);
-    const { homePageState, controlPageState } = this.state;
-    const valueType =
-      typeof data.new_value === "number" ? "integer" : "boolean";
-    if (homePageState[valueType][data.state_key] !== undefined)
-      // Event is relevant to Home page
-      this.setHomePageState({
-        [valueType]: {
-          ...homePageState[valueType],
-          [data.state_key]: data.new_value,
-        },
-      });
-    if (controlPageState[data.state_key] !== undefined)
-      // Event is relevant to Control page
-      this.setControlPageState({ [data.state_key]: data.new_value });
+    this.setSmartHomeState({ [data.state_key]: data.new_value });
   }
 
   processAnalysis(analysis) {
@@ -78,7 +61,7 @@ class App extends React.Component<AppProps, AppState> {
     console.log("Received smart home analysis with data:", data);
 
     // Update indoor temp value
-    this.setHomePageIntegerState({ indoorTemp: data.indoorTemp });
+    this.setSmartHomeState({ indoorTemp: data.indoorTemp });
 
     const {
       waterUsageData,
@@ -163,53 +146,38 @@ class App extends React.Component<AppProps, AppState> {
       previousDataIndexOneMonthAgo,
       newDataIndexOneMonthAgo
     );
-    this.setAnalysisPageState({
-      waterUsageData,
-      electricityUsageData,
-      totalUtilitiesCostData,
-      dataLength: newDataLength,
-      dataIndexOneDayAgo: newDataIndexOneDayAgo,
-      dataIndexOneWeekAgo: newDataIndexOneWeekAgo,
-      dataIndexOneMonthAgo: newDataIndexOneMonthAgo,
-      utilitiesDataLastDay: newUtilitiesDataLastDay,
-      utilitiesDataLastWeek: newUtilitiesDataLastWeek,
-      utilitiesDataLastMonth: newUtilitiesDataLastMonth,
+    this.setState({
+      analysisPageState: {
+        waterUsageData,
+        electricityUsageData,
+        totalUtilitiesCostData,
+        dataLength: newDataLength,
+        dataIndexOneDayAgo: newDataIndexOneDayAgo,
+        dataIndexOneWeekAgo: newDataIndexOneWeekAgo,
+        dataIndexOneMonthAgo: newDataIndexOneMonthAgo,
+        utilitiesDataLastDay: newUtilitiesDataLastDay,
+        utilitiesDataLastWeek: newUtilitiesDataLastWeek,
+        utilitiesDataLastMonth: newUtilitiesDataLastMonth,
+      },
     });
   }
 
-  setHomePageState(state: object, callback?: CallbackFunction) {
-    this.setState(
-      { homePageState: { ...this.state.homePageState, ...state } },
-      callback
-    );
-  }
-
-  setHomePageIntegerState(integerState: object, callback?: CallbackFunction) {
-    this.setHomePageState(
-      { integer: { ...this.state.homePageState.integer, ...integerState } },
-      callback
-    );
-  }
-
-  setHomePageBooleanState(booleanState: object, callback?: CallbackFunction) {
-    this.setHomePageState(
-      { boolean: { ...this.state.homePageState.boolean, ...booleanState } },
-      callback
-    );
-  }
-
-  setControlPageState(state: object, callback?: CallbackFunction) {
-    this.setState(
-      { controlPageState: { ...this.state.controlPageState, ...state } },
-      callback
-    );
-  }
-
-  setAnalysisPageState(state: object, callback?: CallbackFunction) {
-    this.setState(
-      { analysisPageState: { ...this.state.analysisPageState, ...state } },
-      callback
-    );
+  /**
+   * Sets state for the Home page and/or Control page.
+   */
+  setSmartHomeState(state: object, callback?: CallbackFunction) {
+    var homePageState = this.state.homePageState;
+    var controlPageState = this.state.controlPageState;
+    Object.entries(state).forEach(([stateKey, newValue]) => {
+      const stateType = typeof newValue === "number" ? "integer" : "boolean";
+      if (this.state.homePageState[stateType][stateKey] !== undefined)
+        // Event is relevant to Home page
+        homePageState[stateType][stateKey] = newValue;
+      if (this.state.controlPageState[stateKey] !== undefined)
+        // Event is relevant to Control page
+        controlPageState[stateKey] = newValue;
+    });
+    this.setState({ homePageState, controlPageState }, callback);
   }
 
   render() {
@@ -223,9 +191,7 @@ class App extends React.Component<AppProps, AppState> {
             render={(props) => (
               <HomePage
                 state={this.state.homePageState}
-                setState={this.setHomePageState}
-                setIntegerState={this.setHomePageIntegerState}
-                setBooleanState={this.setHomePageBooleanState}
+                setState={this.setSmartHomeState}
                 {...props}
               />
             )}
@@ -236,7 +202,7 @@ class App extends React.Component<AppProps, AppState> {
             render={(props) => (
               <ControlPage
                 state={this.state.controlPageState}
-                setState={this.setControlPageState}
+                setState={this.setSmartHomeState}
                 {...props}
               />
             )}
@@ -245,11 +211,7 @@ class App extends React.Component<AppProps, AppState> {
             exact
             path="/analysis"
             render={(props) => (
-              <AnalysisPage
-                state={this.state.analysisPageState}
-                setState={this.setAnalysisPageState}
-                {...props}
-              />
+              <AnalysisPage state={this.state.analysisPageState} {...props} />
             )}
           />
           <Redirect to="/home" />

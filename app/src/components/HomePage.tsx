@@ -20,8 +20,6 @@ export type HomePageState = {
 export type HomePageProps = {
   state: HomePageState;
   setState: SetStateFunction;
-  setIntegerState: SetStateFunction;
-  setBooleanState: SetStateFunction;
 };
 class HomePage extends React.Component<HomePageProps, HomePageState> {
   static getInitialState(): HomePageState {
@@ -79,12 +77,12 @@ class HomePage extends React.Component<HomePageProps, HomePageState> {
   }
 
   render() {
-    const { state, setIntegerState } = this.props;
+    const { state, setState } = this.props;
     return (
       <div className="page-container my-3">
         <div className="page-section-column mx-3" style={{ width: "80%" }}>
           <h1>Interactive Floorplan</h1>
-          <Floorplan />
+          <Floorplan state={state.boolean} setState={setState} />
         </div>
         <div className="page-section-column mx-3" style={{ width: "20%" }}>
           <Thermostat
@@ -94,7 +92,7 @@ class HomePage extends React.Component<HomePageProps, HomePageState> {
             minThermostatTemp={MIN_THERMOSTAT_TEMP}
             maxThermostatTemp={MAX_THERMOSTAT_TEMP}
             onThermostatTempChange={(newThermostatTemp: number) =>
-              setIntegerState(
+              setState(
                 {
                   thermostatTemp: newThermostatTemp,
                 },
