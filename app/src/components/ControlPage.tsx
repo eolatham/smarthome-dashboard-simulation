@@ -14,11 +14,6 @@ export type ControlPageProps = {
   setState: SetStateFunction;
 };
 class ControlPage extends React.Component<ControlPageProps, ControlPageState> {
-  constructor(props: ControlPageProps) {
-    super(props);
-    this.switchGroupOnChange = this.switchGroupOnChange.bind(this);
-  }
-
   static getInitialState(): ControlPageState {
     return {
       bedroom1OverheadLight: false,
@@ -57,25 +52,24 @@ class ControlPage extends React.Component<ControlPageProps, ControlPageState> {
     };
   }
 
-  switchGroupOnChange(
-    stateKeys: UserGeneratedBooleanStateKey[],
-    newValue: boolean
-  ) {
-    var newState = {};
-    stateKeys.forEach((stateKey) => {
-      newState[stateKey] = newValue;
-    });
-    this.props.setState(newState, () =>
-      stateKeys.forEach((stateKey) =>
-        postUserGeneratedBooleanEvent(stateKey, newValue)
-      )
-    );
-  }
-
   render() {
+    const switchGroupOnChange = (
+      stateKeys: UserGeneratedBooleanStateKey[],
+      newValue: boolean
+    ) => {
+      var newState = {};
+      stateKeys.forEach((stateKey) => {
+        newState[stateKey] = newValue;
+      });
+      this.props.setState(newState, () =>
+        stateKeys.forEach((stateKey) =>
+          postUserGeneratedBooleanEvent(stateKey, newValue)
+        )
+      );
+    };
     const commonSwitchGroupProps = {
       state: this.props.state,
-      onChange: this.switchGroupOnChange,
+      onChange: switchGroupOnChange,
     };
     return (
       <div
