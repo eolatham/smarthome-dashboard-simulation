@@ -1,9 +1,13 @@
 import { GiWindow, GiWindowBars } from "react-icons/gi";
 import AbstractIcon, { IconProps } from "./AbstractIcon";
 
-const Window = (props: IconProps) => {
-  const iconTrue = <GiWindow color="brown" />;
-  const iconFalse = <GiWindowBars color="black" />;
-  return <AbstractIcon iconTrue={iconTrue} iconFalse={iconFalse} {...props} />;
-};
+const Window = (props: IconProps) => (
+  <AbstractIcon
+    iconTrue={<GiWindow color="brown" />}
+    iconFalse={<GiWindowBars color="black" />}
+    labelTrue="open"
+    labelFalse="closed"
+    {...props}
+  />
+);
 export default Window;

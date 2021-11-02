@@ -35,10 +35,10 @@ const Floorplan = (props: FloorplanProps) => {
   const { state, setState } = props;
 
   const iconProps = (stateKey: BooleanStateKey, size?: string): IconProps => ({
-    size: size,
     className: stateKey,
-    label: humanReadableStateKey(stateKey),
     value: state[stateKey],
+    size: size,
+    tooltipMessage: humanReadableStateKey(stateKey),
   });
 
   const lightProps = (
@@ -57,8 +57,8 @@ const Floorplan = (props: FloorplanProps) => {
       <div className="bedroom2">
         Bedroom 2
         <Lightbulb {...lightProps("bedroom2OverheadLight")} />
-        <Lightbulb {...lightProps("bedroom2Lamp1")} />
-        <Lightbulb {...lightProps("bedroom2Lamp2")} />
+        <Lightbulb {...lightProps("bedroom2Lamp1", "1.5rem")} />
+        <Lightbulb {...lightProps("bedroom2Lamp2", "1.5rem")} />
         <Window {...iconProps("bedroom2Window1")} />
         <Window {...iconProps("bedroom2Window2")} />
       </div>
@@ -72,20 +72,20 @@ const Floorplan = (props: FloorplanProps) => {
       <div className="bedroom3">
         Bedroom 3
         <Lightbulb {...lightProps("bedroom3OverheadLight")} />
-        <Lightbulb {...lightProps("bedroom3Lamp1")} />
-        <Lightbulb {...lightProps("bedroom3Lamp2")} />
+        <Lightbulb {...lightProps("bedroom3Lamp1", "1.5rem")} />
+        <Lightbulb {...lightProps("bedroom3Lamp2", "1.5rem")} />
         <Window {...iconProps("bedroom3Window1")} />
         <Window {...iconProps("bedroom3Window2")} />
       </div>
       <div className="livingRoom">
         Living Room
         <Lightbulb {...lightProps("livingRoomOverheadLight")} />
-        <Lightbulb {...lightProps("livingRoomLamp1")} />
-        <Lightbulb {...lightProps("livingRoomLamp2")} />
+        <Lightbulb {...lightProps("livingRoomLamp1", "1.5rem")} />
+        <Lightbulb {...lightProps("livingRoomLamp2", "1.5rem")} />
         <Window {...iconProps("livingRoomWindow1")} />
         <Window {...iconProps("livingRoomWindow2")} />
         <Window {...iconProps("livingRoomWindow3")} />
-        <TV {...iconProps("livingRoomTv")} />
+        <TV {...iconProps("livingRoomTv", "4rem")} />
         <Door {...iconProps("frontDoor")} />
         <Door {...iconProps("backDoor")} />
       </div>
@@ -115,8 +115,8 @@ const Floorplan = (props: FloorplanProps) => {
       <div className="bedroom1">
         Bedroom 1
         <Lightbulb {...lightProps("bedroom1OverheadLight")} />
-        <Lightbulb {...lightProps("bedroom1Lamp1")} />
-        <Lightbulb {...lightProps("bedroom1Lamp2")} />
+        <Lightbulb {...lightProps("bedroom1Lamp1", "1.5rem")} />
+        <Lightbulb {...lightProps("bedroom1Lamp2", "1.5rem")} />
         <Window {...iconProps("bedroom1Window1")} />
         <Window {...iconProps("bedroom1Window2")} />
         <TV {...iconProps("bedroom1Tv")} />
@@ -124,8 +124,8 @@ const Floorplan = (props: FloorplanProps) => {
       <div className="garage">
         Garage
         <Door {...iconProps("garageHouseDoor")} />
-        <Door {...iconProps("garageCarDoor1")} />
-        <Door {...iconProps("garageCarDoor2")} />
+        <Door {...iconProps("garageCarDoor1", "4rem")} />
+        <Door {...iconProps("garageCarDoor2", "4rem")} />
       </div>
     </div>
   );

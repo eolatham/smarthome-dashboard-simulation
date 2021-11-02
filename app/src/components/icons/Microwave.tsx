@@ -1,9 +1,13 @@
 import { MdMicrowave, MdOutlineMicrowave } from "react-icons/md";
 import AbstractIcon, { IconProps } from "./AbstractIcon";
 
-const Microwave = (props: IconProps) => {
-  const iconTrue = <MdMicrowave color="red" />;
-  const iconFalse = <MdOutlineMicrowave color="black" />;
-  return <AbstractIcon iconTrue={iconTrue} iconFalse={iconFalse} {...props} />;
-};
+const Microwave = (props: IconProps) => (
+  <AbstractIcon
+    iconTrue={<MdMicrowave color="red" />}
+    iconFalse={<MdOutlineMicrowave color="black" />}
+    labelTrue="on"
+    labelFalse="off"
+    {...props}
+  />
+);
 export default Microwave;
