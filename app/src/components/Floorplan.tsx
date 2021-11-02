@@ -36,6 +36,7 @@ const Floorplan = (props: FloorplanProps) => {
   const iconProps = (stateKey: BooleanStateKey, size?: string): IconProps => ({
     size: size,
     label: humanReadableStateKey(stateKey),
+    className: stateKey,
     value: state[stateKey],
   });
 
@@ -77,12 +78,15 @@ const Floorplan = (props: FloorplanProps) => {
       </div>
       <div className="living-room">
         Living Room
+        <Lightbulb {...lightProps("livingRoomOverheadLight")} />
         <Lightbulb {...lightProps("livingRoomLamp1")} />
         <Lightbulb {...lightProps("livingRoomLamp2")} />
         <Window {...iconProps("livingRoomWindow1")} />
         <Window {...iconProps("livingRoomWindow2")} />
         <Window {...iconProps("livingRoomWindow3")} />
         <TV {...iconProps("livingRoomTv")} />
+        <Door {...iconProps("frontDoor")} />
+        <Door {...iconProps("backDoor")} />
       </div>
       <div className="kitchen">
         Kitchen
