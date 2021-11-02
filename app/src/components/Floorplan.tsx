@@ -1,9 +1,19 @@
-import React from "react";
-import "./Floorplan.css";
-import Door from "./icons/Door";
-import Window from "./icons/Window";
-import Lightbulb from "./icons/Lightbulb";
-import { IconProps } from "./icons/Icon";
+import {
+  IconProps,
+  Dishwasher,
+  Door,
+  Dryer,
+  Fan,
+  Faucet,
+  Lightbulb,
+  Microwave,
+  Oven,
+  Refrigerator,
+  Stove,
+  TV,
+  Washer,
+  Window,
+} from "./icons";
 import {
   humanReadableStateKey,
   postUserGeneratedBooleanEvent,
@@ -13,6 +23,7 @@ import {
   BooleanStateKey,
   UserGeneratedBooleanStateKey,
 } from "../common/types";
+import "./Floorplan.css";
 
 export type FloorplanProps = {
   state: {
@@ -24,9 +35,10 @@ const Floorplan = (props: FloorplanProps) => {
   const { state, setState } = props;
 
   const iconProps = (stateKey: BooleanStateKey, size?: string): IconProps => ({
-    size: size,
-    label: humanReadableStateKey(stateKey),
+    className: stateKey,
     value: state[stateKey],
+    size: size,
+    tooltipMessage: humanReadableStateKey(stateKey),
   });
 
   const lightProps = (
@@ -42,60 +54,78 @@ const Floorplan = (props: FloorplanProps) => {
 
   return (
     <div className="floorplan">
-      <div className="bedroom-2">
-        Bedroom 2
+      <div className="bedroom2">
+        <b>Bedroom 2</b>
         <Lightbulb {...lightProps("bedroom2OverheadLight")} />
-        <Lightbulb {...lightProps("bedroom2Lamp1")} />
-        <Lightbulb {...lightProps("bedroom2Lamp2")} />
+        <Lightbulb {...lightProps("bedroom2Lamp1", "1.5rem")} />
+        <Lightbulb {...lightProps("bedroom2Lamp2", "1.5rem")} />
         <Window {...iconProps("bedroom2Window1")} />
         <Window {...iconProps("bedroom2Window2")} />
       </div>
-      <div className="bathroom-2">
-        Bathroom 2
+      <div className="bathroom2">
+        <b>Bathroom 2</b>
         <Lightbulb {...lightProps("bathroom2OverheadLight")} />
         <Window {...iconProps("bathroom2Window")} />
+        <Faucet {...iconProps("bathroom2Faucet")} />
+        <Fan {...iconProps("bathroom2ExhaustFan")} />
       </div>
-      <div className="bedroom-3">
-        Bedroom 3
+      <div className="bedroom3">
+        <b>Bedroom 3</b>
         <Lightbulb {...lightProps("bedroom3OverheadLight")} />
-        <Lightbulb {...lightProps("bedroom3Lamp1")} />
-        <Lightbulb {...lightProps("bedroom3Lamp2")} />
+        <Lightbulb {...lightProps("bedroom3Lamp1", "1.5rem")} />
+        <Lightbulb {...lightProps("bedroom3Lamp2", "1.5rem")} />
         <Window {...iconProps("bedroom3Window1")} />
         <Window {...iconProps("bedroom3Window2")} />
       </div>
-      <div className="living-room">
-        Living Room
-        <Lightbulb {...lightProps("livingRoomLamp1")} />
-        <Lightbulb {...lightProps("livingRoomLamp2")} />
+      <div className="livingRoom">
+        <b>Living Room</b>
+        <Lightbulb {...lightProps("livingRoomOverheadLight")} />
+        <Lightbulb {...lightProps("livingRoomLamp1", "1.5rem")} />
+        <Lightbulb {...lightProps("livingRoomLamp2", "1.5rem")} />
         <Window {...iconProps("livingRoomWindow1")} />
         <Window {...iconProps("livingRoomWindow2")} />
         <Window {...iconProps("livingRoomWindow3")} />
+        <TV {...iconProps("livingRoomTv", "4rem")} />
+        <Door {...iconProps("frontDoor")} />
+        <Door {...iconProps("backDoor")} />
       </div>
       <div className="kitchen">
-        Kitchen
+        <b>Kitchen</b>
         <Lightbulb {...lightProps("kitchenOverheadLight")} />
         <Window {...iconProps("kitchenWindow1")} />
         <Window {...iconProps("kitchenWindow2")} />
+        <Refrigerator {...iconProps("kitchenRefrigerator")} />
+        <Microwave {...iconProps("kitchenMicrowave")} />
+        <Dishwasher {...iconProps("kitchenDishWasher")} />
+        <Stove {...iconProps("kitchenStove")} />
+        <Oven {...iconProps("kitchenOven")} />
       </div>
-      <div className="laundry-room">Laundry Room</div>
-      <div className="bathroom-1">
-        Bathroom 1
+      <div className="laundryRoom">
+        <b>Laundry Room</b>
+        <Washer {...iconProps("clothesWasher")} />
+        <Dryer {...iconProps("clothesDryer")} />
+      </div>
+      <div className="bathroom1">
+        <b>Bathroom 1</b>
         <Lightbulb {...lightProps("bathroom1OverheadLight")} />
         <Window {...iconProps("bathroom1Window")} />
+        <Faucet {...iconProps("bathroom1Faucet")} />
+        <Fan {...iconProps("bathroom1ExhaustFan")} />
       </div>
-      <div className="bedroom-1">
-        Bedroom 1
+      <div className="bedroom1">
+        <b>Bedroom 1</b>
         <Lightbulb {...lightProps("bedroom1OverheadLight")} />
-        <Lightbulb {...lightProps("bedroom1Lamp1")} />
-        <Lightbulb {...lightProps("bedroom1Lamp2")} />
+        <Lightbulb {...lightProps("bedroom1Lamp1", "1.5rem")} />
+        <Lightbulb {...lightProps("bedroom1Lamp2", "1.5rem")} />
         <Window {...iconProps("bedroom1Window1")} />
         <Window {...iconProps("bedroom1Window2")} />
+        <TV {...iconProps("bedroom1Tv")} />
       </div>
       <div className="garage">
-        Garage
+        <b>Garage</b>
         <Door {...iconProps("garageHouseDoor")} />
-        <Door {...iconProps("garageCarDoor1")} />
-        <Door {...iconProps("garageCarDoor2")} />
+        <Door {...iconProps("garageCarDoor1", "4rem")} />
+        <Door {...iconProps("garageCarDoor2", "4rem")} />
       </div>
     </div>
   );

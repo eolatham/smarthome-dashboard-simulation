@@ -1,10 +1,14 @@
-import React from "react";
 import { BsFillLightbulbFill } from "react-icons/bs";
-import Icon, { IconProps } from "./Icon";
+import AbstractIcon, { IconProps } from "./AbstractIcon";
 
-const Lightbulb = (props: IconProps) => {
-  const iconTrue = <BsFillLightbulbFill color="yellow" />;
-  const iconFalse = <BsFillLightbulbFill color="black" />;
-  return <Icon iconTrue={iconTrue} iconFalse={iconFalse} {...props} />;
-};
+const Lightbulb = (props: IconProps) => (
+  <AbstractIcon
+    iconTrue={<BsFillLightbulbFill color="orange" />}
+    iconFalse={<BsFillLightbulbFill color="black" />}
+    labelTrue="on"
+    labelFalse="off"
+    hoverTitle={`Click to turn ${props.value ? "off" : "on"}`}
+    {...props}
+  />
+);
 export default Lightbulb;

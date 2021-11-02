@@ -7,7 +7,7 @@
   height: 100%;
   border: 0.25rem solid black;
 }
-.bedroom-2 {
+.bedroom2 {
   position: absolute;
   top: 0;
   left: 0;
@@ -15,7 +15,7 @@
   height: 40%;
   border: 0.25rem solid black;
 }
-.bathroom-2 {
+.bathroom2 {
   position: absolute;
   top: 40%;
   left: 0;
@@ -23,7 +23,7 @@
   height: 20%;
   border: 0.25rem solid black;
 }
-.bedroom-3 {
+.bedroom3 {
   position: absolute;
   top: 60%;
   left: 0;
@@ -31,7 +31,7 @@
   height: 40%;
   border: 0.25rem solid black;
 }
-.living-room {
+.livingRoom {
   position: absolute;
   top: 0;
   left: 20%;
@@ -47,7 +47,7 @@
   height: 60%;
   border: 0.25rem solid black;
 }
-.laundry-room {
+.laundryRoom {
   position: absolute;
   top: 60%;
   left: 50%;
@@ -55,7 +55,7 @@
   height: 40%;
   border: 0.25rem solid black;
 }
-.bathroom-1 {
+.bathroom1 {
   position: absolute;
   top: 0;
   left: 70%;
@@ -63,7 +63,7 @@
   height: 20%;
   border: 0.25rem solid black;
 }
-.bedroom-1 {
+.bedroom1 {
   position: absolute;
   top: 20%;
   left: 70%;
@@ -78,4 +78,234 @@
   width: 40%;
   height: 40%;
   border: 0.25rem solid black;
+}
+.bedroom1OverheadLight {
+  position: absolute;
+  top: 50%;
+  left: 45%;
+}
+.bedroom1Lamp1 {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+}
+.bedroom1Lamp2 {
+  position: absolute;
+  top: 70%;
+  left: 0%;
+}
+.bedroom1Window1 {
+  position: absolute;
+  top: 15%;
+  left: 88%;
+}
+.bedroom1Window2 {
+  position: absolute;
+  top: 55%;
+  left: 88%;
+}
+.bedroom1Tv {
+  position: absolute;
+  top: 10%;
+  left: 45%;
+}
+.bedroom2OverheadLight {
+  position: absolute;
+  top: 40%;
+  left: 45%;
+}
+.bedroom2Lamp1 {
+  position: absolute;
+  top: 0%;
+  left: 85%;
+}
+.bedroom2Lamp2 {
+  position: absolute;
+  top: 70%;
+  left: 85%;
+}
+.bedroom2Window1 {
+  position: absolute;
+  top: 15%;
+  left: 2%;
+}
+.bedroom2Window2 {
+  position: absolute;
+  top: 55%;
+  left: 2%;
+}
+.bedroom3OverheadLight {
+  position: absolute;
+  top: 40%;
+  left: 45%;
+}
+.bedroom3Lamp1 {
+  position: absolute;
+  top: 0%;
+  left: 85%;
+}
+.bedroom3Lamp2 {
+  position: absolute;
+  top: 70%;
+  left: 85%;
+}
+.bedroom3Window1 {
+  position: absolute;
+  top: 15%;
+  left: 2%;
+}
+.bedroom3Window2 {
+  position: absolute;
+  top: 55%;
+  left: 2%;
+}
+.bathroom1OverheadLight {
+  position: absolute;
+  top: 40%;
+  left: 40%;
+}
+.bathroom1ExhaustFan {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+}
+.bathroom1Window {
+  position: absolute;
+  top: 15%;
+  left: 88%;
+}
+.bathroom1Faucet {
+  position: absolute;
+  top: 0%;
+  left: 10%;
+}
+.bathroom2OverheadLight {
+  position: absolute;
+  top: 40%;
+  left: 40%;
+}
+.bathroom2ExhaustFan {
+  position: absolute;
+  top: 40%;
+  left: 55%;
+}
+.bathroom2Window {
+  position: absolute;
+  top: 20%;
+  left: 2%;
+}
+.bathroom2Faucet {
+  position: absolute;
+  top: 0%;
+  left: 85%;
+}
+.clothesWasher {
+  position: absolute;
+  top: 20%;
+  left: 10%;
+}
+.clothesDryer {
+  position: absolute;
+  top: 60%;
+  left: 10%;
+}
+.frontDoor {
+  position: absolute;
+  top: 88%;
+  left: 45%;
+}
+.backDoor {
+  position: absolute;
+  top: 0%;
+  left: 10%;
+}
+.garageHouseDoor {
+  position: absolute;
+  top: 15%;
+  left: 2%;
+}
+.garageCarDoor1 {
+  position: absolute;
+  top: 45%;
+  left: 30%;
+}
+.garageCarDoor2 {
+  position: absolute;
+  top: 45%;
+  left: 75%;
+}
+.livingRoomOverheadLight {
+  position: absolute;
+  top: 45%;
+  left: 35%;
+}
+.livingRoomLamp1 {
+  position: absolute;
+  top: 15%;
+  left: 15%;
+}
+.livingRoomLamp2 {
+  position: absolute;
+  top: 15%;
+  left: 70%;
+}
+.livingRoomTv {
+  position: absolute;
+  top: 40%;
+  left: 75%;
+}
+.livingRoomWindow1 {
+  position: absolute;
+  top: 88%;
+  left: 20%;
+}
+.livingRoomWindow2 {
+  position: absolute;
+  top: 88%;
+  left: 70%;
+}
+.livingRoomWindow3 {
+  position: absolute;
+  top: 0%;
+  left: 80%;
+}
+.kitchenOverheadLight {
+  position: absolute;
+  top: 45%;
+  left: 45%;
+}
+.kitchenOven {
+  position: absolute;
+  top: 20%;
+  left: 5%;
+}
+.kitchenStove {
+  position: absolute;
+  top: 20%;
+  left: 25%;
+}
+.kitchenDishWasher {
+  position: absolute;
+  top: 20%;
+  left: 55%;
+}
+.kitchenMicrowave {
+  position: absolute;
+  top: 20%;
+  left: 80%;
+}
+.kitchenRefrigerator {
+  position: absolute;
+  top: 60%;
+  left: 5%;
+}
+.kitchenWindow1 {
+  position: absolute;
+  top: 0%;
+  left: 13%;
+}
+.kitchenWindow2 {
+  position: absolute;
+  top: 0%;
+  left: 72%;
 }

@@ -1,10 +1,13 @@
-import React from "react";
 import { RiDoorClosedFill, RiDoorOpenFill } from "react-icons/ri";
-import Icon, { IconProps } from "./Icon";
+import AbstractIcon, { IconProps } from "./AbstractIcon";
 
-const Door = (props: IconProps) => {
-  const iconTrue = <RiDoorOpenFill color="brown" />;
-  const iconFalse = <RiDoorClosedFill color="black" />;
-  return <Icon iconTrue={iconTrue} iconFalse={iconFalse} {...props} />;
-};
+const Door = (props: IconProps) => (
+  <AbstractIcon
+    iconTrue={<RiDoorOpenFill color="brown" />}
+    iconFalse={<RiDoorClosedFill color="black" />}
+    labelTrue="open"
+    labelFalse="closed"
+    {...props}
+  />
+);
 export default Door;

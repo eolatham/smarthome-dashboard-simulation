@@ -1,4 +1,3 @@
-import React from "react";
 import { ResponsiveLine } from "@nivo/line";
 
 export type DataPoint = {

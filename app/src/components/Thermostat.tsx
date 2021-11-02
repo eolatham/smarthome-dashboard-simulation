@@ -1,4 +1,3 @@
-import React from "react";
 import "./Thermostat.css";
 
 export type ThermostatProps = {
