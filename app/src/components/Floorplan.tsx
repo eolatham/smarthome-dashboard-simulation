@@ -1,19 +1,19 @@
-import React from "react";
-import "./Floorplan.css";
-import Door from "./icons/Door";
-import Window from "./icons/Window";
-import Lightbulb from "./icons/Lightbulb";
-import Faucet from "./icons/Faucet";
-import Refrigerator from "./icons/Refrigerator";
-import Microwave from "./icons/Microwave";
-import Dishwasher from "./icons/Dishwasher";
-import Stove from "./icons/Stove";
-import Oven from "./icons/Oven";
-import TV from "./icons/TV";
-import Fan from "./icons/Fan";
-import Washer from "./icons/Washer";
-import Dryer from "./icons/Dryer";
-import { IconProps } from "./icons/Icon";
+import {
+  IconProps,
+  Dishwasher,
+  Door,
+  Dryer,
+  Fan,
+  Faucet,
+  Lightbulb,
+  Microwave,
+  Oven,
+  Refrigerator,
+  Stove,
+  TV,
+  Washer,
+  Window,
+} from "./icons";
 import {
   humanReadableStateKey,
   postUserGeneratedBooleanEvent,
@@ -23,6 +23,7 @@ import {
   BooleanStateKey,
   UserGeneratedBooleanStateKey,
 } from "../common/types";
+import "./Floorplan.css";
 
 export type FloorplanProps = {
   state: {
@@ -35,8 +36,8 @@ const Floorplan = (props: FloorplanProps) => {
 
   const iconProps = (stateKey: BooleanStateKey, size?: string): IconProps => ({
     size: size,
-    label: humanReadableStateKey(stateKey),
     className: stateKey,
+    label: humanReadableStateKey(stateKey),
     value: state[stateKey],
   });
 
@@ -53,7 +54,7 @@ const Floorplan = (props: FloorplanProps) => {
 
   return (
     <div className="floorplan">
-      <div className="bedroom-2">
+      <div className="bedroom2">
         Bedroom 2
         <Lightbulb {...lightProps("bedroom2OverheadLight")} />
         <Lightbulb {...lightProps("bedroom2Lamp1")} />
@@ -61,14 +62,14 @@ const Floorplan = (props: FloorplanProps) => {
         <Window {...iconProps("bedroom2Window1")} />
         <Window {...iconProps("bedroom2Window2")} />
       </div>
-      <div className="bathroom-2">
+      <div className="bathroom2">
         Bathroom 2
         <Lightbulb {...lightProps("bathroom2OverheadLight")} />
         <Window {...iconProps("bathroom2Window")} />
         <Faucet {...iconProps("bathroom2Faucet")} />
         <Fan {...iconProps("bathroom2ExhaustFan")} />
       </div>
-      <div className="bedroom-3">
+      <div className="bedroom3">
         Bedroom 3
         <Lightbulb {...lightProps("bedroom3OverheadLight")} />
         <Lightbulb {...lightProps("bedroom3Lamp1")} />
@@ -76,7 +77,7 @@ const Floorplan = (props: FloorplanProps) => {
         <Window {...iconProps("bedroom3Window1")} />
         <Window {...iconProps("bedroom3Window2")} />
       </div>
-      <div className="living-room">
+      <div className="livingRoom">
         Living Room
         <Lightbulb {...lightProps("livingRoomOverheadLight")} />
         <Lightbulb {...lightProps("livingRoomLamp1")} />
@@ -93,24 +94,25 @@ const Floorplan = (props: FloorplanProps) => {
         <Lightbulb {...lightProps("kitchenOverheadLight")} />
         <Window {...iconProps("kitchenWindow1")} />
         <Window {...iconProps("kitchenWindow2")} />
-        <Refrigerator {...iconProps("kitchenRefrigerator")}/>
+        <Refrigerator {...iconProps("kitchenRefrigerator")} />
         <Microwave {...iconProps("kitchenMicrowave")} />
         <Dishwasher {...iconProps("kitchenDishWasher")} />
         <Stove {...iconProps("kitchenStove")} />
         <Oven {...iconProps("kitchenOven")} />
       </div>
-      <div className="laundry-room">Laundry Room
+      <div className="laundryRoom">
+        Laundry Room
         <Washer {...iconProps("clothesWasher")} />
         <Dryer {...iconProps("clothesDryer")} />
       </div>
-      <div className="bathroom-1">
+      <div className="bathroom1">
         Bathroom 1
         <Lightbulb {...lightProps("bathroom1OverheadLight")} />
         <Window {...iconProps("bathroom1Window")} />
         <Faucet {...iconProps("bathroom1Faucet")} />
         <Fan {...iconProps("bathroom1ExhaustFan")} />
       </div>
-      <div className="bedroom-1">
+      <div className="bedroom1">
         Bedroom 1
         <Lightbulb {...lightProps("bedroom1OverheadLight")} />
         <Lightbulb {...lightProps("bedroom1Lamp1")} />

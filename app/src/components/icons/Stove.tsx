@@ -1,9 +1,9 @@
 import { GiGasStove } from "react-icons/gi";
-import Icon, { IconProps } from "./Icon";
+import AbstractIcon, { IconProps } from "./AbstractIcon";
 
 const Faucet = (props: IconProps) => {
-  const iconTrue = <GiGasStove color="yellow"/>;
-  const iconFalse = <GiGasStove color="black"/>;
-  return <Icon iconTrue={iconTrue} iconFalse={iconFalse} {...props} />;
+  const iconTrue = <GiGasStove color="red" />;
+  const iconFalse = <GiGasStove color="black" />;
+  return <AbstractIcon iconTrue={iconTrue} iconFalse={iconFalse} {...props} />;
 };
 export default Faucet;

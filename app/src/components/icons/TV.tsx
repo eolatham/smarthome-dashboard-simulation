@@ -1,9 +1,9 @@
 import { IoMdTv, IoIosTv } from "react-icons/io";
-import Icon, { IconProps } from "./Icon";
+import AbstractIcon, { IconProps } from "./AbstractIcon";
 
 const TV = (props: IconProps) => {
-  const iconTrue = <IoIosTv />;
-  const iconFalse = <IoMdTv />;
-  return <Icon iconTrue={iconTrue} iconFalse={iconFalse} {...props} />;
+  const iconTrue = <IoIosTv color="green" />;
+  const iconFalse = <IoMdTv color="black" />;
+  return <AbstractIcon iconTrue={iconTrue} iconFalse={iconFalse} {...props} />;
 };
 export default TV;

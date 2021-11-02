@@ -1,9 +1,9 @@
 import { GiComputerFan } from "react-icons/gi";
-import Icon, { IconProps } from "./Icon";
+import AbstractIcon, { IconProps } from "./AbstractIcon";
 
 const Oven = (props: IconProps) => {
-  const iconTrue = <GiComputerFan color="yellow"/>;
-  const iconFalse = <GiComputerFan color="black"/>;
-  return <Icon iconTrue={iconTrue} iconFalse={iconFalse} {...props} />;
+  const iconTrue = <GiComputerFan color="lightblue" />;
+  const iconFalse = <GiComputerFan color="black" />;
+  return <AbstractIcon iconTrue={iconTrue} iconFalse={iconFalse} {...props} />;
 };
 export default Oven;

@@ -1,9 +1,9 @@
 import { FaSink } from "react-icons/fa";
-import Icon, { IconProps } from "./Icon";
+import AbstractIcon, { IconProps } from "./AbstractIcon";
 
 const Faucet = (props: IconProps) => {
-  const iconTrue = <FaSink color="yellow"/>;
-  const iconFalse = <FaSink color="black"/>;
-  return <Icon iconTrue={iconTrue} iconFalse={iconFalse} {...props} />;
+  const iconTrue = <FaSink color="blue" />;
+  const iconFalse = <FaSink color="black" />;
+  return <AbstractIcon iconTrue={iconTrue} iconFalse={iconFalse} {...props} />;
 };
 export default Faucet;

@@ -6,7 +6,7 @@ export type IconProps = {
   value: boolean;
   onClick?: () => void;
 };
-export type AbstractIconProps = {
+type AbstractIconProps = {
   iconTrue: any;
   iconFalse: any;
   size?: string;
@@ -18,7 +18,15 @@ export type AbstractIconProps = {
 const AbstractIcon = (props: AbstractIconProps) => {
   const { iconTrue, iconFalse, size, label, className, value, onClick } = props;
   return (
-    <span className={className} style={{ fontSize: size || "2rem" }} title={label} onClick={onClick}>
+    <span
+      className={className}
+      style={{
+        fontSize: size || "2rem",
+        cursor: onClick ? "pointer" : "default",
+      }}
+      title={label}
+      onClick={onClick}
+    >
       {value ? iconTrue : iconFalse}
     </span>
   );

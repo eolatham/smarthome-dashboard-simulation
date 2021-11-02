@@ -1,9 +1,9 @@
 import { MdLocalLaundryService } from "react-icons/md";
-import Icon, { IconProps } from "./Icon";
+import AbstractIcon, { IconProps } from "./AbstractIcon";
 
 const Oven = (props: IconProps) => {
-  const iconTrue = <MdLocalLaundryService color="yellow"/>;
-  const iconFalse = <MdLocalLaundryService color="black"/>;
-  return <Icon iconTrue={iconTrue} iconFalse={iconFalse} {...props} />;
+  const iconTrue = <MdLocalLaundryService color="red" />;
+  const iconFalse = <MdLocalLaundryService color="black" />;
+  return <AbstractIcon iconTrue={iconTrue} iconFalse={iconFalse} {...props} />;
 };
 export default Oven;

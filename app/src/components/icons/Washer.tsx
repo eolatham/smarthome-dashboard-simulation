@@ -1,9 +1,9 @@
 import { GiWashingMachine } from "react-icons/gi";
-import Icon, { IconProps } from "./Icon";
+import AbstractIcon, { IconProps } from "./AbstractIcon";
 
 const Washer = (props: IconProps) => {
-  const iconTrue = <GiWashingMachine color="yellow"/>;
-  const iconFalse = <GiWashingMachine color="black"/>;
-  return <Icon iconTrue={iconTrue} iconFalse={iconFalse} {...props} />;
+  const iconTrue = <GiWashingMachine color="blue" />;
+  const iconFalse = <GiWashingMachine color="black" />;
+  return <AbstractIcon iconTrue={iconTrue} iconFalse={iconFalse} {...props} />;
 };
 export default Washer;

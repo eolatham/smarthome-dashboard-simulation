@@ -1,4 +1,3 @@
-import React from "react";
 import { useHistory, Link } from "react-router-dom";
 import { Navbar, Nav, Container, Row } from "react-bootstrap";
 import { MdRefresh } from "react-icons/md";
