@@ -224,7 +224,9 @@ class StateGenerator:
     def generateInitialState(self) -> None:
         """Generates initial state, assuming t = 0 is a Monday at midnight"""
         for stateKey in BOOLEAN_STATE_KEYS:
-            if stateKey in ["bathroom1Faucet", "bathroom2Faucet"]:
+            if stateKey == "kitchenRefrigerator":
+                self.writeBooleanEventInsertStatement(0, stateKey, True)
+            elif stateKey in ["bathroom1Faucet", "bathroom2Faucet"]:
                 # Faucets are handled separately because they allow two types of events
                 self.writeBooleanEventInsertStatement(0, stateKey, False, isBath=True)
                 self.writeBooleanEventInsertStatement(0, stateKey, False, isShower=True)
