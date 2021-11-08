@@ -77,6 +77,15 @@ class AppClock:
         dt = datetime.fromtimestamp(fromTime + additionalTime)
         return dt.strftime(f"%I:%M:%S %p\n%A\nDay {dayNum}")
 
+    def getAbsoluteSimulationTimeDays(self) -> float:
+        """
+        Returns a decimal representation of days passed since start:
+        """
+        secondsPerDay = 86400
+        elapsedTime = self.time()
+
+        return elapsedTime / secondsPerDay
+
     def getSpeedupFactor(self) -> float:
         return self.speedupFactor
 

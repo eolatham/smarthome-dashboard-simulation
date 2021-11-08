@@ -40,6 +40,7 @@ class AnalysisObject(TypedDict):
     """
 
     time: str
+    timedays: float
     indoorTemp: float
     utilityUsage: UtilityUsage
 
@@ -160,6 +161,7 @@ class AnalysisPublisher(SSEPublisher):
 
         analysisObject = AnalysisObject(
             time=self.clock.getAbsoluteSimulationTimeString(),
+            timedays=self.clock.getAbsoluteSimulationTimeDays(),
             indoorTemp=self.indoorTemp,
             utilityUsage=UtilityUsage(
                 electricity=ElectricityUsage(

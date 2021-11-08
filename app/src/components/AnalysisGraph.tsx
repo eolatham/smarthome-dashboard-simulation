@@ -1,7 +1,7 @@
 import { ResponsiveLine } from "@nivo/line";
 
 export type DataPoint = {
-  x: string; // The time that this data point corresponds to
+  x: number; // The time that this data point corresponds to in days
   y: number; // The total value for the time period between the previous data point and this one
 };
 export type AnalysisGraphProps = {
@@ -10,7 +10,13 @@ export type AnalysisGraphProps = {
   totalUtilitiesCostData: DataPoint[];
 };
 
-const AnalysisGraph = (props: AnalysisGraphProps) => {
+export type GraphComponentProps = {
+  data: DataPoint[];
+  id: string;
+  legend: string;
+};
+
+const GraphComponent = (props: GraphComponentProps) => {
   return (
     <div
       style={{
@@ -22,22 +28,10 @@ const AnalysisGraph = (props: AnalysisGraphProps) => {
       }}
     >
       <ResponsiveLine
-        //data={JSON.stringify(props, null, "\t")}
         data={[
           {
-            id: "Water Usage (gal)",
-            color: "hsl(310, 70%, 50%)",
-            data: props.waterUsageData,
-          },
-          {
-            id: "Electricity Usage (watts)",
-            color: "hsl(240, 70%, 50%)",
-            data: props.electricityUsageData,
-          },
-          {
-            id: "Total Cost (USD)",
-            color: "hsl(295, 70%, 50%)",
-            data: props.totalUtilitiesCostData,
+            id: props.id,
+            data: props.data,
           },
         ]}
         margin={{ top: 50, right: 160, bottom: 50, left: 60 }}
@@ -71,7 +65,7 @@ const AnalysisGraph = (props: AnalysisGraphProps) => {
           tickPadding: 5,
           tickRotation: 0,
           format: ".2s",
-          legend: "Utility Usage",
+          legend: props.legend,
           legendOffset: -40,
           legendPosition: "middle",
         }}
@@ -114,6 +108,42 @@ const AnalysisGraph = (props: AnalysisGraphProps) => {
           },
         ]}
       />
+    </div>
+  );
+};
+
+const AnalysisGraph = (props: AnalysisGraphProps) => {
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "500px",
+        overflowY: "scroll",
+        backgroundColor: "#eeeeeeee",
+        whiteSpace: "pre-wrap",
+      }}
+    >
+      {"electricity" == "electricity" && (
+        <GraphComponent
+          data={props.electricityUsageData}
+          id="Electricity Usage"
+          legend="Total Usage (Watts)"
+        ></GraphComponent>
+      )}
+      {"water" == "water" && (
+        <GraphComponent
+          data={props.waterUsageData}
+          id="Water Usage"
+          legend="Total Usage (Gallons)"
+        ></GraphComponent>
+      )}
+      {"cost" == "cost" && (
+        <GraphComponent
+          data={props.electricityUsageData}
+          id="Total Utilities Cost"
+          legend="Total Cost (USD)"
+        ></GraphComponent>
+      )}
     </div>
   );
 };

@@ -31,6 +31,7 @@ export type UtilityUsage = {
 };
 export type AnalysisObject = {
   time: string;
+  timedays: number;
   indoorTemp: number;
   utilityUsage: UtilityUsage;
 };

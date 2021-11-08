@@ -78,15 +78,15 @@ class App extends React.Component<AppProps, AppState> {
 
     // Update utility usage graph data
     waterUsageData.push({
-      x: data.time,
+      x: data.timedays,
       y: data.utilityUsage.water.gallons,
     });
     electricityUsageData.push({
-      x: data.time,
+      x: data.timedays,
       y: data.utilityUsage.electricity.watts,
     });
     totalUtilitiesCostData.push({
-      x: data.time,
+      x: data.timedays,
       y: data.utilityUsage.totalDollars,
     });
 
