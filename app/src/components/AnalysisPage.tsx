@@ -1,4 +1,5 @@
 import React from "react";
+import { ButtonGroup, Button } from "react-bootstrap";
 import AnalysisGraph, { DataPoint } from "./AnalysisGraph";
 import AnalysisTable, { RowData } from "./AnalysisTable";
 
@@ -59,6 +60,17 @@ class AnalysisPage extends React.Component<
       utilitiesDataLastWeek,
       utilitiesDataLastMonth,
     } = this.props.state;
+    // TODO Toggle between graphs
+    let selectedGraph = "electricity";
+    const electricityOnClick = () => {
+      selectedGraph = "electricity";
+    };
+    const waterOnClick = () => {
+      selectedGraph = "water";
+    };
+    const costOnClick = () => {
+      selectedGraph = "cost";
+    };
     return (
       <div className="page-container my-3">
         <div className="page-section-column mx-3" style={{ width: "60%" }}>
@@ -68,7 +80,20 @@ class AnalysisPage extends React.Component<
             waterUsageData={waterUsageData}
             electricityUsageData={electricityUsageData}
             totalUtilitiesCostData={totalUtilitiesCostData}
+            selectedGraph={selectedGraph}
           />
+          <br />
+          <ButtonGroup size="lg" aria-label="Basic example">
+            <Button onClick={electricityOnClick} variant="secondary">
+              Electricity
+            </Button>
+            <Button onClick={waterOnClick} variant="secondary">
+              Water
+            </Button>
+            <Button onClick={costOnClick} variant="secondary">
+              Cost
+            </Button>
+          </ButtonGroup>
         </div>
         <div className="page-section-column mx-3" style={{ width: "40%" }}>
           <h1>Utility Usage Table</h1>

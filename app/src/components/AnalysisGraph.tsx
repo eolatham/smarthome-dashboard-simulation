@@ -8,6 +8,7 @@ export type AnalysisGraphProps = {
   waterUsageData: DataPoint[];
   electricityUsageData: DataPoint[];
   totalUtilitiesCostData: DataPoint[];
+  selectedGraph: string;
 };
 
 export type GraphComponentProps = {
@@ -123,21 +124,21 @@ const AnalysisGraph = (props: AnalysisGraphProps) => {
         whiteSpace: "pre-wrap",
       }}
     >
-      {"electricity" == "electricity" && (
+      {props.selectedGraph === "electricity" && (
         <GraphComponent
           data={props.electricityUsageData}
           id="Electricity Usage"
           legend="Total Usage (Watts)"
         ></GraphComponent>
       )}
-      {"water" == "water" && (
+      {props.selectedGraph === "water" && (
         <GraphComponent
           data={props.waterUsageData}
           id="Water Usage"
           legend="Total Usage (Gallons)"
         ></GraphComponent>
       )}
-      {"cost" == "cost" && (
+      {props.selectedGraph === "cost" && (
         <GraphComponent
           data={props.electricityUsageData}
           id="Total Utilities Cost"
