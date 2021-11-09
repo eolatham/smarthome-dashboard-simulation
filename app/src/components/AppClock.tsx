@@ -48,7 +48,7 @@ class AppClock extends React.Component<AppClockProps, AppClockState> {
 
   processEvent(event) {
     var data = JSON.parse(event.data);
-    console.log("Received time event with data:", data);
+    // console.log("Received time event with data:", data);
     this.setState({ time: data.time });
   }
 

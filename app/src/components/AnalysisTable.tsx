@@ -1,4 +1,5 @@
 import { Table } from "react-bootstrap";
+import NumberFormat from "react-number-format";
 import {
   LOCAL_AVG_GALLONS_PER_DAY,
   LOCAL_AVG_WATTS_PER_DAY,
@@ -10,6 +11,26 @@ export type RowData = {
   electricityUsage: number;
   totalUtilitiesCost: number;
 };
+
+type PrettyNumberProps = {
+  value: number;
+  prefix?: string;
+  suffix?: string;
+  integer?: boolean;
+};
+const PrettyNumber = (props: PrettyNumberProps) => (
+  <NumberFormat
+    value={props.value}
+    type="text"
+    displayType="text"
+    prefix={props.prefix}
+    suffix={props.suffix}
+    thousandSeparator={true}
+    thousandsGroupStyle="thousand"
+    decimalSeparator="."
+    decimalScale={props.integer ? 0 : 2}
+  />
+);
 
 type PercentOfAverageProps = {
   utility: "water" | "electricity";
@@ -45,7 +66,11 @@ const UtilitiesDataRow = (props: UtilitiesDataRowProps) => {
       </th>
       <th>
         <div style={{ fontWeight: "bold" }}>
-          {Math.round(utilitiesData.waterUsage)} gallons
+          <PrettyNumber
+            value={utilitiesData.waterUsage}
+            suffix=" gallons"
+            integer
+          />
         </div>
         <PercentOfAverage
           utility="water"
@@ -55,7 +80,11 @@ const UtilitiesDataRow = (props: UtilitiesDataRowProps) => {
       </th>
       <th>
         <div style={{ fontWeight: "bold" }}>
-          {Math.round(utilitiesData.electricityUsage)} watts
+          <PrettyNumber
+            value={utilitiesData.electricityUsage}
+            suffix=" watts"
+            integer
+          />
         </div>
         <PercentOfAverage
           utility="electricity"
@@ -65,7 +94,7 @@ const UtilitiesDataRow = (props: UtilitiesDataRowProps) => {
       </th>
       <th>
         <div style={{ fontWeight: "bold" }}>
-          ${utilitiesData.totalUtilitiesCost.toFixed(2)}
+          <PrettyNumber value={utilitiesData.totalUtilitiesCost} prefix="$" />
         </div>
       </th>
     </tr>

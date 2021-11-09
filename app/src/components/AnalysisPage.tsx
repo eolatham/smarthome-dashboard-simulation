@@ -1,9 +1,11 @@
 import React from "react";
-import AnalysisGraph, { DataPoint } from "./AnalysisGraph";
+import { SetStateFunction } from "../common/types";
+import AnalysisGraph, { DataPoint, AnalysisGraphMode } from "./AnalysisGraph";
 import AnalysisTable, { RowData } from "./AnalysisTable";
 
 export type AnalysisPageState = {
   // For graph
+  graphMode: AnalysisGraphMode;
   waterUsageData: DataPoint[];
   electricityUsageData: DataPoint[];
   totalUtilitiesCostData: DataPoint[];
@@ -18,6 +20,7 @@ export type AnalysisPageState = {
 };
 export type AnalysisPageProps = {
   state: AnalysisPageState;
+  setState: SetStateFunction;
 };
 class AnalysisPage extends React.Component<
   AnalysisPageProps,
@@ -25,6 +28,7 @@ class AnalysisPage extends React.Component<
 > {
   static getInitialState(): AnalysisPageState {
     return {
+      graphMode: "waterUsage",
       waterUsageData: [],
       electricityUsageData: [],
       totalUtilitiesCostData: [],
@@ -51,20 +55,24 @@ class AnalysisPage extends React.Component<
   }
 
   render() {
+    const { state, setState } = this.props;
     const {
+      graphMode,
       waterUsageData,
       electricityUsageData,
       totalUtilitiesCostData,
       utilitiesDataLastDay,
       utilitiesDataLastWeek,
       utilitiesDataLastMonth,
-    } = this.props.state;
+    } = state;
     return (
       <div className="page-container my-3">
         <div className="page-section-column mx-3" style={{ width: "60%" }}>
           <h1>Utility Usage Graph</h1>
           <br />
           <AnalysisGraph
+            mode={graphMode}
+            setMode={(mode: AnalysisGraphMode) => setState({ graphMode: mode })}
             waterUsageData={waterUsageData}
             electricityUsageData={electricityUsageData}
             totalUtilitiesCostData={totalUtilitiesCostData}

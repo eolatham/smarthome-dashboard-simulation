@@ -37,6 +37,7 @@ class App extends React.Component<AppProps, AppState> {
     this.processEvent = this.processEvent.bind(this);
     this.processAnalysis = this.processAnalysis.bind(this);
     this.setSmartHomeState = this.setSmartHomeState.bind(this);
+    this.setAnalysisPageState = this.setAnalysisPageState.bind(this);
   }
 
   componentDidMount() {
@@ -48,6 +49,7 @@ class App extends React.Component<AppProps, AppState> {
 
   componentWillUnmount() {
     this.eventSource.close();
+    // Reset state to avoid inaccurate calculations
     this.setState({
       homePageState: HomePage.getInitialState(),
       controlPageState: ControlPage.getInitialState(),
@@ -57,13 +59,13 @@ class App extends React.Component<AppProps, AppState> {
 
   processEvent(event) {
     var data: Event = JSON.parse(event.data);
-    console.log("Received smart home event with data:", data);
+    // console.log("Received smart home event with data:", data);
     this.setSmartHomeState({ [data.state_key]: data.new_value });
   }
 
   processAnalysis(analysis) {
     var data: AnalysisObject = JSON.parse(analysis.data);
-    console.log("Received smart home analysis with data:", data);
+    // console.log("Received smart home analysis with data:", data);
 
     // Update indoor temp value
     this.setSmartHomeState({ indoorTemp: data.indoorTemp });
@@ -148,19 +150,17 @@ class App extends React.Component<AppProps, AppState> {
       previousDataIndexOneMonthAgo,
       newDataIndexOneMonthAgo
     );
-    this.setState({
-      analysisPageState: {
-        waterUsageData,
-        electricityUsageData,
-        totalUtilitiesCostData,
-        dataLength: newDataLength,
-        dataIndexOneDayAgo: newDataIndexOneDayAgo,
-        dataIndexOneWeekAgo: newDataIndexOneWeekAgo,
-        dataIndexOneMonthAgo: newDataIndexOneMonthAgo,
-        utilitiesDataLastDay: newUtilitiesDataLastDay,
-        utilitiesDataLastWeek: newUtilitiesDataLastWeek,
-        utilitiesDataLastMonth: newUtilitiesDataLastMonth,
-      },
+    this.setAnalysisPageState({
+      waterUsageData,
+      electricityUsageData,
+      totalUtilitiesCostData,
+      dataLength: newDataLength,
+      dataIndexOneDayAgo: newDataIndexOneDayAgo,
+      dataIndexOneWeekAgo: newDataIndexOneWeekAgo,
+      dataIndexOneMonthAgo: newDataIndexOneMonthAgo,
+      utilitiesDataLastDay: newUtilitiesDataLastDay,
+      utilitiesDataLastWeek: newUtilitiesDataLastWeek,
+      utilitiesDataLastMonth: newUtilitiesDataLastMonth,
     });
   }
 
@@ -172,14 +172,26 @@ class App extends React.Component<AppProps, AppState> {
     var controlPageState = this.state.controlPageState;
     Object.entries(state).forEach(([stateKey, newValue]) => {
       const stateType = typeof newValue === "number" ? "integer" : "boolean";
-      if (this.state.homePageState[stateType][stateKey] !== undefined)
+      if (homePageState[stateType][stateKey] !== undefined)
         // Event is relevant to Home page
         homePageState[stateType][stateKey] = newValue;
-      if (this.state.controlPageState[stateKey] !== undefined)
+      if (controlPageState[stateKey] !== undefined)
         // Event is relevant to Control page
         controlPageState[stateKey] = newValue;
     });
     this.setState({ homePageState, controlPageState }, callback);
+  }
+
+  /**
+   * Sets state for the Analysis page.
+   */
+  setAnalysisPageState(state: object, callback?: CallbackFunction) {
+    var analysisPageState = this.state.analysisPageState;
+    Object.entries(state).forEach(([stateKey, newValue]) => {
+      if (analysisPageState[stateKey] !== undefined)
+        analysisPageState[stateKey] = newValue;
+    });
+    this.setState({ analysisPageState }, callback);
   }
 
   render() {
@@ -213,7 +225,11 @@ class App extends React.Component<AppProps, AppState> {
             exact
             path="/analysis"
             render={(props) => (
-              <AnalysisPage state={this.state.analysisPageState} {...props} />
+              <AnalysisPage
+                state={this.state.analysisPageState}
+                setState={this.setAnalysisPageState}
+                {...props}
+              />
             )}
           />
           <Redirect to="/home" />

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { ButtonGroup, Button } from "react-bootstrap";
 import { ResponsiveLine } from "@nivo/line";
 import {
@@ -20,7 +19,7 @@ export type YOverTimeGraphProps = {
 const YOverTimeGraph = (props: YOverTimeGraphProps) => {
   if (props.data.length === 0) return null;
   const timeFormat = " >-.2~f";
-  const yFormat = " >-.2~s";
+  const yFormat = " >-.2~f";
   const data = [{ id: props.title, data: props.data }];
   if (props.averageY !== undefined) {
     const minX = props.data[0].x;
@@ -47,7 +46,7 @@ const YOverTimeGraph = (props: YOverTimeGraphProps) => {
         tickPadding: 5,
         tickRotation: 0,
         format: timeFormat,
-        legend: "Time (Days)",
+        legend: "Time (days)",
         legendOffset: 40,
         legendPosition: "middle",
       }}
@@ -57,7 +56,7 @@ const YOverTimeGraph = (props: YOverTimeGraphProps) => {
         tickRotation: 0,
         format: yFormat,
         legend: props.yLabel,
-        legendOffset: -50,
+        legendOffset: -60,
         legendPosition: "middle",
       }}
       enableGridX={true}
@@ -87,60 +86,61 @@ const YOverTimeGraph = (props: YOverTimeGraphProps) => {
   );
 };
 
+export type AnalysisGraphMode =
+  | "waterUsage"
+  | "electricityUsage"
+  | "totalUtilitiesCost";
 export type AnalysisGraphProps = {
+  mode: AnalysisGraphMode;
+  setMode: (mode: AnalysisGraphMode) => void;
   waterUsageData: DataPoint[];
   electricityUsageData: DataPoint[];
   totalUtilitiesCostData: DataPoint[];
 };
 const AnalysisGraph = (props: AnalysisGraphProps) => {
-  type Mode = "waterUsage" | "electricityUsage" | "totalUtilitiesCost";
-  const modes: Mode[] = [
+  const modes: AnalysisGraphMode[] = [
     "waterUsage",
     "electricityUsage",
     "totalUtilitiesCost",
   ];
-  const [selectedMode, setSelectedMode] = useState(modes[0]);
-
-  const modeButtonVariant = (mode: Mode) =>
-    selectedMode === mode ? "dark" : "outline-dark";
-
-  const graphProps: { [Property in Mode]: YOverTimeGraphProps } = {
+  const modeButtonVariant = (mode: AnalysisGraphMode) =>
+    props.mode === mode ? "dark" : "outline-dark";
+  const graphProps: { [Property in AnalysisGraphMode]: YOverTimeGraphProps } = {
     waterUsage: {
       title: "Water Usage",
-      yLabel: "Usage Rate (Gallons)",
+      yLabel: "Usage Rate (gallons)",
       data: props.waterUsageData,
       averageY: LOCAL_AVG_GALLONS_PER_PUBLISH_ANALYSIS_INTERVAL,
       colorScheme: "category10",
     },
     electricityUsage: {
       title: "Electricity Usage",
-      yLabel: "Usage Rate (Watts)",
+      yLabel: "Usage Rate (watts)",
       data: props.electricityUsageData,
       averageY: LOCAL_AVG_WATTS_PER_PUBLISH_ANALYSIS_INTERVAL,
       colorScheme: "set1",
     },
     totalUtilitiesCost: {
       title: "Total Utilities Cost",
-      yLabel: "Cost Rate (Dollars)",
+      yLabel: "Cost Rate (dollars)",
       data: props.totalUtilitiesCostData,
       colorScheme: "set2",
     },
   };
-
   return (
     <>
       <ButtonGroup size="lg">
         {modes.map((mode) => (
           <Button
             key={mode}
-            onClick={() => setSelectedMode(mode)}
+            onClick={() => props.setMode(mode)}
             variant={modeButtonVariant(mode)}
           >
             {graphProps[mode].title}
           </Button>
         ))}
       </ButtonGroup>
-      <YOverTimeGraph {...graphProps[selectedMode]} />
+      <YOverTimeGraph {...graphProps[props.mode]} />
     </>
   );
 };

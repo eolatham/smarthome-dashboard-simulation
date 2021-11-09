@@ -40,7 +40,7 @@ export function humanReadableStateKey(stateKey: string): string {
 }
 
 export function processEventSourceError(error: object) {
-  console.log("Failed to connect to Flask-Redis SSE stream...", error);
+  console.error("Failed to connect to Flask-Redis SSE stream...", error);
 }
 
 export function getClockSpeedRequest(): Promise<number> {
