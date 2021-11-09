@@ -10,6 +10,7 @@ from flask_cors import CORS
 from flask_sse import sse
 from typeguard import check_type
 from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 
 # LOCAL
 from public.constants import *
@@ -37,7 +38,13 @@ if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
     # Flask runs this script with two processes to refresh code changes,
     # but we only want these instructions to run on the main process.
     APP_CLOCK = AppClock(MIN_APP_TIME, MAX_APP_TIME, DEFAULT_SPEEDUP_FACTOR)
-    BACKGROUND_SCHEDULER = BackgroundScheduler()
+    BACKGROUND_SCHEDULER = BackgroundScheduler(
+        executors={
+            "default": ThreadPoolExecutor(20),
+            "processpool": ProcessPoolExecutor(5),
+        },
+        job_defaults={"coalesce": True, "max_instances": 3},
+    )
     EVENT_STORE = EventStore()
     EVENT_STORE.putPreGeneratedEvents(*queryEvents(LOCAL_POSTGRES_URL))
     TIME_PUBLISHER = TimePublisher(
