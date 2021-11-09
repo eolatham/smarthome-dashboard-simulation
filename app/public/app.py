@@ -22,7 +22,7 @@ from public.events.EventPublisher import EventPublisher
 from public.analysis.AnalysisPublisher import AnalysisPublisher
 
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.WARNING,
     format="[%(asctime)s] [%(filename)20s:%(lineno)-4s] [%(levelname)8s]   %(message)s",
 )
 LOGGER = logging.getLogger(__name__)
@@ -168,4 +168,4 @@ def userGeneratedEvent():
 ######################################### MAIN #########################################
 
 if __name__ == "__main__":
-    APP.run(host="localhost", port=5000, debug=True)
+    APP.run(host="localhost", port=5000)
