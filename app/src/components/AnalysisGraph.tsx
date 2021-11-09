@@ -2,34 +2,34 @@ import { useState } from "react";
 import { ButtonGroup, Button } from "react-bootstrap";
 import { ResponsiveLine } from "@nivo/line";
 import {
-  AVG_WATER_USAGE_RATE,
-  AVG_ELECTRICITY_USAGE_RATE,
+  LOCAL_AVG_GALLONS_PER_PUBLISH_ANALYSIS_INTERVAL,
+  LOCAL_AVG_WATTS_PER_PUBLISH_ANALYSIS_INTERVAL,
 } from "../common/constants";
 
 export type DataPoint = {
   x: number; // The time that this data point corresponds to in days
   y: number; // The total value for the time period between the previous data point and this one
 };
-export type GraphProps = {
+export type YOverTimeGraphProps = {
   title: string;
   yLabel: string;
   data: DataPoint[];
-  average?: number;
+  averageY?: number;
   colorScheme?: "set1" | "set2" | "category10";
 };
-const Graph = (props: GraphProps) => {
+const YOverTimeGraph = (props: YOverTimeGraphProps) => {
   if (props.data.length === 0) return null;
   const timeFormat = " >-.2~f";
   const yFormat = " >-.2~s";
   const data = [{ id: props.title, data: props.data }];
-  if (props.average !== undefined) {
+  if (props.averageY !== undefined) {
     const minX = props.data[0].x;
     const maxX = props.data[props.data.length - 1].x;
     data.push({
-      id: "Average",
+      id: "Local Average",
       data: [
-        { x: minX, y: props.average },
-        { x: maxX, y: props.average },
+        { x: minX, y: props.averageY },
+        { x: maxX, y: props.averageY },
       ],
     });
   }
@@ -104,19 +104,19 @@ const AnalysisGraph = (props: AnalysisGraphProps) => {
   const modeButtonVariant = (mode: Mode) =>
     selectedMode === mode ? "dark" : "outline-dark";
 
-  const graphProps: { [Property in Mode]: GraphProps } = {
+  const graphProps: { [Property in Mode]: YOverTimeGraphProps } = {
     waterUsage: {
       title: "Water Usage",
       yLabel: "Usage Rate (Gallons)",
       data: props.waterUsageData,
-      average: AVG_WATER_USAGE_RATE / 48, // Gallons per half-hour
+      averageY: LOCAL_AVG_GALLONS_PER_PUBLISH_ANALYSIS_INTERVAL,
       colorScheme: "category10",
     },
     electricityUsage: {
       title: "Electricity Usage",
       yLabel: "Usage Rate (Watts)",
       data: props.electricityUsageData,
-      average: AVG_ELECTRICITY_USAGE_RATE / 48, // Watts per half-hour
+      averageY: LOCAL_AVG_WATTS_PER_PUBLISH_ANALYSIS_INTERVAL,
       colorScheme: "set1",
     },
     totalUtilitiesCost: {
@@ -140,7 +140,7 @@ const AnalysisGraph = (props: AnalysisGraphProps) => {
           </Button>
         ))}
       </ButtonGroup>
-      <Graph {...graphProps[selectedMode]} />
+      <YOverTimeGraph {...graphProps[selectedMode]} />
     </>
   );
 };

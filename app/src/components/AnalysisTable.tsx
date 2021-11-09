@@ -1,7 +1,7 @@
 import { Table } from "react-bootstrap";
 import {
-  AVG_WATER_USAGE_RATE,
-  AVG_ELECTRICITY_USAGE_RATE,
+  LOCAL_AVG_GALLONS_PER_DAY,
+  LOCAL_AVG_WATTS_PER_DAY,
 } from "../common/constants";
 import "./AnalysisTable.css";
 
@@ -19,14 +19,14 @@ type PercentOfAverageProps = {
 const PercentOfAverage = (props: PercentOfAverageProps) => {
   const { utility, value, days } = props;
   const avgRate =
-    utility === "water" ? AVG_WATER_USAGE_RATE : AVG_ELECTRICITY_USAGE_RATE;
+    utility === "water" ? LOCAL_AVG_GALLONS_PER_DAY : LOCAL_AVG_WATTS_PER_DAY;
   const avgValue = days * avgRate;
   const percent = Math.round((value / avgValue) * 100);
   return (
     <div>
       <small
         style={{ color: value <= avgValue ? "green" : "red" }}
-      >{`${percent}% of average`}</small>
+      >{`${percent}% of local average`}</small>
     </div>
   );
 };

@@ -15,7 +15,7 @@ import { processEventSourceError } from "./common/helpers";
 import {
   START_SIMULATION_URL,
   SSE_URL,
-  PUBLISH_ANALYSIS_INTERVAL,
+  ANALYSIS_PUBLICATIONS_PER_DAY,
 } from "./common/constants";
 
 type AppProps = {};
@@ -98,10 +98,7 @@ class App extends React.Component<AppProps, AppState> {
     // Update utility usage table data
     const newDataLength = previousDataLength + 1;
     const dataIndexNDaysAgo = (n: number): number =>
-      Math.max(
-        0,
-        newDataLength - (n * 24 * 60 * 60) / PUBLISH_ANALYSIS_INTERVAL
-      );
+      Math.max(0, newDataLength - n * ANALYSIS_PUBLICATIONS_PER_DAY);
     const newDataIndexOneDayAgo = dataIndexNDaysAgo(1);
     const newDataIndexOneWeekAgo = dataIndexNDaysAgo(7);
     const newDataIndexOneMonthAgo = dataIndexNDaysAgo(30);
