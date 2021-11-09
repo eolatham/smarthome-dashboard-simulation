@@ -329,7 +329,7 @@ See [the pseudocode](./pseudocode.md#indoor-temperature-utility-usage) and [the 
 
 ## Frontend Design
 
-The frontend is a React JavaScript app comprised of several components that display data sent from the backend and allow the user to adjust certian values in the simulation.
+The frontend is a React/TypeScript app comprised of several components that display data sent from the backend and allow the user to adjust certian values in the simulation.
 
 The internal workings of the frontend are considerably simpler than that of the backend, mainly because most of what the frontend does is _react_ to events that are sent to it.
 
@@ -345,7 +345,7 @@ See [the requirements document](requirements.md) for information about what the 
 - acts as a container that renders the selected [app screen](requirements.md#application-screens)
 - subscribes to [SSE channels](#server-sent-event-publishers) established by the backend
 - manages state for all of the app screens
-  - stores state for each app screen in a separate nested sub-object within its own state
+  - stores state for each app screen within its own state
   - passes the appropriate state object and a function for updating it as props to the selected app screen component
   - updates state for the appropriate app screens when it receives state-changing SSEs
 
