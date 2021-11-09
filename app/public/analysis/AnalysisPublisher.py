@@ -142,6 +142,7 @@ class AnalysisPublisher(SSEPublisher):
         Publishes an `AnalysisObject` as a SSE.
         """
         electricityUsage = 0
+        self.booleanStateTrackerMap.resetTotalTimeTrue()
 
         start = self.lastPublishTime
         end = self.lastPublishTime = int(self.clock.time())

@@ -1,30 +1,44 @@
+import { useState } from "react";
 import { ButtonGroup, Button } from "react-bootstrap";
 import { ResponsiveLine } from "@nivo/line";
-import { useState } from "react";
+import {
+  AVG_WATER_USAGE_RATE,
+  AVG_ELECTRICITY_USAGE_RATE,
+} from "../common/constants";
 
 export type DataPoint = {
   x: number; // The time that this data point corresponds to in days
   y: number; // The total value for the time period between the previous data point and this one
 };
 export type GraphProps = {
-  id: string;
-  legend: string;
+  title: string;
+  yLabel: string;
   data: DataPoint[];
+  average?: number;
+  colorScheme?: "set1" | "set2" | "category10";
 };
 const Graph = (props: GraphProps) => {
+  if (props.data.length === 0) return null;
   const timeFormat = " >-.2~f";
   const yFormat = " >-.2~s";
+  const data = [{ id: props.title, data: props.data }];
+  if (props.average !== undefined) {
+    const minX = props.data[0].x;
+    const maxX = props.data[props.data.length - 1].x;
+    data.push({
+      id: "Average",
+      data: [
+        { x: minX, y: props.average },
+        { x: maxX, y: props.average },
+      ],
+    });
+  }
   return (
     <ResponsiveLine
-      data={[
-        {
-          id: props.id,
-          data: props.data,
-        },
-      ]}
+      data={data}
       margin={{ top: 50, right: 150, bottom: 50, left: 75 }}
       xScale={{ type: "linear" }}
-      yScale={{ type: "linear", stacked: true }}
+      yScale={{ type: "linear", stacked: false }}
       xFormat={timeFormat}
       yFormat={yFormat}
       axisTop={null}
@@ -42,13 +56,14 @@ const Graph = (props: GraphProps) => {
         tickPadding: 5,
         tickRotation: 0,
         format: yFormat,
-        legend: props.legend,
+        legend: props.yLabel,
         legendOffset: -50,
         legendPosition: "middle",
       }}
       enableGridX={true}
-      colors={{ scheme: "spectral" }}
+      colors={{ scheme: props.colorScheme || "set1" }}
       lineWidth={1}
+      enableArea={true}
       enablePoints={false}
       useMesh={false}
       legends={[
@@ -58,7 +73,7 @@ const Graph = (props: GraphProps) => {
           justify: false,
           translateX: 100,
           translateY: 0,
-          itemsSpacing: 2,
+          itemsSpacing: 5,
           itemDirection: "left-to-right",
           itemWidth: 80,
           itemHeight: 12,
@@ -66,15 +81,6 @@ const Graph = (props: GraphProps) => {
           symbolSize: 12,
           symbolShape: "circle",
           symbolBorderColor: "rgba(0, 0, 0, .5)",
-          effects: [
-            {
-              on: "hover",
-              style: {
-                itemBackground: "rgba(0, 0, 0, .03)",
-                itemOpacity: 1,
-              },
-            },
-          ],
         },
       ]}
     />
@@ -100,19 +106,24 @@ const AnalysisGraph = (props: AnalysisGraphProps) => {
 
   const graphProps: { [Property in Mode]: GraphProps } = {
     waterUsage: {
-      id: "Water Usage",
-      legend: "Total Usage (Gallons)",
+      title: "Water Usage",
+      yLabel: "Usage Rate (Gallons)",
       data: props.waterUsageData,
+      average: AVG_WATER_USAGE_RATE / 48, // Gallons per half-hour
+      colorScheme: "category10",
     },
     electricityUsage: {
-      id: "Electricity Usage",
-      legend: "Total Usage (Watts)",
+      title: "Electricity Usage",
+      yLabel: "Usage Rate (Watts)",
       data: props.electricityUsageData,
+      average: AVG_ELECTRICITY_USAGE_RATE / 48, // Watts per half-hour
+      colorScheme: "set1",
     },
     totalUtilitiesCost: {
-      id: "Total Utilities Cost",
-      legend: "Total Cost (USD)",
+      title: "Total Utilities Cost",
+      yLabel: "Cost Rate (Dollars)",
       data: props.totalUtilitiesCostData,
+      colorScheme: "set2",
     },
   };
 
@@ -125,7 +136,7 @@ const AnalysisGraph = (props: AnalysisGraphProps) => {
             onClick={() => setSelectedMode(mode)}
             variant={modeButtonVariant(mode)}
           >
-            {graphProps[mode].id}
+            {graphProps[mode].title}
           </Button>
         ))}
       </ButtonGroup>

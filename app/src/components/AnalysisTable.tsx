@@ -1,4 +1,3 @@
-import React from "react";
 import { Table } from "react-bootstrap";
 import {
   AVG_WATER_USAGE_RATE,
