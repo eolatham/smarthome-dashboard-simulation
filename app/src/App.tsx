@@ -48,6 +48,11 @@ class App extends React.Component<AppProps, AppState> {
 
   componentWillUnmount() {
     this.eventSource.close();
+    this.setState({
+      homePageState: HomePage.getInitialState(),
+      controlPageState: ControlPage.getInitialState(),
+      analysisPageState: AnalysisPage.getInitialState(),
+    });
   }
 
   processEvent(event) {
