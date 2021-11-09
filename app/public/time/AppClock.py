@@ -79,11 +79,11 @@ class AppClock:
 
     def getAbsoluteSimulationTimeDays(self) -> float:
         """
-        Returns a decimal representation of days passed since start:
+        Returns a decimal representation of days passed
+        since the start of app time.
         """
         secondsPerDay = 86400
         elapsedTime = self.time()
-
         return elapsedTime / secondsPerDay
 
     def getSpeedupFactor(self) -> float:

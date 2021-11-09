@@ -36,11 +36,10 @@ class AnalysisObject(TypedDict):
     """
     Object containing the indoor temp and utility usage data
     derived from events since the last calculation,
-    as well as the current app time.
+    as well as the current app time in days.
     """
 
-    time: str
-    timedays: float
+    time: float
     indoorTemp: float
     utilityUsage: UtilityUsage
 
@@ -160,8 +159,7 @@ class AnalysisPublisher(SSEPublisher):
         waterCost = Formulas.waterCost(waterUsage)
 
         analysisObject = AnalysisObject(
-            time=self.clock.getAbsoluteSimulationTimeString(),
-            timedays=self.clock.getAbsoluteSimulationTimeDays(),
+            time=self.clock.getAbsoluteSimulationTimeDays(),
             indoorTemp=self.indoorTemp,
             utilityUsage=UtilityUsage(
                 electricity=ElectricityUsage(

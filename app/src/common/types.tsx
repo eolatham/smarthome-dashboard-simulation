@@ -30,8 +30,7 @@ export type UtilityUsage = {
   totalDollars: number;
 };
 export type AnalysisObject = {
-  time: string;
-  timedays: number;
+  time: number;
   indoorTemp: number;
   utilityUsage: UtilityUsage;
 };

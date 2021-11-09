@@ -16,7 +16,6 @@ export type GraphComponentProps = {
   id: string;
   legend: string;
 };
-
 const GraphComponent = (props: GraphComponentProps) => {
   return (
     <div
