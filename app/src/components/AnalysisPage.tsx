@@ -1,8 +1,18 @@
 import React from "react";
+import { ButtonGroup, Button } from "react-bootstrap";
 import { SetStateFunction } from "../common/types";
-import AnalysisGraph, { DataPoint, AnalysisGraphMode } from "./AnalysisGraph";
+import {
+  LOCAL_AVG_GALLONS_PER_PUBLISH_ANALYSIS_INTERVAL,
+  LOCAL_AVG_WATTS_PER_PUBLISH_ANALYSIS_INTERVAL,
+} from "../common/constants";
+import AnalysisGraph, { DataPoint, AnalysisGraphProps } from "./AnalysisGraph";
 import AnalysisTable, { RowData } from "./AnalysisTable";
+import "./AnalysisPage.css";
 
+export type AnalysisGraphMode =
+  | "waterUsage"
+  | "electricityUsage"
+  | "totalUtilitiesCost";
 export type AnalysisPageState = {
   // For graph
   graphMode: AnalysisGraphMode;
@@ -65,22 +75,59 @@ class AnalysisPage extends React.Component<
       utilitiesDataLastWeek,
       utilitiesDataLastMonth,
     } = state;
+    const modes: AnalysisGraphMode[] = [
+      "waterUsage",
+      "electricityUsage",
+      "totalUtilitiesCost",
+    ];
+    const modeButtonVariant = (mode: AnalysisGraphMode) =>
+      graphMode === mode ? "dark" : "outline-dark";
+    const graphProps: { [Property in AnalysisGraphMode]: AnalysisGraphProps } =
+      {
+        waterUsage: {
+          title: "Water Usage",
+          yLabel: "Usage Rate (gallons)",
+          data: waterUsageData,
+          averageY: LOCAL_AVG_GALLONS_PER_PUBLISH_ANALYSIS_INTERVAL,
+          colorScheme: "category10",
+        },
+        electricityUsage: {
+          title: "Electricity Usage",
+          yLabel: "Usage Rate (watts)",
+          data: electricityUsageData,
+          averageY: LOCAL_AVG_WATTS_PER_PUBLISH_ANALYSIS_INTERVAL,
+          colorScheme: "set1",
+        },
+        totalUtilitiesCost: {
+          title: "Total Utilities Cost",
+          yLabel: "Cost Rate (dollars)",
+          data: totalUtilitiesCostData,
+          colorScheme: "set2",
+        },
+      };
     return (
       <div className="page-container my-3">
         <div className="page-section-column mx-3" style={{ width: "60%" }}>
-          <h1>Utility Usage Graph</h1>
-          <br />
-          <AnalysisGraph
-            mode={graphMode}
-            setMode={(mode: AnalysisGraphMode) => setState({ graphMode: mode })}
-            waterUsageData={waterUsageData}
-            electricityUsageData={electricityUsageData}
-            totalUtilitiesCostData={totalUtilitiesCostData}
-          />
+          <div className="page-section-header">
+            <h1>Utility Usage Graph</h1>
+            <ButtonGroup size="lg">
+              {modes.map((mode) => (
+                <Button
+                  key={mode}
+                  onClick={() => setState({ graphMode: mode })}
+                  variant={modeButtonVariant(mode)}
+                >
+                  {graphProps[mode].title}
+                </Button>
+              ))}
+            </ButtonGroup>
+          </div>
+          <AnalysisGraph {...graphProps[graphMode]} />
         </div>
         <div className="page-section-column mx-3" style={{ width: "40%" }}>
-          <h1>Utility Usage Table</h1>
-          <br />
+          <div className="page-section-header">
+            <h1>Utility Usage Table</h1>
+          </div>
           <AnalysisTable
             utilitiesDataLastDay={utilitiesDataLastDay}
             utilitiesDataLastWeek={utilitiesDataLastWeek}

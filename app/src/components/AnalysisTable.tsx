@@ -4,7 +4,6 @@ import {
   LOCAL_AVG_GALLONS_PER_DAY,
   LOCAL_AVG_WATTS_PER_DAY,
 } from "../common/constants";
-import "./AnalysisTable.css";
 
 export type RowData = {
   waterUsage: number;

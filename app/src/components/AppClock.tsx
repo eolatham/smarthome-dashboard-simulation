@@ -83,6 +83,7 @@ class AppClock extends React.Component<AppClockProps, AppClockState> {
           <Row className="flex-center">
             <input
               style={{
+                width: "7rem",
                 fontSize: "2rem",
                 borderStyle: "solid",
                 borderColor: "black",

@@ -1,4 +1,22 @@
+.page-section-header {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 9rem;
+}
+
+.graph {
+  width: 100%;
+  height: 30rem;
+  color: black !important;
+  border: 2px solid black !important;
+}
+
 .table {
+  width: 100%;
+  height: 30rem;
   color: black !important;
   border: 2px solid black !important;
   text-align: center !important;
