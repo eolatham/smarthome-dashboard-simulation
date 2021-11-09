@@ -12,7 +12,7 @@ start:
 	screen -S docker-services -X stuff ^C; \
 	screen -S react-dev-server -X stuff ^C; \
 	screen -dmS docker-services docker-compose up; \
-	screen -dmS react-dev-server npm run start; \
-	pdm run start; \
+	screen -dmS react-dev-server bash -c "sleep 5 && npm run start"; \
+	sleep 3 && pdm run start; \
 	screen -S docker-services -X stuff ^C; \
 	screen -S react-dev-server -X stuff ^C;
