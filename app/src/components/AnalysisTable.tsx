@@ -122,16 +122,16 @@ const AnalysisTable = (props: AnalysisTableProps) => {
       <thead>
         <tr>
           <th>
-            <h4>Timeframe</h4>
+            <h5>Timeframe</h5>
           </th>
           <th>
-            <h4>Water Usage</h4>
+            <h5>Water Usage</h5>
           </th>
           <th>
-            <h4>Power Usage</h4>
+            <h5>Electricity Usage</h5>
           </th>
           <th>
-            <h4>Total Cost</h4>
+            <h5>Total Cost</h5>
           </th>
         </tr>
       </thead>
@@ -153,7 +153,7 @@ const AnalysisTable = (props: AnalysisTableProps) => {
         />
         <UtilitiesDataRow
           days={30}
-          title="Next Month (Projected)"
+          title="Next Month (projected)"
           utilitiesData={utilitiesDataNextMonth}
         />
       </tbody>

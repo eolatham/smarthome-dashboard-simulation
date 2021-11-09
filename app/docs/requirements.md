@@ -86,28 +86,42 @@ This screen should contain controls that allow the user to:
 
 #### Utility Usage Graph
 
-This component should display a live-updated graph that includes the following data:
+This component should allow the user to view live-updated graphs of the smart home's utilities data, including the water usage rate, the electricity usage rate, and the total utilities cost rate.
 
-- the **local average water usage rate** as a horizontal line (related to the additional [utility usage comparison feature](#utility-usage-comparison))
-- the **local average power usage rate** as a horizontal line (related to the additional [utility usage comparison feature](#utility-usage-comparison))
+##### Water Usage
+
+This live-updated graph should display the following data:
+
 - the **water usage rate** trend from the start of the simulation to now
-- the **power usage rate** trend from the start of the simulation to now
+- the **local average water usage rate** as a horizontal line (related to the additional [utility usage comparison feature](#utility-usage-comparison))
+
+##### Electricity Usage
+
+This live-updated graph should display the following data:
+
+- the **electricity usage rate** trend from the start of the simulation to now
+- the **local average electricity usage rate** as a horizontal line (related to the additional [utility usage comparison feature](#utility-usage-comparison))
+
+##### Total Utilities Cost
+
+This live-updated graph should display the following data:
+
 - the **total utilities cost rate** trend from the start of the simulation to now
 
 #### Utility Usage Table
 
 This component should display a table like the following:
 
-|                        | Water Usage                          | Power Usage                        | Total Cost |
-| ---------------------- | ------------------------------------ | ---------------------------------- | ---------- |
-| Last Day               | gallons, % higher/lower than average | watts, % higher/lower than average | dollars    |
-| Last Week              | gallons, % higher/lower than average | watts, % higher/lower than average | dollars    |
-| Last Month             | gallons, % higher/lower than average | watts, % higher/lower than average | dollars    |
-| Next Month (projected) | gallons, % higher/lower than average | watts, % higher/lower than average | dollars    |
+|                        | Water Usage                 | Electricity usage         | Total Cost |
+| ---------------------- | --------------------------- | ------------------------- | ---------- |
+| Last Day               | gallons, % of local average | watts, % of local average | dollars    |
+| Last Week              | gallons, % of local average | watts, % of local average | dollars    |
+| Last Month             | gallons, % of local average | watts, % of local average | dollars    |
+| Next Month (projected) | gallons, % of local average | watts, % of local average | dollars    |
 
 Important details:
 
-- Cells for water and power usage should include percentages calculated with the additional [utility usage comparison feature](#utility-usage-comparison).
+- Cells for water and electricity usage should include percentages calculated with the additional [utility usage comparison feature](#utility-usage-comparison).
 - Projections for next month's utility usage should be calculated with the additional [advanced utility usage projection feature](#advanced-utility-usage-projection).
 
 ### All Screens
