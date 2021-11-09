@@ -83,7 +83,7 @@ class AppClock:
         since the start of app time.
         """
         secondsPerDay = 86400
-        elapsedTime = self.time()
+        elapsedTime = int(self.time())
         return elapsedTime / secondsPerDay
 
     def getSpeedupFactor(self) -> float:
