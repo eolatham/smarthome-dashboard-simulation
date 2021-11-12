@@ -6,7 +6,7 @@ init:
 
 # Postgres runs on localhost:5432
 # Redis    runs on localhost:6379
-# Flask    runs on localhost:5000
+# Flask    runs on localhost:4000
 # React    runs on localhost:3000
 start:
 	screen -S docker-services -X stuff ^C; \

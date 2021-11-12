@@ -168,4 +168,4 @@ def userGeneratedEvent():
 ######################################### MAIN #########################################
 
 if __name__ == "__main__":
-    APP.run(host="localhost", port=5000)
+    APP.run(host="localhost", port=4000)

@@ -4,7 +4,7 @@
 
 import { ConstantsFromBackend } from "./types";
 
-export const SERVER_BASE_URL = "http://localhost:5000";
+export const SERVER_BASE_URL = "http://localhost:4000";
 export const CONSTANTS_URL = `${SERVER_BASE_URL}/constants`;
 export const START_SIMULATION_URL = `${SERVER_BASE_URL}/start`;
 export const CLOCK_SPEED_URL = `${SERVER_BASE_URL}/speed`;
