@@ -104,14 +104,14 @@ export type AnalysisTableProps = {
   utilitiesDataLastDay: RowData;
   utilitiesDataLastWeek: RowData;
   utilitiesDataLastMonth: RowData;
-  projectedData: RowData;
+  utilitiesDataNextMonth: RowData;
 };
 const AnalysisTable = (props: AnalysisTableProps) => {
   const {
     utilitiesDataLastDay,
     utilitiesDataLastWeek,
     utilitiesDataLastMonth,
-    projectedData,
+    utilitiesDataNextMonth,
   } = props;
   return (
     <Table bordered>
@@ -150,7 +150,7 @@ const AnalysisTable = (props: AnalysisTableProps) => {
         <UtilitiesDataRow
           days={30}
           title="Next Month (projected)"
-          utilitiesData={projectedData}
+          utilitiesData={utilitiesDataNextMonth}
         />
       </tbody>
     </Table>

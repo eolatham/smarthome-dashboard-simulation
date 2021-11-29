@@ -1,6 +1,6 @@
 import React from "react";
 import { ButtonGroup, Button } from "react-bootstrap";
-import { SetStateFunction } from '../common/types';
+import { SetStateFunction } from "../common/types";
 import {
   LOCAL_AVG_GALLONS_PER_PUBLISH_ANALYSIS_INTERVAL,
   LOCAL_AVG_WATTS_PER_PUBLISH_ANALYSIS_INTERVAL,
@@ -27,8 +27,8 @@ export type AnalysisPageState = {
   utilitiesDataLastDay: RowData;
   utilitiesDataLastWeek: RowData;
   utilitiesDataLastMonth: RowData;
-  totalUtilitiesData: RowData;
-  projectedData: RowData;
+  utilitiesDataTotal: RowData;
+  utilitiesDataNextMonth: RowData;
 };
 export type AnalysisPageProps = {
   state: AnalysisPageState;
@@ -63,16 +63,16 @@ class AnalysisPage extends React.Component<
         electricityUsage: 0,
         totalUtilitiesCost: 0,
       },
-      totalUtilitiesData: {
+      utilitiesDataTotal: {
         waterUsage: 0,
         electricityUsage: 0,
         totalUtilitiesCost: 0,
       },
-      projectedData: {
+      utilitiesDataNextMonth: {
         waterUsage: 0,
         electricityUsage: 0,
         totalUtilitiesCost: 0,
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ class AnalysisPage extends React.Component<
       utilitiesDataLastDay,
       utilitiesDataLastWeek,
       utilitiesDataLastMonth,
-      projectedData,
+      utilitiesDataNextMonth,
     } = state;
     const modes: AnalysisGraphMode[] = [
       "waterUsage",
@@ -145,7 +145,7 @@ class AnalysisPage extends React.Component<
             utilitiesDataLastDay={utilitiesDataLastDay}
             utilitiesDataLastWeek={utilitiesDataLastWeek}
             utilitiesDataLastMonth={utilitiesDataLastMonth}
-            projectedData={projectedData}
+            utilitiesDataNextMonth={utilitiesDataNextMonth}
           />
         </div>
       </div>
