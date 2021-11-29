@@ -83,6 +83,7 @@ class App extends React.Component<AppProps, AppState> {
       utilitiesDataLastMonth: previousUtilitiesDataLastMonth,
       utilitiesDataTotal,
     } = this.state.analysisPageState;
+
     // Update utility usage graph data
     waterUsageData.push({
       x: data.time,
