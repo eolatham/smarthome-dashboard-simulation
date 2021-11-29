@@ -104,19 +104,15 @@ export type AnalysisTableProps = {
   utilitiesDataLastDay: RowData;
   utilitiesDataLastWeek: RowData;
   utilitiesDataLastMonth: RowData;
+  projectedData: RowData;
 };
 const AnalysisTable = (props: AnalysisTableProps) => {
   const {
     utilitiesDataLastDay,
     utilitiesDataLastWeek,
     utilitiesDataLastMonth,
+    projectedData,
   } = props;
-  // TODO: calculate projected utilities data for next month
-  const utilitiesDataNextMonth: RowData = {
-    waterUsage: 0,
-    electricityUsage: 0,
-    totalUtilitiesCost: 0,
-  };
   return (
     <Table bordered>
       <thead>
@@ -154,7 +150,7 @@ const AnalysisTable = (props: AnalysisTableProps) => {
         <UtilitiesDataRow
           days={30}
           title="Next Month (projected)"
-          utilitiesData={utilitiesDataNextMonth}
+          utilitiesData={projectedData}
         />
       </tbody>
     </Table>

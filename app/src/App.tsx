@@ -10,7 +10,7 @@ import HomePage, { HomePageState } from "./components/HomePage";
 import ControlPage, { ControlPageState } from "./components/ControlPage";
 import AnalysisPage, { AnalysisPageState } from "./components/AnalysisPage";
 import { RowData } from "./components/AnalysisTable";
-import { CallbackFunction, AnalysisObject, Event } from "./common/types";
+import { CallbackFunction, AnalysisObject, Event } from './common/types';
 import { processEventSourceError } from "./common/helpers";
 import {
   START_SIMULATION_URL,
@@ -81,8 +81,9 @@ class App extends React.Component<AppProps, AppState> {
       utilitiesDataLastDay: previousUtilitiesDataLastDay,
       utilitiesDataLastWeek: previousUtilitiesDataLastWeek,
       utilitiesDataLastMonth: previousUtilitiesDataLastMonth,
+      totalUtilitiesData,
     } = this.state.analysisPageState;
-
+    console.log(data);
     // Update utility usage graph data
     waterUsageData.push({
       x: data.time,
@@ -150,6 +151,16 @@ class App extends React.Component<AppProps, AppState> {
       previousDataIndexOneMonthAgo,
       newDataIndexOneMonthAgo
     );
+    const newTotalUtilitiesData = {
+      waterUsage: totalUtilitiesData.waterUsage + data.utilityUsage.water.gallons,
+      electricityUsage: totalUtilitiesData.electricityUsage + data.utilityUsage.electricity.watts,
+      totalUtilitiesCost: totalUtilitiesData.totalUtilitiesCost + data.utilityUsage.totalDollars,
+    }
+    const newProjectedData = {
+      waterUsage: newTotalUtilitiesData.waterUsage * (30 / data.time),
+      electricityUsage:  newTotalUtilitiesData.electricityUsage * (30 / data.time),
+      totalUtilitiesCost: newTotalUtilitiesData.totalUtilitiesCost * (30 / data.time),
+    };
     this.setAnalysisPageState({
       waterUsageData,
       electricityUsageData,
@@ -161,6 +172,8 @@ class App extends React.Component<AppProps, AppState> {
       utilitiesDataLastDay: newUtilitiesDataLastDay,
       utilitiesDataLastWeek: newUtilitiesDataLastWeek,
       utilitiesDataLastMonth: newUtilitiesDataLastMonth,
+      totalUtilitiesData: newTotalUtilitiesData,
+      projectedData: newProjectedData,
     });
   }
 
