@@ -11,7 +11,7 @@
 
 ## High-Level Runtime Model
 
-Our smarthome dashboard simulator is an event-based application that operates according to the following runtime model:
+Our smarthome dashboard simulation is an event-based application that operates according to the following runtime model:
 
 ![diagram](img/runtime_model.png)
 

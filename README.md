@@ -1,4 +1,4 @@
-# Smarthome Dashboard Simulator
+# Smarthome Dashboard Simulation
 
 ## Team 3
 
