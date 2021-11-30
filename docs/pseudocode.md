@@ -1,14 +1,5 @@
 # Pseudocode
 
-## Team 3
-
-- Steven Capleton
-- Landon Dyken
-- Karen Horton
-- Eric Latham
-- Brittany Latham
-- Laura Thompson
-
 ## Pre-Generated Events
 
 The following pseudocode describes the process for generating semi-random events based on the below [family schedule](#family-schedule) before the app runs:
@@ -42,10 +33,10 @@ writeEventInsertStatements():
 
 ### Family Schedule
 
-- 5a - adults wake up
-- 6a - kids wake up
+- 5:00a - adults wake up
+- 6:00a - kids wake up
 - 7:30a - adults/kids leave
-- 4p - kids arrive home
+- 4:00p - kids arrive home
 - 5:30p - adults arrive home
 - 8:30p - kids sleep
 - 10:30p - adults sleep
@@ -56,50 +47,62 @@ writeEventInsertStatements():
 - 3:45-4:15p - 2 door events
 - 5:15-5:45p - 2 door events
 - 6:00-8:00p - 8 door events
-  >
-- 5-6a - 5 min microwave event
-- 6-7:15a - 5 min microwave event
+
+<div/>
+
+- 5:00-6:00a - 5 min microwave event
+- 6:00-7:15a - 5 min microwave event
 - 4:15-4:45p - 5 min microwave event
 - 4:45-5:15p - 5 min microwave event
-  >
-- 5:45-7p - 15 min stove event
-- 5:45-7p - 45 min oven event
-  >
-- 4:15-10:00 - 4 hour LR TV event
-- 8:00 - 10:30 2 hr BR TV event
-  >
+
+<div/>
+
+- 5:45-7:00p - 15 min stove event
+- 5:45-7:00p - 45 min oven event
+
+<div/>
+
+- 4:15-10:00p - 4 hour LR TV event
+- 8:00-10:30p - 2 hour BR TV event
+
+<div/>
+
 - 5:30-6:15a - 15 min shower event
 - 6:15-7:00a - 15 min shower event
-- 6-7p - 15 min bath event
-- 7-8p - 15 min bath event
+- 6:00-7:00p - 15 min bath event
+- 7:00-8:00p - 15 min bath event
 
 #### Events S-S
 
-- 7a-10p - 30 sec door event (3 times)
-- 7a-10p - 5 min microwave event (6 times)
-- 5p-7p - 30 min stove event
-- 4p-7p - 60 min oven event
-  >
-- 7a-10p - 8 hr LR TV event
-- 6a-10a - 2 hr BR TV event
-- 7p-10p - 2 hr BR TV event
-  >
-- 6-7a - 15 min shower event
-- 7-8a - 15 min shower event
-- 11-12p - 15 min shower event
-- 12-1p - 15 min bath event
-- 6-7p - 15 min bath event
-- 7-8p - 15 min bath event
+- 7:00a-10:00p - 30 sec door event (3 times)
+- 7:00a-10:00p - 5 min microwave event (6 times)
+- 5:00-7:00p - 30 min stove event
+- 4:00-7:00p - 60 min oven event
+
+<div/>
+
+- 7:00a-10:00p - 8 hour LR TV event
+- 6:00-10:00a - 2 hour BR TV event
+- 7:00-10:00p - 2 hour BR TV event
+
+<div/>
+
+- 6:00-7:00a - 15 min shower event
+- 7:00-8:00a - 15 min shower event
+- 11:00-12:00p - 15 min shower event
+- 12:00-1:00p - 15 min bath event
+- 6:00-7:00p - 15 min bath event
+- 7:00-8:00p - 15 min bath event
 
 #### Events Any Day
 
-- 7-10p - 45 min dishwasher event (4 times/week)
-- 7-10p - 60 min wash/dry event (2 times/M-F)
-- 8a-10p - 60 min wash/dry event (2 times/S-S)
+- 7:00-10:00p - 45 min dishwasher event (4 times/week)
+- 7:00-10:00p - 60 min wash/dry event (2 times/M-F)
+- 8:00a-10:00p - 60 min wash/dry event (2 times/S-S)
 
 ## Indoor Temperature & Utility Usage
 
-The following pseudocode describes the app's process for calculating and publishing the indoor temperature and utility usage of the smarthome during the simulation:
+The following pseudocode describes the app's process for calculating and publishing the indoor temperature and utility usage of the smart home during the simulation:
 
 ```txt
 at every thirty minutes of app time:

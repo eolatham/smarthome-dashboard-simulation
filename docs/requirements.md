@@ -1,14 +1,5 @@
 # Requirements
 
-## Team 3
-
-- Steven Capleton
-- Landon Dyken
-- Karen Horton
-- Eric Latham
-- Brittany Latham
-- Laura Thompson
-
 ## Overview
 
 ### Smarthome Simulation

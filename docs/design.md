@@ -1,14 +1,5 @@
 # Design
 
-## Team 3
-
-- Steven Capleton
-- Landon Dyken
-- Karen Horton
-- Eric Latham
-- Brittany Latham
-- Laura Thompson
-
 ## High-Level Runtime Model
 
 Our smarthome dashboard simulation is an event-based application that operates according to the following runtime model:
