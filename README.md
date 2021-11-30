@@ -1,16 +1,14 @@
 # Smarthome Dashboard Simulation
 
-#### Author: Eric Latham
+Author: Eric Latham
 
-#### Email: ericoliverlatham@gmail.com
-
----
+Email: ericoliverlatham@gmail.com
 
 ## Description
 
-I initially developed this app as a team leader for a final project in a computer science senior capstone course taught by [Dr. Jeret Langston](https://www.linkedin.com/in/jaretlangston/) at [UAB](https://www.uab.edu/) with the help of Steven Capleton, Landon Dyken, Karen Horton, Brittany Latham, and Laura Thompson.
-
 This app is a Flask/React webapp that simulates a smarthome control & analysis dashboard program based on [this project description](project_description.pdf).
+
+I initially developed this app as a team leader for a final project in a computer science senior capstone course taught by [Dr. Jeret Langston](https://www.linkedin.com/in/jaretlangston/) at [UAB](https://www.uab.edu/) with the help of Steven Capleton, Landon Dyken, Karen Horton, Brittany Latham, and Laura Thompson.
 
 ## Instructions
 
