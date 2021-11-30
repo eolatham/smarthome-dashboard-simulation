@@ -2,7 +2,7 @@
 
 """
 A script that generates a series of events defining the state
-of the smart home over a two-month time period and saves
+of the smarthome over a two-month time period and saves
 them as SQL insert statements in `init_schema.sql`.
 """
 
@@ -15,7 +15,7 @@ from typing import Literal, Union
 from meteostat import Point, Hourly
 
 
-SMART_HOME_LOCATION = Point(33.5186, -86.8104)  # Birmingham, Alabama
+SMARTHOME_LOCATION = Point(33.5186, -86.8104)  # Birmingham, Alabama
 TIME_MAP = {
     "minute": 60,
     "hour": 3600,
@@ -855,7 +855,7 @@ class StateGenerator:
 
 
 def main() -> None:
-    stateGenerator = StateGenerator(SMART_HOME_LOCATION, outputFilename="init_data.sql")
+    stateGenerator = StateGenerator(SMARTHOME_LOCATION, outputFilename="init_data.sql")
     stateGenerator.run()
 
 

@@ -91,7 +91,7 @@ class BooleanStateTracker:
 class BooleanStateTrackerMap:
     """
     Helper class wrapping a nested mapping of `BooleanStateTracker` objects to support
-    easy sum tracking for many differently-typed pieces of boolean smart home state.
+    easy sum tracking for many differently-typed pieces of boolean smarthome state.
     """
 
     eventStore: EventStore

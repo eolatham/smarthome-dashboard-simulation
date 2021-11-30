@@ -59,13 +59,13 @@ class App extends React.Component<AppProps, AppState> {
 
   processEvent(event) {
     var data: Event = JSON.parse(event.data);
-    // console.log("Received smart home event with data:", data);
+    // console.log("Received smarthome event with data:", data);
     this.setSmartHomeState({ [data.state_key]: data.new_value });
   }
 
   processAnalysis(analysis) {
     var data: AnalysisObject = JSON.parse(analysis.data);
-    // console.log("Received smart home analysis with data:", data);
+    // console.log("Received smarthome analysis with data:", data);
 
     // Update indoor temp value
     this.setSmartHomeState({ indoorTemp: data.indoorTemp });

@@ -11,15 +11,15 @@
 
 ## High-Level Runtime Model
 
-Our smart home dashboard simulator is an event-based application that operates according to the following runtime model:
+Our smarthome dashboard simulator is an event-based application that operates according to the following runtime model:
 
 ![diagram](img/runtime_model.png)
 
 The entire design of the app is meant to be fast, space-efficient, and simple.
 
-## Smart Home State
+## Smarthome State
 
-The smart home has state under the following `keys`.
+The smarthome has state under the following `keys`.
 
 ### Integer State
 
@@ -116,29 +116,29 @@ False = closed/off
 
 Derived state is dependent on other state and is not included in [events](#events) because it has to be [calculated](#derived-state-utility-usage-publisher).
 
-- `indoorTemp`: float representing the indoor temperature of the smart home in degrees Fahrenheit
+- `indoorTemp`: float representing the indoor temperature of the smarthome in degrees Fahrenheit
 
 ## Events
 
-Events change specific pieces of smart home state at specific times.
+Events change specific pieces of smarthome state at specific times.
 
 ### Attributes
 
 - `time` is the number of seconds after the start of the simulation at which the event occurred
 - `state_type` is the type of state that the event changes, which determines how the event is processed
-- `state_key` is the key to the value in smart home state that the event changed
-- `new_value` is the new value for `state_key` in smart home state after the event
+- `state_key` is the key to the value in smarthome state that the event changed
+- `new_value` is the new value for `state_key` in smarthome state after the event
 - `message` is a human-readable description of the event to be displayed to the user
 
 ### Pre-Generated Events
 
-Pre-generated events are the backbone of the smart home simulation. They:
+Pre-generated events are the backbone of the smarthome simulation. They:
 
-- define the base smart home state over a 2-month time period
+- define the base smarthome state over a 2-month time period
 - are generated and stored in a database before the app runs
   - See [the pseudocode](./pseudocode.md#pre-generated-events) and [the actual code](../generate_events.py).
 - are based on the provided family schedule and downloaded weather data
-- initialize values for all smart home state (other than [derived state](#derived-state)) at `time=0`
+- initialize values for all smarthome state (other than [derived state](#derived-state)) at `time=0`
 - do not change the values of `thermostatTemp` or `kitchenRefrigerator` after initialization
 - are uniquely identifiable by `time` and `state_key`
 
@@ -219,11 +219,11 @@ CREATE TABLE IF NOT EXISTS pre_generated_events.boolean_event (
 
 ### App Clock
 
-The app clock represents time with flexible speed in a bounded (2-month) timeframe, and it is used to keep time in the app's simulation of smart home events.
+The app clock represents time with flexible speed in a bounded (2-month) timeframe, and it is used to keep time in the app's simulation of smarthome events.
 
 The app clock allows:
 
-- running the smart home simulation at different speeds
+- running the smarthome simulation at different speeds
 - changing speeds at runtime without losing the current place in time
 - restarting app time from the minimum app time at any point
 
@@ -244,7 +244,7 @@ See [AppClock.py](../public/time/AppClock.py).
 
 ### Event Store
 
-The event store is an object that wraps an [EventMap](#event-map) storing all events during the smart home simulation.
+The event store is an object that wraps an [EventMap](#event-map) storing all events during the smarthome simulation.
 
 The event store supports:
 
@@ -333,7 +333,7 @@ The frontend is a React/TypeScript app comprised of several components that disp
 
 The internal workings of the frontend are considerably simpler than that of the backend, mainly because most of what the frontend does is _react_ to events that are sent to it.
 
-For user actions (such as actions affecting the [app clock](#app-clock) or [smart home state](#smart-home-state)), the frontend sends basic HTTP requests to the backend to process them.
+For user actions (such as actions affecting the [app clock](#app-clock) or [smarthome state](#smarthome-state)), the frontend sends basic HTTP requests to the backend to process them.
 
 See [the requirements document](requirements.md) for information about what the frontend looks like and what it can do.
 

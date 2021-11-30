@@ -1,12 +1,7 @@
 # STL
 from datetime import datetime
 
-REMOTE_POSTGRES_URL = (  # To be used in project demo
-    "postgresql://Team3:Team3@138.26.48.83:5432/Team3DB"
-)
-LOCAL_POSTGRES_URL = (  # To be used in development
-    "postgresql://username:password@localhost:5432/smart_home_simulation"
-)
+POSTGRES_URL = "postgresql://username:password@localhost:5432/smarthome_simulation"
 REDIS_URL = "redis://localhost"
 
 REAL_TIME = "REAL_TIME"

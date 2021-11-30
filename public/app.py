@@ -46,7 +46,7 @@ if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
         job_defaults={"coalesce": True, "max_instances": 3},
     )
     EVENT_STORE = EventStore()
-    EVENT_STORE.putPreGeneratedEvents(*queryEvents(LOCAL_POSTGRES_URL))
+    EVENT_STORE.putPreGeneratedEvents(*queryEvents(POSTGRES_URL))
     TIME_PUBLISHER = TimePublisher(
         LOGGER,
         APP,
@@ -95,7 +95,7 @@ def constants():
 @APP.route("/start")
 def startSimulation():
     """
-    Starts/restarts the smart home dashboard simulation by:
+    Starts/restarts the smarthome dashboard simulation by:
     - clearing user-generated events from the event store
     - starting or restarting the app clock
     - resetting and starting the SSE publishers

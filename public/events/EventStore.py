@@ -18,7 +18,7 @@ results in `O(1)` time complexity because app time is bounded by constants.
 
 class EventStore:
     """
-    A class wrapping an `EventMap` used for storing events during the smart home simulation.
+    A class wrapping an `EventMap` used for storing events during the smarthome simulation.
 
     This class supports:
     - fast insertions, retrievals, and removals of events
@@ -103,7 +103,7 @@ class EventStore:
             If `eventType` was provided, returns the event of that type. Otherwise,
             returns either the pre-generated event or the user-generated event, with
             a preference of the user-generated event (because user-generated events take
-            precedence over pre-generated events in the smart home simulation).
+            precedence over pre-generated events in the smarthome simulation).
             """
             if eventType:
                 return container.get(eventType)

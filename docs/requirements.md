@@ -11,11 +11,11 @@
 
 ## Overview
 
-### Smart Home Simulation
+### Smarthome Simulation
 
 The user should be able to:
 
-- watch pre-generated events stream through the smart home dashboard
+- watch pre-generated events stream through the smarthome dashboard
 - restart the simulation by clicking a button or refreshing the page
 - change the speed of the simulation
 
@@ -29,7 +29,7 @@ The user should be able to:
 
 Each of these user actions should:
 
-- update the smart home state
+- update the smarthome state
 - display a visible change in the user interface
 - be included in [data analysis](#data-analysis) calculations
 
@@ -54,9 +54,9 @@ The following sections illustrate and describe the various screens and component
 
 #### Interactive Floor Plan
 
-This component should show all of the rooms, doors, windows, and appliances in the smart home.
+This component should show all of the rooms, doors, windows, and appliances in the smarthome.
 
-As the smart home state changes at runtime, the component should indicate:
+As the smarthome state changes at runtime, the component should indicate:
 
 - what lights are on and off
 - what doors are open and closed
@@ -86,7 +86,7 @@ This screen should contain controls that allow the user to:
 
 #### Utility Usage Graph
 
-This component should allow the user to view live-updated graphs of the smart home's utilities data, including the water usage rate, the electricity usage rate, and the total utilities cost rate.
+This component should allow the user to view live-updated graphs of the smarthome's utilities data, including the water usage rate, the electricity usage rate, and the total utilities cost rate.
 
 ##### Water Usage
 
@@ -141,11 +141,11 @@ All screens should include a menu bar at the top that contains the following:
 
 The following sections describe features to be implemented by the BA students on the team related to their minors.
 
-### Smart Home Marketing Pitch
+### Smarthome Marketing Pitch
 
 - **Student**: Steven Capleton
 - **Minor**: Economics
-- **Description**: Present study findings that promote economic reasons to have a smart home automated system.
+- **Description**: Present study findings that promote economic reasons to have a smarthome automated system.
 
 ### Advanced Utility Usage Projection
 
@@ -163,4 +163,4 @@ The following sections describe features to be implemented by the BA students on
 
 - **Student**: Brittney Latham
 - **Minor**: Mathematics
-- **Description**: Compare the smart home's utility usage with utility usage averages from other homes in the area.
+- **Description**: Compare the smarthome's utility usage with utility usage averages from other homes in the area.

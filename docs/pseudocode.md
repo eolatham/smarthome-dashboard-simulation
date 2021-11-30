@@ -99,7 +99,7 @@ writeEventInsertStatements():
 
 ## Indoor Temperature & Utility Usage
 
-The following pseudocode describes the app's process for calculating and publishing the indoor temperature and utility usage of the smart home during the simulation:
+The following pseudocode describes the app's process for calculating and publishing the indoor temperature and utility usage of the smarthome during the simulation:
 
 ```txt
 at every thirty minutes of app time:

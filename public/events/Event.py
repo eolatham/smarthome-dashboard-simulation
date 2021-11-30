@@ -124,7 +124,7 @@ StateKey = Union[IntegerStateKey, BooleanStateKey]
 
 class IntegerEvent(TypedDict):
     """
-    An event changing an integer value in smart home state.
+    An event changing an integer value in smarthome state.
     """
 
     time: int
@@ -136,7 +136,7 @@ class IntegerEvent(TypedDict):
 
 class BooleanEvent(TypedDict):
     """
-    An event changing a boolean value in smart home state.
+    An event changing a boolean value in smarthome state.
     """
 
     time: int
@@ -149,7 +149,7 @@ class BooleanEvent(TypedDict):
 class UserGeneratedThermostatEvent(TypedDict):
     """
     A user-generated event changing the thermostat
-    temperature value in smart home state.
+    temperature value in smarthome state.
     """
 
     time: int
@@ -162,7 +162,7 @@ class UserGeneratedThermostatEvent(TypedDict):
 class UserGeneratedBooleanEvent(TypedDict):
     """
     A user-generated event changing a user-changeable
-    boolean value in smart home state.
+    boolean value in smarthome state.
     """
 
     time: int

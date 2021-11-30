@@ -1,9 +1,9 @@
-node_modules/
+.vscode/
 __pypackages__/
 __pycache__/
-.vscode/
 *.egg-info/
+node_modules/
+build/
 .pdm.toml
 react-app-env.d.ts
 package-lock.json
-build/
