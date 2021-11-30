@@ -115,7 +115,8 @@ at every thirty minutes of app time:
     electricityUsage = 0
     waterUsage = 0
 
-    booleanStateTrackerMap = empty map for tracking total time True and utility usage for boolean state keys
+    booleanStateTrackerMap = empty map for tracking total time True
+                             and utility usage for boolean state
 
     for each event that occurred since the last calculation:
 
@@ -134,12 +135,13 @@ at every thirty minutes of app time:
             totalOpenDoorTime = sum of door entries from booleanStateTrackerMap
             totalOpenWindowTime = sum of window entries from booleanStateTrackerMap
 
-            - based on indoorTemp, outdoorTemp, thermostatTemp, totalOpenDoorTime, and totalOpenWindowTime,
-              calculate new indoorTemp and the amount of electricity HVAC used to regulate indoorTemp
+            - based on indoorTemp, outdoorTemp, thermostatTemp, totalOpenDoorTime,
+              and totalOpenWindowTime, calculate new indoorTemp and the
+              amount of electricity HVAC used to regulate indoorTemp
               since the last calculation
 
-            - add the amount of electricity HVAC used to regulate indoorTemp since the last calculation
-              to electricityUsage
+            - add the amount of electricity HVAC used to regulate indoorTemp
+              since the last calculation to electricityUsage
 
             - reset door entries in booleanStateTrackerMap
             - reset window entries in booleanStateTrackerMap
@@ -151,5 +153,6 @@ at every thirty minutes of app time:
     waterCost = cost calculated for waterUsage
     totalUtilitiesCost = electricityCost + waterCost
 
-    publish indoorTemp, electricityUsage, electricityCost, waterUsage, waterCost, and totalUtilitiesCost
+    - publish indoorTemp, electricityUsage, electricityCost,
+      waterUsage, waterCost, and totalUtilitiesCost
 ```
