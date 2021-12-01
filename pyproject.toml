@@ -1,7 +1,7 @@
 [project]
-name = "CS499 Senior Capstone Project"
+name = "Smarthome Dashboard Simulation"
 version = "1.0.0"
-description = "A web app simulating a smarthome dashboard"
+description = "A webapp simulating a smarthome dashboard"
 authors = [
     {name = "Eric Latham", email = "eolatham@uab.edu"}
 ]

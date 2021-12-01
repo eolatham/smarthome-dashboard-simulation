@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 """
 A script that generates a series of events defining the state
 of the smarthome over a two-month time period and saves
@@ -87,13 +85,20 @@ LIGHT_STATE_KEYS = [
     "bedroom3OverheadLight",
     "bedroom3Lamp1",
     "bedroom3Lamp2",
+    "bathroom1OverheadLight",
+    "bathroom2OverheadLight",
     "livingRoomOverheadLight",
     "livingRoomLamp1",
     "livingRoomLamp2",
     "kitchenOverheadLight",
 ]
-BEDROOM_LIGHT_STATE_KEYS = {
-    "adults": ["bedroom1OverheadLight", "bedroom1Lamp1", "bedroom1Lamp2"],
+BEDROOM_BATHROOM_LIGHT_STATE_KEYS = {
+    "adults": [
+        "bedroom1OverheadLight",
+        "bedroom1Lamp1",
+        "bedroom1Lamp2",
+        "bathroom1OverheadLight",
+    ],
     "kids": [
         "bedroom2OverheadLight",
         "bedroom2Lamp1",
@@ -101,6 +106,7 @@ BEDROOM_LIGHT_STATE_KEYS = {
         "bedroom3OverheadLight",
         "bedroom3Lamp1",
         "bedroom3Lamp2",
+        "bathroom2OverheadLight",
     ],
 }
 STATE_TYPE = {
@@ -270,22 +276,15 @@ class StateGenerator:
         ) -> None:
             for _ in range(numToInsert):
                 if randGarage:
-                    prob = random.random()
-                    if prob < 0.2:
-                        garage = True
-
+                    garage = random.random() < 0.2
                 if garage:
                     self.writeRandomizedBooleanEventInsertStatements(
                         t0,
                         t1,
                         30,
-                        "garageHouseDoor",
-                        concurrentEventStateKey=random.choice(
-                            ["garageCarDoor1", "garageCarDoor2"]
-                        ),
+                        random.choice(["garageCarDoor1", "garageCarDoor2"]),
+                        concurrentEventStateKey="garageHouseDoor",
                     )
-                    if randGarage:
-                        garage = False
                 else:
                     self.writeRandomizedBooleanEventInsertStatements(
                         t0, t1, 30, random.choice(["frontDoor", "backDoor"])
@@ -313,7 +312,7 @@ class StateGenerator:
                 kidsEnd = kidsStart + 30 * TIME_MAP["minute"]
                 doorEvent(kidsStart, kidsEnd, 2)
 
-                # 5:15-5:45: 2x 30 sec door event
+                # 5:15-5:45p: 2x 30 sec door event
                 adultsStart = day + 17 * TIME_MAP["hour"] + 15 * TIME_MAP["minute"]
                 adultsEnd = adultsStart + 30 * TIME_MAP["minute"]
                 doorEvent(adultsStart, adultsEnd, 2, garage=True)
@@ -630,24 +629,18 @@ class StateGenerator:
         ) -> None:
             """Control bedroom/bathroom lights"""
             if include == "adults":
-                stateKeys = BEDROOM_LIGHT_STATE_KEYS["adults"]
+                stateKeys = BEDROOM_BATHROOM_LIGHT_STATE_KEYS["adults"]
             elif include == "kids":
-                stateKeys = BEDROOM_LIGHT_STATE_KEYS["kids"]
+                stateKeys = BEDROOM_BATHROOM_LIGHT_STATE_KEYS["kids"]
             else:
                 stateKeys = (
-                    BEDROOM_LIGHT_STATE_KEYS["adults"]
-                    + BEDROOM_LIGHT_STATE_KEYS["kids"]
+                    BEDROOM_BATHROOM_LIGHT_STATE_KEYS["adults"]
+                    + BEDROOM_BATHROOM_LIGHT_STATE_KEYS["kids"]
                 )
             for stateKey in stateKeys:
                 self.writeBooleanEventInsertStatement(
                     random.randint(t0, t1), stateKey, newValue
                 )
-            self.writeBooleanEventInsertStatement(
-                random.randint(t0, t1), "bathroom1OverheadLight", newValue
-            )
-            self.writeBooleanEventInsertStatement(
-                random.randint(t0, t1), "bathroom2OverheadLight", newValue
-            )
 
         def allLightsOff(t0: int, t1: int) -> None:
             for stateKey in LIGHT_STATE_KEYS:
@@ -679,12 +672,12 @@ class StateGenerator:
                 t1 = day + 17 * TIME_MAP["hour"] + 30 * TIME_MAP["minute"]
                 kitchenLivingRoomLights(t0, t1)
 
-                # 8-8:30: bedroom/bathroom lights all turn on if not already
+                # 8-8:30p: bedroom/bathroom lights all turn on if not already
                 t0 = day + 20 * TIME_MAP["hour"]
                 t1 = day + 20 * TIME_MAP["hour"] + 30 * TIME_MAP["minute"]
                 bedroomBathroomLights(t0, t1)
 
-                # 10-10:30: all lights turn off
+                # 10-10:30p: all lights turn off
                 t0 = day + 22 * TIME_MAP["hour"]
                 t1 = day + 22 * TIME_MAP["hour"] + 30 * TIME_MAP["minute"]
                 allLightsOff(t0, t1)
@@ -707,7 +700,7 @@ class StateGenerator:
                 t1 = day + 6 * TIME_MAP["hour"] + 15 * TIME_MAP["minute"]
                 bedroomBathroomLights(t0, t1, include="kids")
 
-                # 7:15-7:30: all lights go off
+                # 7:15-7:30a: all lights go off
                 t0 = day + 7 * TIME_MAP["hour"] + 15 * TIME_MAP["minute"]
                 t1 = day + 7 * TIME_MAP["hour"] + 30 * TIME_MAP["minute"]
                 allLightsOff(t0, t1)
@@ -717,7 +710,7 @@ class StateGenerator:
                 t1 = day + 16 * TIME_MAP["hour"] + 15 * TIME_MAP["minute"]
                 kitchenLivingRoomLights(t0, t1)
 
-                # Every 15 mins, all lights have 20% chance of state change.
+                # Every 15 mins, all lights have 20% chance of state change
                 t0 = day + 16 * TIME_MAP["hour"] + 15 * TIME_MAP["minute"]
                 t1 = day + 20 * TIME_MAP["hour"]
                 randomLightChange(t0, t1)
@@ -727,7 +720,7 @@ class StateGenerator:
                 t1 = day + 20 * TIME_MAP["hour"] + 15 * TIME_MAP["minute"]
                 bedroomBathroomLights(t0, t1)
 
-                # 8:30-45p: kids lights off, living room/kitchen lights off
+                # 8:30-8:45p: kids lights off, living room/kitchen lights off
                 t0 = day + 20 * TIME_MAP["hour"] + 30 * TIME_MAP["minute"]
                 t1 = day + 20 * TIME_MAP["hour"] + 45 * TIME_MAP["minute"]
                 bedroomBathroomLights(t0, t1, False, include="kids")
@@ -808,8 +801,8 @@ class StateGenerator:
         numToInsert: int = 1,
     ) -> None:
         for _ in range(numToInsert):
-            # Determine time of door events and insert into db
-            eventStart = random.randint(t0, t1 - duration)
+            # Determine time of door events and insert into database
+            eventStart = random.randint(t0, t1)
             eventStop = eventStart + duration
 
             self.writeBooleanEventInsertStatement(
